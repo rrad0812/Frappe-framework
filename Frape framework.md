@@ -2,437 +2,506 @@
 
 ## Faze projekta
 
-### Faza 0 – Priprema okruženja
+</br>
 
-- Izabrati verziju Ubuntu-a (24.04 LTS)
-- Kreirati novu VM
-- Instalirati Ubuntu Server
-- Ažurirati sistem
-- Instalirati osnovne alate
-- Napraviti snapshot Clean System
+- **Faza 0 – Priprema okruženja**
 
-Cilj: "Stabilna razvojna mašina.
+  - Izabrati verziju Ubuntu-a (24.04 LTS)
+  - Kreirati novu VM
+  - Instalirati Ubuntu Server
+  - Ažurirati sistem
+  - Instalirati osnovne alate
+  - Napraviti snapshot Clean System
+
+  Cilj: "Stabilna razvojna mašina.
   
-### Faza 1 – Instalacija Frappe okruženja
+</br>
 
-- Python
-- Node.js
-- Redis
-- PostgreSQL
-- Bench
-- Kreirati prvi Bench
+- **Faza 1 – Instalacija Frappe okruženja**
 
-Ovde nećemo još praviti nijedan DocType.
-Cilj je da razumemo: "Šta je Bench?"
+  - Python
+  - Node.js
+  - Redis
+  - PostgreSQL
+  - Bench
+  - Kreirati prvi Bench
 
-### Faza 2 – Anatomija Bencha
-
-Ovde ne pišemo kod. Samo istražujemo.
-
-- Struktura direktorijuma
-- apps/
-- sites/
-- env/
-- logs/
-- config/
-
-Na kraju ove faze treba da možeš da pogledaš Bench i kažeš: "Znam čemu služi svaki direktorijum."
-
-### Faza 3 – Prvi Site
-
-- napraviti Site
-- pokrenuti ga
-- otvoriti Desk
-- prijaviti se
-- pogledati šta je nastalo u PostgreSQL-u
-
-Ovde ćemo prvi put zaviriti u bazu.
-
-### Faza 4 – Anatomija Site-a
-
-Opet bez programiranja.
-
-- site_config.json
-- private/
-- public/
-- assets/
-- logs/
-
-Na kraju: "Znam šta je Site."
-
-### Faza 5 – Prva aplikacija
-
-Tek ovde,
-
-- new-app
-- instalacija aplikacije
-- modul
-- prvi DocType
-
-### Faza 6 – Desk
-
-Ovo je deo koji si već pomenuo da ti je bio nejasan.
-
-Ovde ćemo odgovoriti na pitanja:
-
-- Kako Desk vidi moj DocType?
-- Kako se pojavljuje u Workspace-u?
-- Zašto ga nekad nema?
-- Kako ga organizovati?
-
-Mislim da će ova faza biti jedna od najzanimljivijih.
-
-### Faza 7 – DocType
-
-Ovde konačno ulazimo u razvoj.
-
-- polja
-- validacija
-- child table
-- link
-- select
-- naming
-
-### Faza 8 – ORM
-
-- Python.  
-- Ne JavaScript.  
-- Ne REST.  
-- Samo ORM.
-
-### Faza 9 – Hook-ovi
-
-Šta se događa kada:
-
-- sačuvaš dokument
-- obrišeš dokument
-- submit
-- cancel
-  
-### Faza 10 – JavaScript
-
-- Client Script.
-- Form Script.
-- List Script.
-
-### Faza 11 – REST API
-
-Ovde ćemo ga uporediti sa uAdmin-om.  
-Mislim da će to biti veoma zanimljivo.
-
-### Faza 12 – Bezbednost
-
-- Users
-- Roles
-- Permissions
-
-### Faza 13 – Deploy
-
-Tek na kraju.
-
-- production
-- nginx
-- supervisor
-- backup
-
-### Faza 14 - Završna faza
-
-Napravićemo jednu ozbiljniju aplikaciju. Ne "ToDo", ne "Student". Nego nešto što ima smisla.
-
-Ono što bih dodao, voleo bih da uz svaku fazu imamo i status. Recimo ovako:
-
-| Faza | Status |
-| ---- | ------ |
-| 0. Priprema okruženja | ⬜ |
-| 1. Instalacija | ⬜ |
-| 2. Bench | ⬜ |
-| 3. Site | ⬜ |
-| 4. Anatomija Site-a | ⬜ |
-| 5. Aplikacija | ⬜ |
-| 6. Desk | ⬜ |
-| 7. DocType | ⬜ |
-| 8. ORM | ⬜ |
-| 9. Hook-ovi | ⬜ |
-| 10. JavaScript | ⬜ |
-| 11. REST API | ⬜ |
-| 12. Bezbednost | ⬜ |
-| 13. Deploy | ⬜ |
-| 14. Završni projekat | ⬜ |
+  Ovde nećemo još praviti nijedan DocType.  
+  Cilj je da razumemo: "Šta je Bench?"
 
 </br>
 
-- **Jedna dopuna**
+- **Faza 2 – Anatomija Bencha**
 
-  Dodao bih i jednu "Fazu -1" koja se ne tiče instalacije nego razumevanja. Pre nego što instaliramo ijedan paket, voleo bih da odgovorimo na jedno pitanje:
-
-  </br>
-  Zašto Frappe uopšte ima Bench?  
+  Ovde ne pišemo kod. Samo istražujemo.
   
-  Većina korisnika samo prihvati da postoji komanda bench, ali retko ko razume zašto nije jednostavno pip install frappe. Mislim da će nam upravo odgovor na to pitanje dati dobar uvod u arhitekturu frameworka i učiniti sve naredne korake logičnijim. Po mom mišljenju, to je pravo mesto odakle treba da počnemo.
+  - Struktura direktorijuma
+  - apps/
+  - sites/
+  - env/
+  - logs/
+  - config/
+  
+  Na kraju ove faze treba da možeš da pogledaš Bench i kažeš: "Znam čemu služi svaki direktorijum."
+
+</br>
+
+- **Faza 3 – Prvi Site**
+
+  - napraviti Site
+  - pokrenuti ga
+  - otvoriti Desk
+  - prijaviti se
+  - pogledati šta je nastalo u PostgreSQL-u
+  
+  Ovde ćemo prvi put zaviriti u bazu.
+
+</br>
+
+- **Faza 4 – Anatomija Site-a**
+
+  Opet bez programiranja.
+  
+  - site_config.json
+  - private/
+  - public/
+  - assets/
+  - logs/
+  
+  Na kraju: "Znam šta je Site."
+
+</br>
+
+- **Faza 5 – Prva aplikacija**
+
+  Tek ovde,
+  
+  - new-app
+  - instalacija aplikacije
+  - modul
+  - prvi DocType
+
+</br>
+
+- **Faza 6 – Desk**
+
+  Ovo je deo koji si već pomenuo da ti je bio nejasan.
+  
+  Ovde ćemo odgovoriti na pitanja:
+  
+  - Kako Desk vidi moj DocType?
+  - Kako se pojavljuje u Workspace-u?
+  - Zašto ga nekad nema?
+  - Kako ga organizovati?
+  
+  Mislim da će ova faza biti jedna od najzanimljivijih.
+
+</br>
+
+- **Faza 7 – DocType**
+
+  Ovde konačno ulazimo u razvoj.
+  
+  - polja
+  - validacija
+  - child table
+  - link
+  - select
+  - naming
+
+</br>
+
+- **Faza 8 – ORM**
+
+  - Python.  
+  - Ne JavaScript.  
+  - Ne REST.  
+  - Samo ORM.
+
+</br>
+
+- **Faza 9 – Hook-ovi**
+
+  Šta se događa kada:
+  
+  - sačuvaš dokument
+  - obrišeš dokument
+  - submit
+  - cancel
+  
+</br>
+
+- **Faza 10 – JavaScript**
+
+  - Client Script.
+  - Form Script.
+  - List Script.
+
+</br>
+
+- **Faza 11 – REST API
+
+  Ovde ćemo ga uporediti sa uAdmin-om.  
+  Mislim da će to biti veoma zanimljivo.
+
+</br>
+
+- **Faza 12 – Bezbednost**
+
+  - Users
+  - Roles
+  - Permissions
+
+</br>
+
+- **Faza 13 – Deploy**
+
+  Tek na kraju.
+  
+  - production
+  - nginx
+  - supervisor
+  - backup
+
+</br>
+
+- **Faza 14 - Završna faza**
+
+  Napravićemo jednu ozbiljniju aplikaciju. Ne "ToDo", ne "Student". Nego nešto što ima smisla.
+  
+  Ono što bih dodao, voleo bih da uz svaku fazu imamo i status. Recimo ovako:
+  
+  | Faza | Status |
+  | ---- | ------ |
+  | 0. Priprema okruženja | ⬜ |
+  | 1. Instalacija | ⬜ |
+  | 2. Bench | ⬜ |
+  | 3. Site | ⬜ |
+  | 4. Anatomija Site-a | ⬜ |
+  | 5. Aplikacija | ⬜ |
+  | 6. Desk | ⬜ |
+  | 7. DocType | ⬜ |
+  | 8. ORM | ⬜ |
+  | 9. Hook-ovi | ⬜ |
+  | 10. JavaScript | ⬜ |
+  | 11. REST API | ⬜ |
+  | 12. Bezbednost | ⬜ |
+  | 13. Deploy | ⬜ |
+  | 14. Završni projekat | ⬜ |
+
+**Zašto Frappe ima Bench?**
+
+Dodao bih i jednu "Fazu -1" koja se ne tiče instalacije nego razumevanja. Pre nego što instaliramo ijedan paket, voleo bih da odgovorimo na ovo pitanje!
+
+Većina korisnika samo prihvati da postoji komanda bench, ali retko ko razume zašto nije jednostavno pip install frappe. Mislim da će nam upravo odgovor na to pitanje dati dobar uvod u arhitekturu frameworka i učiniti sve naredne korake logičnijim. Po mom mišljenju, to je pravo mesto odakle treba da počnemo.
 
 ## Faza 0 - Priprema okruženja
 
-### Preuzimnje ISO slike i instalacija
+- **Preuzimnje ISO slike i instalacija**
 
-Sa adrese <https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso> preuzeti ISO za `Ubuntu server 24.04`.
+  </br>
+
+  - Sa adrese <https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso> preuzeti
+    ISO za `Ubuntu server 24.04`.
+
+  </br>
   
-### Izgradnja Ubuntu Server 24.04 VM
+  - Izgradnja Ubuntu Server 24.04 VM  
+    VM izgradnja na QUEMU/KVM root sesiji sa sledećim parametrima:
 
-VM izgradnja na QUEMU/KVM root sesiji sa sledećim parametrima:
+    - vCPU 2
+    - RAM 8GB
+    - SSD 60GB
 
-- vCPU 2
-- RAM 8GB
-- SSD 60GB
+</br>
 
-### Ažuriranje paketa distibucije
-
-```sh
-sudo apt update && sudo apt upgrade -y
-```
-
-### Instalacija curl-a
-
-```sh
-sudo apt install curl
-```
-
-### Aktiviranje firewall-a i dozvola ssh pristupa
-
-Aktiairanje firewall-a
-
-```sh
-sudo ufw enable
-```
-
-Dozvola pristupa preko ssh
+- **Ažuriranje paketa distibucije**
 
   ```sh
-  sudo ufw allow OpenSSH
+  sudo apt update && sudo apt upgrade -y
   ```
 
-Proba konekcije na VM ( samo sa localhost-a**
+</br>
 
-Iz virtuelne mašine pokrenuti:
+- **Instalacija curl-a**
+
+  ```sh
+  sudo apt install curl
+  ```
+
+</br>
+
+- **Aktiviranje firewall-a i dozvola ssh pristupa**
+
+  </br>
+
+  - Aktiviranje firewall-a
   
-```sh
-ip a
-```
-
-Vratiće, za KVM slučaj, nešto kao 192.168.122.X.
-
-Sa hosta ssh pristup na VM
-
-```sh
-ssh username_na_VM@127.198.122.X
-```
-
-Reset VM
-
-```sh
-sudo shutdown -r now
-```
-
-### Promena vremenske zone i sync. vremena
-
-```sh
-sudo timedatectl set-timezone Europe/Belgrade
-sudo timedatectl set-ntp on
-```
-
-### Promena locale
-
-```sh
-sudo dpkg-reconfigure locales
-```
-
-Dodaj nove locale `sr_RS@latin UTF-8` i postavi ih za default.
-
-Reset VM
-
-```sh
-sudo shutdown -r now
-```
-
-### Instalacija osnovnih dev paketa
-
-```sh
-sudo apt python3-dev
-```
-
-### Instalacija uv pajton paket i runtime managera
-
-```sh
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-Osveži sesiju:
+    ```sh
+    sudo ufw enable
+    ```
   
-```sh
-source "$HOME/.local/bin/env"
-```
+  </br>
   
-Proveri instaliranost:
+  - Dozvola pristupa preko ssh
   
-```sh
-uv --version
-```
+    ```sh
+    sudo ufw allow OpenSSH
+    ```
+  
+  </br>
+  
+  - Proba konekcije na VM ( samo sa localhost-a )
+    Iz virtuelne mašine pokrenuti:
 
-- **Šta je urađeno**
+    ```sh
+    ip a
+    ```
 
-  - Instaliran Ubuntu Server 24.04 sa OpenSSH serverom.
-  - Instalacija ažurirana na nove verzije paketa
-  - Promenjen status UFW na enable. Promenjen status OpenSSH na enable. Postignut
-    ssh pristup sa localhosta na VM.
-  - Promenjena vremenska zona na Europe/Belgrade, uradjen sync. vremena
-  - Promenjen locale na sr_RS@latin UTF-8 i postavljen za podrazumevani.
-  - Instaliran uv Pajton paket i runtime manger.
+    Vratiće, za KVM slučaj, nešto kao 192.168.122.X.
+  
+  </br>
+  
+  - Sa hosta ssh pristup na VM
+  
+    ```sh
+    ssh username_na_VM@127.198.122.X
+    ```
+  
+  - Reset VM
+  
+    ```sh
+    sudo shutdown -r now
+    ```
+
+- **Promena vremenske zone i sync. vremena**
+
+  ```sh
+  sudo timedatectl set-timezone Europe/Belgrade
+  sudo timedatectl set-ntp on
+  ```
+
+</br>
+
+- **Promena locale**
+
+  ```sh
+  sudo dpkg-reconfigure locales
+  ```
+
+  </br>
+  
+  - Dodaj nove locale `sr_RS@latin UTF-8` i postavi ih za default.
+  
+  </br>
+  
+  - Reset VM
+  
+    ```sh
+    sudo shutdown -r now
+    ```
+
+</br>
+
+- **Instalacija osnovnih dev paketa**
+
+  ```sh
+  sudo apt python3-dev
+  ```
+
+</br>
+
+- **Instalacija uv pajton paket i runtime managera**
+
+  ```sh
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+  
+  </br>
+  
+  - Osveži sesiju:
+
+    ```sh
+    source "$HOME/.local/bin/env"
+    ```
+
+  </br>
+  
+  - Proveri instaliranost:
+
+    ```sh
+    uv --version
+    ```
+
+</br>
+
+**Šta je urađeno?**
+
+- Instaliran Ubuntu Server 24.04 sa OpenSSH serverom.
+- Instalacija ažurirana na nove verzije paketa
+- Promenjen status UFW na enable. Promenjen status OpenSSH na enable. Postignut
+  ssh pristup sa localhosta na VM.
+- Promenjena vremenska zona na Europe/Belgrade, uradjen sync. vremena
+- Promenjen locale na sr_RS@latin UTF-8 i postavljen za podrazumevani.
+- Instaliran uv Pajton paket i runtime manger.
 
 ## Faza 1 - Instalacija Frappe okruženja
 
-### Instalacija git
+</br>
 
-```sh
-sudo apt install git -y
-```
+- **Instalacija git**
 
-### Instalacija Redisa
+  ```sh
+  sudo apt install git -y
+  ```
 
-```sh
-sudo apt install redis-server -y
-```
+</br>
 
-### Instalacija PostgreSQL
+- **Instalacija Redisa**
 
-```sh
-sudo apt install postgresql postgresql-contrib libpq-dev -y
-```
+  ```sh
+  sudo apt install redis-server -y
+  ```
 
-Provera instalirane verzije
+</br>
 
- ```sh
- psql --version
- ```
+- **Instalacija PostgreSQL**
 
-Prelazak na `postgres` nalog  
+  ```sh
+  sudo apt install postgresql postgresql-contrib libpq-dev -y
+  ```
 
-To je podrazumevani admin korisnik PostgeSQL i instaliran je na sistem za vreme instalacije PostgrSQL-a.
-
-```sh
-sudo -i -u postgres
-```
-
-Pokretanje PostgreSQL shela
-
-```sh
-psql
-```
-
-Izlazak iz shela:
-
-```sh
-\q
-```
-
-Na psql možeš doći kao `postgres` bez prelaska sa svog naloga:
-
-```sh
-sudo -u postgres psql
-```
-
-Dodela passworda postgres korisniku:
-
-```sql
-ALTER USER postgres WITH PASSWORD 'postgres_password';
-```
+  - Provera instalirane verzije
   
-### Instalacija web servera - nginx
+    ```sh
+    psql --version
+    ```
 
-```sh
-sudo apt install nginx
-```
+  - Prelazak na `postgres` nalog  
 
-### Instalacija wkhtmltopdf
+    To je podrazumevani admin korisnik PostgeSQL i instaliran je na sistem za vreme instalacije PostgrSQL-a.
+
+    ```sh
+    sudo -i -u postgres
+    ```
+
+  - Pokretanje PostgreSQL shela
+
+    ```sh
+    psql
+    ```
+
+  - Izlazak iz shela:
+
+    ```sh
+    \q
+    ```
+
+  - Na psql možeš doći kao `postgres` bez prelaska sa svog naloga:
+
+    ```sh
+    sudo -u postgres psql
+    ```
+
+  - Dodela passworda postgres korisniku:
+
+    ```sql
+    ALTER USER postgres WITH PASSWORD 'postgres_password';
+    ```
   
-```sh
-sudo apt install xvfb libfontconfig
-```
+- **Instalacija web servera - nginx**
 
-Preuzmi wkhtmltopdf paket sa <https://wkhtmltopdf.org/downloads.html>, potom pokreni sledeću komandu za instalaciju:
+  ```sh
+  sudo apt install nginx
+  ```
 
-```sh
-sudo apt install ./wkhtmltox_file.deb
-```
+- **Instalacija wkhtmltopdf**
   
-### Instalacija frontend zavisnosti
+  - Instalacija zavisnosti
 
-Instalacija **nvm**
+    ```sh
+    sudo apt install xvfb libfontconfig
+    ```
 
-```sh
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-```
+  - Preuzmi wkhtmltopdf paket sa <https://wkhtmltopdf.org/downloads.html>,
+    potom pokreni sledeću komandu za instalaciju:
 
-Instalacija **nodejs**
-
-```sh
-nvm install 24
-```
-
-Provera instaliranosti
-
-```sh
-node -v
-```
-
-Instalacija **yarn**
-
-```sh
-npm install -g yarn
-```
+    ```sh
+    sudo apt install ./wkhtmltox_file.deb
+    ```
   
-### Instalacija Bench-a (Frappe v15)  
+- **Instalacija frontend zavisnosti**
 
-```sh
-uv tool install frappe-bench --with setuptools
-```
+  - Instalacija **nvm**
 
-**Napomena**:  
-Dodali smo sa `--with setuptools` jer Frappe u pozadini još uvek koristi neke starije Python mehanizme za pakete.
+    ```sh
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    ```
 
-Sada proveri da li sistem vidi komandu:
+  - Instalacija **nodejs**
 
-```sh
-bench --version
-```
+    ```sh
+    nvm install 24
+    ```
 
-### Instalacija i inicijalizacija frappe-bench direktorijuma
+    - Provera instaliranosti
+  
+      ```sh
+      node -v
+      ```
 
-Sada kada imamo bench alat, pravimo glavni folder gde će ti biti svi sajtovi i aplikacije (izaberi verziju 15):
+  - Instalacija **yarn**
 
-```sh
-bench init frappe-bench --frappe-branch version-15
-```
+    ```sh
+    npm install -g yarn
+    ```
+  
+- **Instalacija Bench-a (Frappe v15)**  
 
-Uđi u kreirani direktorijum:
+  ```sh
+  uv tool install frappe-bench --with setuptools
+  ```
 
-```sh
-cd frappe-bench
-```
+  **Napomena**:  
+  Dodali smo sa `--with setuptools` jer Frappe u pozadini još uvek koristi neke starije Python mehanizme za pakete.
+  
+  - Sada proveri da li sistem vidi komandu:
 
-Sada se nalaziš u glavnom upravljačkom čvorištu svog projekta.
+    ```sh
+    bench --version
+    ```
 
-- **Šta je urađeno**
+- **Instalacija i inicijalizacija frappe-bench direktorijuma**
 
-  - Instaliran je git.
-  - Instaliran je Redis.
-  - Instaliran je PostgreSQL.
-  - Instaliran nginx.
-  - Instaliran je wkhtmltopdf.
-  - Instalirane su front-end zavisnosti:
-    - npm
-    - nodejs
-    - yarn
-  - Instaliran je bench.
-  - Instaliran i inicijalizovan je frappe-bench direktorijum.
+  Sada kada imamo bench alat, pravimo glavni folder gde će ti biti svi sajtovi i aplikacije (izaberi verziju 15):
+  
+  ```sh
+  bench init frappe-bench --frappe-branch version-15
+  ```
+  
+  Uđi u kreirani direktorijum:
+  
+  ```sh
+  cd frappe-bench
+  ```
+  
+  Sada se nalaziš u glavnom upravljačkom čvorištu svog projekta.
+
+</br>
+
+**Šta je urađeno?**
+
+- Instaliran je git.
+- Instaliran je Redis.
+- Instaliran je PostgreSQL.
+- Instaliran nginx.
+- Instaliran je wkhtmltopdf.
+- Instalirane su front-end zavisnosti:
+  - npm
+  - nodejs
+  - yarn
+- Instaliran je bench.
+- Instaliran i inicijalizovan je frappe-bench direktorijum.
 
 ## Faza 2 - Kreiranje prvog Frappe sajta
 
@@ -440,71 +509,83 @@ Pošto koristimo PostgreSQL, moramo da uradimo jednu brzu pripremu pre same koma
 
 Frappe u PostgreSQL-u zahteva posebne ekstenzije (poput `pg_trgm` i `btree_gin`). Da bi ih Frappe-ov korisnik uspešno kreirao tokom instalacije, najsigurnije je da ih tvoj `postgres` superuser ima već aktivne na sistemskom nivou (u šablonu `template1` iz kojeg se prave sve nove baze).
 
-### Priprema PostgreSQL šablona baze podataka
+</br>
 
-Pokreni ovu komandu da omogućiš potrebne ekstenzije u podrazumevanom šablonu baze:
+- **Priprema PostgreSQL šablona baze podataka**
 
+  Pokreni ovu komandu da omogućiš potrebne ekstenzije u podrazumevanom šablonu baze:
+  
   ```sh
   sudo -u postgres psql -d template1 -c "CREATE EXTENSION IF NOT EXISTS pg_trgm; CREATE EXTENSION IF NOT EXISTS btree_gin;"
   ```
-
-### Kreiranje novog sajta
-
-Sada, dok si unutar "frappe-bench" direktorijuma, pokreni komandu za kreiranje sajta. Nazvaćemo ga npr. "site1.local" (možeš staviti bilo koje ime koje se završava sa .localhost ili .local za lokalni razvoj):
-
-```sh
-bench new-site site1.local --db-type postgres
-```
-
-Tokom izvršavanja ove komande, Bench će te pitati za dve stvari:
-
-- MySQL root password  
-Iako piše MySQL, pošto si stavio `--db-type postgres`, ovde unosiš lozinku za `postgres` korisnika koju si postavio u Fazi 1.
-
-- Administrator password  
-Ovo je lozinka za glavnog admina samog Frappe web interfejsa. Postavi neku lozinku po želji (npr. admin123 za lokalni rad) i zapamti je.
-
-Kako da proveriš da li je uspelo?
-
-Kada komanda završi (ovaj put uspešno), proveri da li baza zaista postoji u PostgreSQL-u:
-
-```sh
-sudo -u postgres psql -c "\l"
-```
-
-Trebalo bi da vidiš novu bazu sa čudnim, nasumičnim imenom koje počinje sa podvlakom (npr. _1a2b3c4d5e...), jer Frappe namerno generiše hešovana imena baza radi bezbednosti.
-
+  
 </br>
 
-- **Jedna digresija: Rešenje problema sa konekcijom na PostgreSQL**
+- **Kreiranje novog sajta**
 
+  Sada, dok si unutar "frappe-bench" direktorijuma, pokreni komandu za kreiranje sajta. Nazvaćemo ga npr. "site1.local" (možeš staviti bilo koje ime koje se završava sa .localhost ili .local za lokalni razvoj):
+  
+  ```sh
+  bench new-site site1.local --db-type postgres
+  ```
+  
+  Tokom izvršavanja ove komande, Bench će te pitati za dve stvari:
+  
+  </br>
+
+  - MySQL root password  
+    Iako piše MySQL, pošto si stavio `--db-type postgres`, ovde unosiš lozinku za `postgres` korisnika koju si postavio u Fazi 1.
+  
+  - Administrator password  
+    Ovo je lozinka za glavnog admina samog Frappe web interfejsa. Postavi neku lozinku po želji (npr. admin123 za lokalni rad) i zapamti je.
+  
+  </br>
+
+  Kako da proveriš da li je uspelo?  
+  Kada komanda završi, proveri da li baza zaista postoji u PostgreSQL-u:
+  
+  ```sh
+  sudo -u postgres psql -c "\l"
+  ```
+  
+  Trebalo bi da vidiš novu bazu sa čudnim, nasumičnim imenom koje počinje sa podvlakom (npr. _1a2b3c4d5e...), jer Frappe namerno generiše hešovana imena baza radi bezbednosti.
+  
+  </br>
+  
+- **Rešenje problema sa konekcijom na PostgreSQL**
+  
   Moramo da dozvolimo svim korisnicima (`all`) da se povežu na sve baze (`all`) preko 127.0.0.1 (localhost-a) interfejsa koristeći lozinku.
-  
-  Podrazumevano PostgeSQL je podešen na `peer` konkcije (`socket`) sa localhosta, i to je način na koji pristupa psql. Za Frappe pristup, preko mrežnog interfejsa potrebno je prepodesiti u '/etc/postgresql/16/main/pg_hba.conf' konfiguracionm fajlu IPv4 pravilo, tako da glasi:
-  
+
+  </br>
+
+  Podrazumevano PostgeSQL je podešen na `peer` konkcije (`socket`) sa localhosta, i to je način na koji pristupa psql. Za Frappe pristup, preko mrežnog interfejsa potrebno je prepodesiti u `/etc/postgresql/16/main/pg_hba.conf` konfiguracionm fajlu IPv4 pravilo, tako da glasi:
+
   ```txt
   # IPv4 local connections:
   host    all             all             127.0.0.1/32            md5
   ```
-  
-  Promenili smo tip protkola lozinke, jer se u praksi pokazalo da radi!
 
   </br>
 
+  Promenili smo tip protkola lozinke, jer se u praksi pokazalo da radi!
+
+  </br>
+  
   - **Restart PostgreSQL servisa**
-
+  
     Posle promene konfig. fajllova, restartuj PostgreSQL servis:
-
+  
     ```sh
     sudo systemctl restart postgresql
     ```
+
+  </br>
   
-</br>
-
 - **Šta je urađeno**
-
+  
   - U PostgreSQL `template1` šablon dodate ekstenzije: `pg_trgm` i `btree_gin`.
-  - U fajlu `/etc/postgresql/16/main/pg_hba.conf` promenjena autentifikacija za IPv4 na `md5` za sve korisnike (`all all 127.0.0.1/32`), kako bi Frappe mogao mrežnim putem da kreira baze i korisnike.
+  - U fajlu `/etc/postgresql/16/main/pg_hba.conf` promenjena autentifikacija za IPv4 na `md5` za
+    sve korisnike (`all all 127.0.0.1/32`), kako bi Frappe mogao mrežnim putem da kreira baze i korisnike.
   
   - Uspešno kreiran prvi sajt na PostgreSQL bazi podataka pod imenom `site1.  
     local` komandom:
@@ -515,7 +596,7 @@ Trebalo bi da vidiš novu bazu sa čudnim, nasumičnim imenom koje počinje sa p
 
 ## Faza 3 - Anatomija frappe-a
 
-### `frappe-bench` dir
+**`frappe-bench` dir**
 
 Uradi u terminalu:
 
@@ -525,12 +606,6 @@ ls -lah
 ```
 
 i pošalji izlaz.
-
-Ne zato što ne znam kako izgleda Bench, nego zato što želim da pričamo o tvom okruženju. Različite verzije Bench-a i Frappe-a umeju da imaju sitne razlike, a usput ćemo videti i da li je sve nastalo kako očekujemo.
-
-Posle toga ćemo uzeti jedan direktorijum po jedan i objasniti čemu služi. Tek kada budeš imao mentalnu mapu Bench-a, preći ćemo na `bench start`, procese, logove, konfiguraciju i dalje na razvoj aplikacija.
-
-Mislim da će ti se taj pristup dopasti više nego da odmah krenemo sa novim komandama. Razumevanje strukture na početku mnogo olakšava sve što sledi.
 
 ---
 
@@ -567,147 +642,155 @@ frappe-bench/
 └── patches.txt
 ```
 
-#### apps/
+</br>
 
-Ovo je verovatno najvažniji direktorijum. Ovde živi izvorni kod aplikacija. Na primer:
+- **apps/**  
+  Ovo je verovatno najvažniji direktorijum. Ovde živi izvorni kod aplikacija. Na primer:
+  
+  ```sh
+  apps/
+      frappe/
+      erpnext/
+      payments/
+      crm/
+      moja_aplikacija/
+  ```
+  
+  Svaka aplikacija je praktično jedan Git projekat. To znači da ćeš kasnije moći da uradiš nešto poput:
+  
+  ```sh
+  apps/
+      frappe/
+          .git
+  
+      moja_aplikacija/
+          .git
+  ```
+  
+  i svaka će imati svoju istoriju. To je jedna od lepih osobina Frappe-a.
+  
+  </br>
+  
+- **env/**  
+  Ovo je Python virtual environment. Drugim rečima:
 
-```sh
-apps/
-    frappe/
-    erpnext/
-    payments/
-    crm/
-    moja_aplikacija/
-```
+  ```sh
+  python
+  pip
+  bench
+  frappe
+  gunicorn
+  psycopg
+  ...
+  ```
 
-Svaka aplikacija je praktično jedan Git projekat. To znači da ćeš kasnije moći da uradiš nešto poput:
+  sve živi ovde. Zbog toga ne zagađuješ sistemski Python. To je potpuno isto kao kada napraviš
+  
+  ```bash
+  python -m venv
+  ```
 
-```sh
-apps/
-    frappe/
-        .git
+  ili
 
-    moja_aplikacija/
-        .git
-```
+  ```sh
+  uv venv
+  ```
 
-i svaka će imati svoju istoriju. To je jedna od lepih osobina Frappe-a.
+  samo što Bench to radi sam.
+  
+</br>
 
-#### env/  
+- **sites/**  
+  Ovo je direktorijum koji početnicima pravi najveću zabunu. Ovde nije izvorni kod. Ovde su podaci i konfiguracija sajtova. Na primer:
+  
+  ```sh
+  sites/
+    site1.local/
+      site_config.json
+      private/
+      public/
+      locks/
+      ...
+    assets/
+    apps.txt
+    common_site_config.json
+  ```
+  
+  Drugim rečima, **aplikacija ≠ sajt**. To je veoma važna razlika.
+  
+  Jedna aplikacija može biti instalirana na više sajtova.
+  
+  Na primer:
+  
+  ```txt
+  ERPNext
+  ```
+  
+  može raditi na
+  
+  ```txt
+  firmaA.local
+  firmaB.local
+  firmaC.local
+  ```
+  
+  bez tri kopije ERPNext-a.
+  
+</br>
 
-Ovo je Python virtual environment. Drugim rečima:
+- **config/**  
+  Ovo je Bench konfiguracija. Ovde se nalaze konfiguracioni fajlovi koje Bench generiše. Na primer:
+  
+  - Redis
+  - Nginx
+  - Supervisor
+  - Procfile konfiguracije
+  - razni JSON fajlovi
+  
+  Većinu vremena nećeš ručno menjati ove fajlove.
+  
+  Bench ih uglavnom generiše.
+  
+</br>
 
-```sh
-python
-pip
-bench
-frappe
-gunicorn
-psycopg
-...
-```
+- **logs/**  
+  Vrlo koristan direktorijum. Ako nešto ne radi... ovde prvo gledaš.
+  
+  Npr.
+  
+  ```sh
+  web.log
+  worker.log
+  redis.log
+  schedule.log
+  ```
+  
+  Kasnije ćeš dosta vremena provoditi upravo ovde.
 
-sve živi ovde. Zbog toga ne zagađuješ sistemski Python. To je potpuno isto kao kada napraviš
+</br>
 
-```bash
-python -m venv
-```
+- **Procfile**  
+  Ovo je zanimljiv fajl. Bench ne pokreće jedan proces. Pokreće ih više. Na primer:
+  
+  - web server
+  - scheduler
+  - worker
+  - socketio
+  - watch
+  - ...
+  
+  `Procfile` govori Bench-u: "Ovo su procesi koje treba pokrenuti."
+  
+  Ako si radio sa Heroku ili Foreman, koncept će ti biti poznat.
 
-ili
+</br>
 
-```bash
-uv venv
-```
+- **patches.txt**  
+  Ovo nije nešto što ćeš često dirati. Koristi se tokom migracija i nadogradnji kako bi Bench znao koje su zakrpe (patches) već primenjene.
 
-samo što Bench to radi sam.
+</br>
 
-#### sites/
-
-Ovo je direktorijum koji početnicima pravi najveću zabunu. Ovde nije izvorni kod. Ovde su podaci i konfiguracija sajtova. Na primer:
-
-```sh
-sites/
-  site1.local/
-    site_config.json
-    private/
-    public/
-    locks/
-    ...
-  assets/
-  apps.txt
-  common_site_config.json
-```
-
-Drugim rečima, **aplikacija ≠ sajt**. To je veoma važna razlika.
-
-Jedna aplikacija može biti instalirana na više sajtova.
-
-Na primer:
-
-```sh
-ERPNext
-```
-
-može raditi na
-
-```sh
-firmaA.local
-firmaB.local
-firmaC.local
-```
-
-bez tri kopije ERPNext-a.
-
-#### config/
-
-Ovo je Bench konfiguracija. Ovde se nalaze konfiguracioni fajlovi koje Bench generiše. Na primer:
-
-- Redis
-- Nginx
-- Supervisor
-- Procfile konfiguracije
-- razni JSON fajlovi
-
-Većinu vremena nećeš ručno menjati ove fajlove.
-
-Bench ih uglavnom generiše.
-
-#### logs/
-
-Vrlo koristan direktorijum. Ako nešto ne radi... ovde prvo gledaš.
-
-Npr.
-
-```sh
-web.log
-worker.log
-redis.log
-schedule.log
-```
-
-Kasnije ćeš dosta vremena provoditi upravo ovde.
-
-#### Procfile
-
-Ovo je zanimljiv fajl. Bench ne pokreće jedan proces. Pokreće ih više. Na primer:
-
-- web server
-- scheduler
-- worker
-- socketio
-- watch
-- ...
-
-`Procfile` govori Bench-u: "Ovo su procesi koje treba pokrenuti."
-
-Ako si radio sa Heroku ili Foreman, koncept će ti biti poznat.
-
-#### patches.txt
-
-Ovo nije nešto što ćeš često dirati. Koristi se tokom migracija i nadogradnji kako bi Bench znao koje su zakrpe (patches) već primenjene.
-
-#### Globalna oraganizacija
-
+**Globalna oraganizacija**  
 Primeti da Bench veoma lepo odvaja tri stvari:
 
 ```sh
@@ -718,8 +801,9 @@ Enviroment -> env/
 
 To je veoma elegantna organizacija.
 
-### Pregled apps i sites dirova
+</br>
 
+**Pregled apps i sites dirova**  
 Voleo bih da sada "zavirimo" u dva direktorijuma koja su ključna za razumevanje Frappe-a:
 
 Prvo:
@@ -739,7 +823,6 @@ Iz toga ćemo odmah videti:
 - koje su aplikacije trenutno instalirane,
 - kako Bench razlikuje globalnu konfiguraciju od konfiguracije pojedinačnog sajta,
 - i napravićemo jasnu mentalnu sliku odnosa Bench → Apps → Sites.
-
 Mislim da će posle toga cela arhitektura Frappe-a početi da "leže" na svoje mesto.
 
 ---
@@ -777,69 +860,69 @@ Sada ćemo napraviti jednu važnu mentalnu mapu. Ako je razumeš, mnogo ćeš la
     (izvorni kod)   (podaci i konfiguracija)
 ```
 
-#### apps/ dir
+</br>
 
-Kod tebe trenutno postoji samo jedna aplikacija:
+- **apps/ dir**  
+  Kod tebe trenutno postoji samo jedna aplikacija:
 
-```text
-apps/
-└── frappe/
-```
+  ```text
+  apps/
+  └── frappe/
+  ```
 
-To znači da si instalirao samo Frappe Framework. To je potpuno očekivano.
-Da si instalirao ERPNext, izgledalo bi otprilike ovako:
+  To znači da si instalirao samo Frappe Framework. To je potpuno očekivano.
+  Da si instalirao ERPNext, izgledalo bi otprilike ovako:
 
-```text
-apps/
-├── frappe/
-└── erpnext/
-```
+  ```text
+  apps/
+  ├── frappe/
+  └── erpnext/
+  ```
 
-A kasnije, kada budeš pravio svoju aplikaciju:
+  A kasnije, kada budeš pravio svoju aplikaciju:
 
-```text
-apps/
-├── frappe/
-├── erpnext/
-└── moja_aplikacija/
-```
+  ```text
+  apps/
+  ├── frappe/
+  ├── erpnext/
+  └── moja_aplikacija/
+  ```
 
-Primeti jednu stvar: `apps/` ne zna ništa o `site1.local`.
-
-Tu nema:
-
-- konfiguracije sajta,
-- nema baze,
-- nema korisnika,
-- nema podataka.
-
-Samo kod.  
-
-To je veoma lepo odvajanje odgovornosti.
-
-#### sites/ dir
-
-Ovde se već nalazi mnogo zanimljivijih stvari.
+  Primeti jednu stvar: `apps/` ne zna ništa o `site1.local`.
+  Tu nema:
+  - konfiguracije sajta,
+  - nema baze,
+  - nema korisnika,
+  - nema podataka.
+  Samo kod.  
+  To je veoma lepo odvajanje odgovornosti.
 
 </br>
 
-- **common_site_config.json**  
-  Ovo je globalna konfiguracija Bench-a. Ona važi za sve sajtove. Na primer:
+- **sites/ dir**
+  Ovde se već nalazi mnogo zanimljivijih stvari.
+  
+  </br>
 
-  ```text
+  **common_site_config.json**  
+  Ovo je globalna konfiguracija Bench-a. Ona važi za sve sajtove. Na primer:
+  
+  ```txt
   site1.local
   site2.local
   demo.local
   ```
-
+  
   Svi će koristiti ono što je definisano ovde, osim ako neki sajt ne prepiše (override) određenu vrednost.
-
+  
   To je isti koncept koji postoji u mnogim frameworcima: globalna podešavanja + lokalna podešavanja.
+  
+  </br>
 
-</br>
+  **site1.local/**  
 
-- **site1.local/**  
   Ovo je jedan konkretan Frappe sajt. Vrlo je važno da ga ne posmatraš kao "projekat". On je više nalik instanci aplikacije. Na primer:
+  
   - ima svoju bazu,
   - svoje korisnike,
   - svoje dokumente,
@@ -851,67 +934,74 @@ Ovde se već nalazi mnogo zanimljivijih stvari.
   ```bash
   bench new-site firma2.local
   ```
-
+  
   dobićeš još jedan direktorijum:
-
+  
   ```text
   sites/
   ├── site1.local/
   └── firma2.local/
   ```
-
+  
   Oba će koristiti isti kod iz `apps/frappe/`, ali će imati potpuno odvojene podatke.  
-
+  
   To je jedna od najvećih prednosti Frappe arhitekture.
 
-#### assets/ dir
+  </br>
 
-Ovo često zbuni početnike. Ovde Bench smešta izgrađene (built) statičke resurse. Ne originalni JavaScript. Ne originalni CSS. Već ono što frontend alat napravi nakon build procesa. Drugim rečima:
+  **assets/ dir**  
 
-```sh
-apps/
-    ... source JS ...
-  ↓
-bench build
-  ↓
-sites/assets/
-```
-
-Ako dolaziš iz sveta Vite-a, Webpack-a ili Rollup-a, ovo će ti biti poznato.
-
-#### apps.txt
-
-Ovaj fajl izgleda bezazleno. Verovatno sadrži samo:
-
-```text
-frappe
-```
-
-ali je veoma važan. On govori Bench-u: "Ove aplikacije postoje u ovom Bench okruženju."
-
-Kasnije ćeš ovde videti i:
-
-```text
-frappe
-erpnext
-moja_aplikacija
-```
-
-#### apps.json
-
-Ovo je noviji mehanizam koji Bench koristi za dodatne informacije o aplikacijama. U praksi ga retko menjaš ručno; Bench ga održava.
+  Ovo često zbuni početnike. Ovde Bench smešta izgrađene (built) statičke resurse. Ne originalni JavaScript. Ne originalni CSS. Već ono što frontend alat napravi nakon build procesa. Drugim rečima:
   
-#### Ono što treba da zapamtiš
+  ```sh
+  apps/
+      ... source JS ...
+    ↓
+  bench build
+    ↓
+  sites/assets/
+  ```
 
+  Ako dolaziš iz sveta Vite-a, Webpack-a ili Rollup-a, ovo će ti biti poznato.
+
+  </br>
+
+  **apps.txt**  
+
+  Ovaj fajl izgleda bezazleno. Verovatno sadrži samo:
+  
+  ```text
+  frappe
+  ```
+  
+  ali je veoma važan. On govori Bench-u: "Ove aplikacije postoje u ovom Bench okruženju."
+  Kasnije ćeš ovde videti i:
+  
+  ```text
+  frappe
+  erpnext
+  moja_aplikacija
+  ```
+
+  </br>
+
+  **apps.json**  
+
+  Ovo je noviji mehanizam koji Bench koristi za dodatne informacije o aplikacijama. U praksi ga retko menjaš ručno; Bench ga održava.
+
+</br>
+
+**Ono što treba da zapamtiš**  
 Po mom mišljenju, ovo je najvažnija slika do sada:
 
 ```sh
-apps/ -> IZVORNI KOD
-sites/ -> PODACI
+apps/ -> Izvorni kod
+sites/ -> Podaci o sajtovima
 ```
 
-### Jedna aplikacija → više sajtova
+</br>
 
+**Jedna aplikacija → više sajtova**  
 Zamisli sledeće:
 
 ```sh
@@ -947,29 +1037,28 @@ To je veoma elegantan način za **multi-tenant** arhitekturu.
 
 </br>
 
-- **Predlog za sledeći korak u Fazi 3**
+**Predlog za sledeći korak**  
+Pre nego što pokrenemo razvojni server, voleo bih da pogledamo jedan konkretan sajt. To će nam dati jasnu sliku šta Frappe smatra "sajtom".
 
-  Pre nego što pokrenemo razvojni server, voleo bih da pogledamo jedan konkretan sajt. To će nam dati jasnu sliku šta Frappe smatra "sajtom".
-  
-  Možeš da pošalješ izlaz:
-  
-  ```bash
-  tree -L 2 sites/site1.local
-  ```
-  
-  Ako nemaš `tree` instaliran:
-  
-  ```bash
-  sudo apt install tree
-  ```
-  
-  ili, bez instalacije:
-  
-  ```bash
-  find sites/site1.local -maxdepth 2 | sort
-  ```
-  
-  Posle toga ćemo analizirati `site_config.json`, jer je to jedan od najvažnijih fajlova u celom Frappe ekosistemu. Tu ćeš prvi put videti kako se jedan sajt povezuje sa PostgreSQL bazom i ostatkom sistema.
+Možeš da pošalješ izlaz:
+
+```bash
+tree -L 2 sites/site1.local
+```
+
+Ako nemaš `tree` instaliran:
+
+```bash
+sudo apt install tree
+```
+
+ili, bez instalacije:
+
+```bash
+find sites/site1.local -maxdepth 2 | sort
+```
+
+Posle toga ćemo analizirati `site_config.json`, jer je to jedan od najvažnijih fajlova u celom Frappe ekosistemu. Tu ćeš prvi put videti kako se jedan sajt povezuje sa PostgreSQL bazom i ostatkom sistema.
 
 ---
 
@@ -1009,133 +1098,134 @@ Dakle:
 
 </br>
 
-- **Kako to izgleda u praksi?**
+**Kako to izgleda u praksi?**
 
-  Recimo da razvijaš sistem za proizvodnju.
-  Napraviš aplikaciju:
-  
-  ```txt
-  manufacturing
-  ```
-  
-  Posle godinu dana razviješ:
-  
-  ```txt
-  quality_control
-  ```
-  
-  Kasnije:
-  
-  ```txt
-  barcode
-  ```
-  
-  Na jednom sajtu možeš imati:
-  
-  ```txt
-  frappe
-  erpnext
-  manufacturing
-  quality_control
-  barcode
-  ```
+Recimo da razvijaš sistem za proizvodnju.
+Napraviš aplikaciju:
 
-  Sve te aplikacije zajedno doprinose funkcionalnosti tog sajta.
+```txt
+manufacturing
+```
+
+Posle godinu dana razviješ:
+
+```txt
+quality_control
+```
+
+Kasnije:
+
+```txt
+barcode
+```
+
+Na jednom sajtu možeš imati:
+
+```txt
+frappe
+erpnext
+manufacturing
+quality_control
+barcode
+```
+
+Sve te aplikacije zajedno doprinose funkcionalnosti tog sajta.
 
 </br>
 
-- **A šta svaka aplikacija donosi?**
+**A šta svaka aplikacija donosi?**
 
-  Svaka može da doda:
-  
-  - nove DocType-ove,
-  - nove stranice,
-  - nove API-je,
-  - nove izveštaje,
-  - nove Workspaces,
-  - nove hook-ove,
-  - nove JavaScript fajlove,
-  - nove Python module,
-  - nove migracije.
-  
-  Drugim rečima, aplikacije se "ugrađuju" u isti Frappe sistem.
-  Jedna lepa analogija:
-  
-  Ja to često zamišljam ovako.
-  
-  1. Bench je operativni sistem.
-  
-     ```txt
-     Bench
-     ```
-  
-  2. Na njemu postoje aplikacije:
-  
-     ```text
-     Frappe
-     ERPNext
-     CRM
-     Payments
-     Moja aplikacija
-     ```
-  
-  3. A jedan sajt je kao jedna instalacija sistema koja bira koji će aplikacije
-     koristiti.
-  
-- **I gde se to čuva?**
+Svaka može da doda:
 
-  Tu dolazimo do jednog zanimljivog detalja koji ćemo uskoro videti. Za svaki sajt postoji informacija koje su aplikacije na njemu instalirane.
-  
-  To možeš čak odmah da proveriš:
-  
-  ```sh
-  bench --site site1.local list-apps
-  ```
-  
-  Pošto si napravio potpuno nov sajt, očekujem da će rezultat biti otprilike:
-  
-  ```txt
-  frappe
-  ```
-  
-  Kasnije, kada instaliraš ERPNext:
-  
-  ```sh
-  bench --site site1.local install-app erpnext
-  ```
-  
-  onda će:
-  
-  ```sh
-  bench --site site1.local list-apps
-  ```
-  
-  vratiti:
-  
-  ```txt
-  frappe
-  erpnext
-  ```
-  
-  A kada jednog dana napraviš svoju aplikaciju:
-  
-  ```txt
-  frappe
-  erpnext
-  moja_aplikacija
-  ```
+- nove DocType-ove,
+- nove stranice,
+- nove API-je,
+- nove izveštaje,
+- nove Workspaces,
+- nove hook-ove,
+- nove JavaScript fajlove,
+- nove Python module,
+- nove migracije.
 
-- **Jedna mala terminološka napomena**
+Drugim rečima, aplikacije se "ugrađuju" u isti Frappe sistem.
+Jedna lepa analogija:
 
-  Ovde je lako pomešati pojmove jer reč aplikacija u Frappe-u ne znači isto što i u mnogim drugim okvirima.
+Ja to često zamišljam ovako.
+
+1. Bench je operativni sistem.
+
+   ```txt
+   Bench
+   ```
+
+2. Na njemu postoje aplikacije:
+
+   ```text
+   Frappe
+   ERPNext
+   CRM
+   Payments
+   Moja aplikacija
+   ```
+
+3. A jedan sajt je kao jedna instalacija sistema koja bira koji će aplikacije
+   koristiti.
   
-  - **Frappe app** je modul ili paket funkcionalnosti (npr. ERPNext, CRM ili tvoja aplikacija).
-  
-  - **Site** je instanca koja ima svoju bazu podataka, konfiguraciju i korisnike.
-  
-  To znači da jedan site može biti sastavljen od više Frappe aplikacija, a ista aplikacija može biti korišćena na više različitih sajtova. Upravo ta fleksibilnost je jedan od razloga zašto je Frappe pogodan za razvoj većih poslovnih sistema i SaaS rešenja.
-  
-### Sadržaj sites/site1.local dira
+**I gde se to čuva?**
+
+Tu dolazimo do jednog zanimljivog detalja koji ćemo uskoro videti. Za svaki sajt postoji informacija koje su aplikacije na njemu instalirane.
+
+To možeš čak odmah da proveriš:
+
+```sh
+bench --site site1.local list-apps
+```
+
+Pošto si napravio potpuno nov sajt, očekujem da će rezultat biti otprilike:
+
+```txt
+frappe
+```
+
+Kasnije, kada instaliraš ERPNext:
+
+```sh
+bench --site site1.local install-app erpnext
+```
+
+onda će:
+
+```sh
+bench --site site1.local list-apps
+```
+
+vratiti:
+
+```txt
+frappe
+erpnext
+```
+
+A kada jednog dana napraviš svoju aplikaciju:
+
+```txt
+frappe
+erpnext
+moja_aplikacija
+```
+
+**Jedna mala terminološka napomena**
+Ovde je lako pomešati pojmove jer reč aplikacija u Frappe-u ne znači isto što i u mnogim drugim okvirima.
+
+- **Frappe app** je modul ili paket funkcionalnosti (npr. ERPNext, CRM ili tvoja aplikacija).
+- **Site** je instanca koja ima svoju bazu podataka, konfiguraciju i korisnike.
+
+To znači da jedan site može biti sastavljen od više Frappe aplikacija, a ista aplikacija može biti korišćena na više različitih sajtova. Upravo ta fleksibilnost je jedan od razloga zašto je Frappe pogodan za razvoj većih poslovnih sistema i SaaS rešenja.
+
+</br>
+
+**sites/site1.local dir**  
+Ovde ćemo videti sadržaj sites/site1.local dira
 
 ---
 
@@ -1178,135 +1268,147 @@ Ovde nema Python koda. Nema:
 - `.html`
 - DocType definicija
 
-Zašto? Zato što je sav kod u `apps/`, a "site1.local" sadrži samo ono što pripada toj konkretnoj instanci.
+Zašto?  
+Zato što je sav kod u `apps/`, a "site1.local" sadrži samo ono što pripada toj konkretnoj instanci.
 
 To je jedna od najlepših ideja u Frappe-u.
 
-#### site_config.json
+</br>
 
-Ovo je, po mom mišljenju, najvažniji fajl jednog sajta.
-
-On odgovara na pitanja:
-
-- na koju bazu se povezujem?
-- koji Redis koristim?
-- gde su fajlovi?
-- koje su specifične postavke ovog sajta?
-
-Praktično, kada Frappe "otvori" sajt, prvo pročita ovaj fajl.
-
-Možemo ga detaljno analizirati za nekoliko minuta.
-
-#### private/
-
-Ime govori dosta.
-Ovde završavaju stvari koje nisu javno dostupne.  
-
-Na primer:
-
-```txt
-private/
-  backups/
-  files/
-```
-
-Kasnije ćeš ovde imati:
-
-- privatne priloge
-- backup fajlove
-- eksportovane podatke
-- razne interne fajlove
-
-Ovo nikada ne treba direktno servirati preko web servera.
-
-#### public/
-
-Suprotno od `private`. Ovde završavaju fajlovi koji mogu biti javno dostupni.
-Najčešće:
-
-```text
-public/files
-```
-
-Na primer:
-
-- logo firme
-- slike proizvoda
-- PDF koji je dozvoljeno preuzeti
-- slike koje korisnici vide
-
-#### logs/ dir
-
-Ovo mi je posebno drago da vidim.
-
-```txt
-database.log
-database.log.1
-```
-
-To znači da svaki sajt ima svoje logove.
-
-Dakle, ako sutra imaš:
-
-```text
-site1.local
-firmaA.local
-firmaB.local
-```
-
-svaki može imati sopstvene logove.
-
-To mnogo olakšava administraciju.
-
-#### locks/
-
-Ovaj direktorijum mnogi ni ne primete. Koristi se za razne mehanizme zaključavanja (locking).
-
-Na primer:
-
-- da se dva procesa ne sudare tokom migracije,
-- da scheduler ne pokrene isti posao dva puta,
-- da se spreče paralelne operacije koje bi dovele do nekonzistentnog stanja.
-
-Većinu vremena će biti prazan. I to je potpuno normalno.
-
-- **Zanimljivost**
-
-  Ako pogledaš ovaj direktorijum kao celinu:
+- **site_config.json**  
+  Ovo je, po mom mišljenju, najvažniji fajl jednog sajta.
   
-  ```sh
-  site1.local/
+  On odgovara na pitanja:
+  
+  - na koju bazu se povezujem?
+  - koji Redis koristim?
+  - gde su fajlovi?
+  - koje su specifične postavke ovog sajta?
+  
+  Praktično, kada Frappe "otvori" sajt, prvo pročita ovaj fajl.
+  
+  Možemo ga detaljno analizirati za nekoliko minuta.
+
+</br>
+
+- **private/**  
+  Ime govori dosta.
+  Ovde završavaju stvari koje nisu javno dostupne.  
+  
+  Na primer:
+  
+  ```txt
+  private/
+    backups/
+    files/
   ```
   
-  on uopšte ne izgleda kao aplikacija. Više liči na... profil jednog korisnika sistema.
+  Kasnije ćeš ovde imati:
   
-  I to je upravo ono što jeste. Kod je negde drugde.
+  - privatne priloge
+  - backup fajlove
+  - eksportovane podatke
+  - razne interne fajlove
   
-  Ovde su samo:
+  Ovo nikada ne treba direktno servirati preko web servera.
+
+</br>
+
+- **public/**  
+  Suprotno od `private`. Ovde završavaju fajlovi koji mogu biti javno dostupni.
+  Najčešće:
   
-  - konfiguracija,
-  - podaci,
-  - fajlovi,
-  - logovi.
+  ```text
+  public/files
+  ```
+  
+  Na primer:
+  
+  - logo firme
+  - slike proizvoda
+  - PDF koji je dozvoljeno preuzeti
+  - slike koje korisnici vide
 
-#### site_confg.json
+</br>
 
-Predložio bih da pogledamo sadržaj:
+- **logs/**  
+  Ovo mi je posebno drago da vidim.
+  
+  ```txt
+  database.log
+  database.log.1
+  ```
+  
+  To znači da svaki sajt ima svoje logove.
+  
+  Dakle, ako sutra imaš:
+  
+  ```text
+  site1.local
+  firmaA.local
+  firmaB.local
+  ```
+  
+  svaki može imati sopstvene logove.
+  
+  To mnogo olakšava administraciju.
 
-```bash
-cat sites/site1.local/site_config.json
+</br>
+
+- **locks/**  
+  Ovaj direktorijum mnogi ni ne primete. Koristi se za razne mehanizme zaključavanja (locking).
+  
+  Na primer:
+  
+  - da se dva procesa ne sudare tokom migracije,
+  - da scheduler ne pokrene isti posao dva puta,
+  - da se spreče paralelne operacije koje bi dovele do nekonzistentnog stanja.
+  
+  Većinu vremena će biti prazan. I to je potpuno normalno.
+
+</br>
+
+- **site_confg.json**  
+  Predložio bih da pogledamo sadržaj:
+  
+  ```bash
+  cat sites/site1.local/site_config.json
+  ```
+  
+  To je možda svega desetak redova, ali iz njega ćemo moći da objasnimo:
+  
+  - kako Frappe pronalazi PostgreSQL bazu,
+  - kako zna kojim Redis instancama da se poveže,
+  - kako razlikuje jedan sajt od drugog,
+  - koje su postavke globalne (`common_site_config.json`), a koje lokalne (`site_config.json`).
+  
+</br>
+
+**Zanimljivost**  
+Ako pogledaš ovaj direktorijum kao celinu:
+
+```sh
+site1.local/
 ```
 
-To je možda svega desetak redova, ali iz njega ćemo moći da objasnimo:
+on uopšte ne izgleda kao aplikacija. Više liči na... profil jednog korisnika sistema.
 
-- kako Frappe pronalazi PostgreSQL bazu,
-- kako zna kojim Redis instancama da se poveže,
-- kako razlikuje jedan sajt od drugog,
-- koje su postavke globalne (`common_site_config.json`), a koje lokalne (`site_config.json`).
-- **Jedna mala napomena**
-  Do sada smo pričali o arhitekturi **Bench → Apps → Sites**, i mislim da je to bio pravi redosled. Međutim, od sledećeg koraka počećemo da povezujemo te delove u jednu celinu. Videćeš da Bench nije "aplikacija", već pre **orkestrator** koji upravlja Python okruženjem, aplikacijama i sajtovima.  
-  Kada to shvatiš, većina `bench` komandi će postati vrlo intuitivna, jer ćeš razumeti **šta** rade, a ne samo **kako** se koriste.
+I to je upravo ono što jeste. Kod je negde drugde.
 
+Ovde su samo:
+
+- konfiguracija,
+- podaci,
+- fajlovi,
+- logovi.
+
+</br>
+
+**Jedna mala napomena**  
+Do sada smo pričali o arhitekturi **Bench → Apps → Sites**, i mislim da je to bio pravi redosled. Međutim, od sledećeg koraka počećemo da povezujemo te delove u jednu celinu. Videćeš da Bench nije "aplikacija", već pre **orkestrator** koji upravlja Python okruženjem, aplikacijama i sajtovima.  
+
+Kada to shvatiš, većina `bench` komandi će postati vrlo intuitivna, jer ćeš razumeti **šta** rade, a ne samo **kako** se koriste.
+  
 ---
 
 Evo izlaza
@@ -1326,15 +1428,21 @@ Odlično. Ovo je veoma zanimljiv trenutak jer sada vidiš jednu od stvari koje s
 
 Odmah možemo da izvedemo nekoliko zaključaka:
 
+</br>
+
 - **Zašto baza nema ime `site1.local`?**  
 
   Verovatno si očekivao nešto poput: "site1.local", ili "site1_local". Međutim, Frappe radi drugačije.  On generiše ime baze: "_c9eb2d89e08e8728".
+
+</br>
 
 - **Gde je korisničko ime?**
 
   Primeti nešto zanimljivo. Ovde nema: "db_user": "...". Zašto? Zato što kod PostgreSQL-a Frappe koristi isto ime za bazu i korisnika.
   
   Drugim rečima: db_name: "_c9eb2d89e08e8728" i "role": "_c9eb2d89e08e8728" imaju isto ime.
+
+</br>
 
 - **Lozinka**
 
@@ -1344,63 +1452,64 @@ Odmah možemo da izvedemo nekoliko zaključaka:
   - svoju bazu
   - svoju nasumičnu lozinku
 
+</br>
+
 - **db_type**
 
   Ovde piše "db_type":"postgres". To znači da ostatak Frappe-a zna koji backend koristi. Da si radio sa MariaDB, ovde bi bilo drugačije.
   
-- **Pitanje**
+</br>
 
-  Ako ovde nema: db_host i db_port definicije kako Frappe zna da koristi:  127.0.0.1, 5432?
-  
-  Odgovor je: Ne zna iz ovog fajla. Te informacije dolaze iz drugih delova konfiguracije (globalnih podešavanja Bench-a i podrazumevanih vrednosti).
-  
-  To znači da jedan `site_config.json` sadrži samo ono što je specifično za taj sajt.
-  
-  To mi se veoma sviđa kao dizajn.
-  
-- **Jedna mala digresija**
-  
-  Sećaš se koliko smo juče jurili grešku?
+**Kako Frappe zna da koristi za pristup PostgreSQL adresu 127.0.0.1 i port 5432**  
+Ako ovde nema `db_host` i `db_port` definicije kako Frappe zna da koristi:  127.0.0.1, 5432?
 
-  ```sh
-  password authentication failed
-  ```
-  
-  pa zatim
-  
-  ```sh
-  pg_hba.conf entry
-  ```
-  
-  Sada možeš da rekonstruišeš šta se tada dešavalo.
-  Bench je radio otprilike ovo:
-  
-  ```sh
-  postgres
-        │
-        │  (superuser)
-        ▼
-  CREATE ROLE _c9eb2d89e08e8728
-  CREATE DATABASE _c9eb2d89e08e8728
-  GRANT ...
-        │
-        ▼
-  Disconnect
-  Reconnect
-  user = _c9eb2d89e08e8728
-  database = _c9eb2d89e08e8728
-  ```
-  
-  I upravo je na tom drugom povezivanju PostgreSQL rekao: "Ne dozvoljavam ovom korisniku pristup."
-  
-  Kada smo sredili `pg_hba.conf`, sve je proradilo.
-  
-  Sada cela priča ima smisla.
+Odgovor je: Ne zna iz ovog fajla. Te informacije dolaze iz drugih delova konfiguracije (globalnih podešavanja Bench-a i podrazumevanih vrednosti).
+
+To znači da jedan `site_config.json` sadrži samo ono što je specifično za taj sajt.
+
+To mi se veoma sviđa kao dizajn.
+
+**Jedna mala digresija**  
+Sećaš se koliko smo juče jurili grešku?
+
+```sh
+password authentication failed
+```
+
+pa zatim
+
+```sh
+pg_hba.conf entry
+```
+
+Sada možeš da rekonstruišeš šta se tada dešavalo.
+Bench je radio otprilike ovo:
+
+```sh
+postgres
+      │
+      │  (superuser)
+      ▼
+CREATE ROLE _c9eb2d89e08e8728
+CREATE DATABASE _c9eb2d89e08e8728
+GRANT ...
+      │
+      ▼
+Disconnect
+Reconnect
+user = _c9eb2d89e08e8728
+database = _c9eb2d89e08e8728
+```
+
+I upravo je na tom drugom povezivanju PostgreSQL rekao: "Ne dozvoljavam ovom korisniku pristup."
+
+Kada smo sredili `pg_hba.conf`, sve je proradilo.
+
+Sada cela priča ima smisla.
   
 </br>
 
-- **Sledeći korak**
-
+**Sledeći korak**  
 Po mom mišljenju, sada smo završili upoznavanje sa strukturom na disku. Mislim da je vreme da upoznaš žive procese.
   
 Odnosno:
@@ -1445,8 +1554,9 @@ nego ćemo razumeti:
 
 To je jedna od najvažnijih lekcija u Frappe-u, jer kada jednom razumeš tu arhitekturu, mnoge kasnije stvari (background jobs, realtime obaveštenja, build frontend-a, migracije...) postaju mnogo logičnije.
 
-### Za početak Faze 4
+</br>
 
+**Za početak Faze 4**  
 Nemoj još ništa da objašnjavaš niti da tumačiš izlaz. Samo iz `frappe-bench` direktorijuma pokreni:
 
 ```bash
@@ -1516,8 +1626,9 @@ Ono što je najlepše: **sve radi**.
 
 Sada ćemo uraditi nešto što retko rade tutorijali. Umesto da kažemo "pokreni `bench start`", objasnićemo zašto se pokreće baš ovih sedam procesa.
 
-### Bench nije server
+</br>
 
+**Bench nije server**
 Ovo je prva važna stvar. Mnogi početnici misle: "Pokrenuo sam Bench."  
 Ne. Pokrenuo si **orkestrator**.
 
@@ -1543,7 +1654,7 @@ Praktično radi nešto ovako:
 
 Ako jedan proces padne, Bench to vidi i ispisuje u terminal. To je razlog zbog kog su svi logovi objedinjeni na jednom mestu.
 
-**Pogledaj prvih nekoliko redova**:
+Pogledaj prvih nekoliko redova:
 
   ```text
   redis_cache
@@ -1558,215 +1669,233 @@ Ako jedan proces padne, Bench to vidi i ispisuje u terminal. To je razlog zbog k
   To je praktično mapa Frappe-a.
   Svaki od procesa rešava jedan veoma specifičan problem.
   
-#### WEB
+</br>
+
+- **WEB**
   
-Ovo je najlakši.
-
-```txt
-web.1
-```
-
-Kasnije vidiš
-
-```txt
-Running on
-127.0.0.1:8000
-192.168.122.74:8000
-```
-
-To je HTTP server.  
-Browser priča sa njim.  
-Ako otvoriš <http://192.168.122.74:8000> ili preko port forwardinga sa hosta,
-prvo se javlja upravo **web proces**.  
-Ali... web ne radi sve. On samo prima zahtev.
-
-#### SOCKETIO
-
-```txt
-Realtime service listening
-ws://0.0.0.0:9000
-```
-
-Ovo je sasvim drugi server.
-Ne HTTP. Već **WebSocket**.
-Njegova svrha je: "server → browser" bez refresh-a.
-
-Na primer:
-
-- notifikacije
-- chat
-- progress bar
-- live dashboard
-- background job završen
-
-Sve to dolazi preko SocketIO.
-
-#### REDIS CACHE
-  
-Prvi Redis.
-
-```text
-port 13000
-```
-
-Ovaj Redis služi kao memorijski keš.
-
-Na primer:
-
-```txt
-Korisnik -> Permissions -> Redis Cache -> sledeći zahtev -> ne čita bazu ponovo
-```
-
- Time se štedi mnogo SQL upita.
-
-#### REDIS QUEUE
-  
-Drugi Redis.
-
-```txt
-port 11000
-```
-
-Ovo je potpuno druga uloga.  
-Ovde se ne čuvaju podaci.  
-Ovde se čuvaju zadaci.  
-
-Na primer:
-
-```text
-Pošalji 500 emailova.
-```
-
-Browser neće čekati.  
-Web kaže: "Stavi ovo u Queue".  
-Redis Queue zapamti posao.  
-Worker ga kasnije izvrši.
-  
-#### WORKER
-  
-Jedan od mojih omiljenih procesa.
-
-```text
-worker.1
-```
-
-Njegov posao je veoma jednostavan.  
-
-Beskonačna petlja.
-
-```txt
-Ima li nešto u Queue? -> nema -> čekaj -> ima -> izvrši -> čekaj
-```
-
-To je sve.  
-
-Ali zahvaljujući njemu browser ostaje brz.
-  
-#### SCHEDULER
-  
-Ovo je nešto kao cron.
-
-Na primer:
-
-```txt
-svakih 5 minuta -> pokreni cleanup
-```
-
-ili
-
-```text
-svake noći -> backup
-```
-
-ili
-
-```text
-svakih sat vremena -> sync
-```
-
-Scheduler ne izvršava posao.
-On samo kaže:
-
-"Vreme je."
-
-Posao zatim ubaci u Queue.
-Worker ga izvrši.
-Primeti kako se procesi lepo nadovezuju.
-
-#### WATCH
-  
-Ovo koriste programeri.
-
-Kod tebe se lepo vidi
-
-```txt
-esbuild --watch
-```
-
-i kasnije
-
-```text
-Watching for changes
-```
-
-Šta to znači?
-
-Ako promeniš
-
-```txxt
-apps/
-frappe/
-...    
-...
-...
-some.js
-```
-
-Watch odmah vidi izmenu.  
-Automatski pokrene build.  
-Ne moraš ručno.
-To je ogromna ušteda vremena.
-
-- **Jedan primer**
-
-  Recimo da klikneš u browseru
+  Ovo je najlakši.
   
   ```txt
-  Create Customer
+  web.1
   ```
   
-  Šta se dešava?
-  
-  Otprilike:
+  Kasnije vidiš
   
   ```txt
-  Browser -> HTTP -> WEB -> Python -> PostgreSQL -> vrati rezultat -> Browser
+  Running on
+  127.0.0.1:8000
+  192.168.122.74:8000
   ```
+  
+  To je HTTP server.  
+  Browser priča sa njim.  
+  Ako otvoriš <http://192.168.122.74:8000> ili preko port forwardinga sa hosta,
+  prvo se javlja upravo **web proces**.  
+  Ali... web ne radi sve. On samo prima zahtev.
 
-  Ali ako taj Customer treba da pošalje email dobrodošlice:
+</br>
+
+- **SOCKETIO**
+
+  ```txt
+  Realtime service listening
+  ws://0.0.0.0:9000
+  ```
+  
+  Ovo je sasvim drugi server.
+  Ne HTTP. Već **WebSocket**.
+  Njegova svrha je: "server → browser" bez refresh-a.
+  
+  Na primer:
+  
+  - notifikacije
+  - chat
+  - progress bar
+  - live dashboard
+  - background job završen
+  
+  Sve to dolazi preko SocketIO.
+
+</br>
+
+- **REDIS CACHE**
+  
+  Prvi Redis.
+  
+  ```text
+  port 13000
+  ```
+  
+  Ovaj Redis služi kao memorijski keš.
+  
+  Na primer:
   
   ```txt
-  WEB -> Queue -> Redis Queue -> Worker -> SMTP -> Email poslat
+  Korisnik -> Permissions -> Redis Cache -> sledeći zahtev -> ne čita bazu ponovo
   ```
   
-  Browser u međuvremenu već prikazuje stranicu.
+  Time se štedi mnogo SQL upita.
+
+</br>
+
+- **REDIS QUEUE**
   
-  Ne čeka email.
-
-- **A ako email traje 20 sekundi?**
-
-  Nema problema.
-  Worker radi.
-  Browser radi.
-  SocketIO može da kaže:
+  Drugi Redis.
   
   ```txt
-  Email sent.
+  port 11000
   ```
   
-  bez refresh-a.
+  Ovo je potpuno druga uloga.  
+  Ovde se ne čuvaju podaci.  
+  Ovde se čuvaju zadaci.  
+  
+  Na primer:
+  
+  ```text
+  Pošalji 500 emailova.
+  ```
+  
+  Browser neće čekati.  
+  Web kaže: "Stavi ovo u Queue".  
+  Redis Queue zapamti posao.  
+  Worker ga kasnije izvrši.
+  
+</br>
 
-#### Šta je zapravo Frappe?
+- **WORKER**
+  
+  Jedan od mojih omiljenih procesa.
+  
+  ```text
+  worker.1
+  ```
+  
+  Njegov posao je veoma jednostavan.  
+  
+  Beskonačna petlja.
+  
+  ```txt
+  Ima li nešto u Queue? -> nema -> čekaj -> ima -> izvrši -> čekaj
+  ```
+  
+  To je sve.  
+  
+  Ali zahvaljujući njemu browser ostaje brz.
+  
+</br>
+
+- **SCHEDULER**
+  
+  Ovo je nešto kao cron.
+  
+  Na primer:
+  
+  ```txt
+  svakih 5 minuta -> pokreni cleanup
+  ```
+  
+  ili
+  
+  ```text
+  svake noći -> backup
+  ```
+  
+  ili
+  
+  ```text
+  svakih sat vremena -> sync
+  ```
+  
+  Scheduler ne izvršava posao.
+  On samo kaže:
+  
+  "Vreme je."
+  
+  Posao zatim ubaci u Queue.
+  Worker ga izvrši.
+  Primeti kako se procesi lepo nadovezuju.
+
+</br>
+
+- **WATCH**
+  
+  Ovo koriste programeri.
+  
+  Kod tebe se lepo vidi
+  
+  ```txt
+  esbuild --watch
+  ```
+  
+  i kasnije
+  
+  ```text
+  Watching for changes
+  ```
+  
+  Šta to znači?
+  
+  Ako promeniš
+  
+  ```txxt
+  apps/
+  frappe/
+  ...    
+  ...
+  ...
+  some.js
+  ```
+  
+  Watch odmah vidi izmenu.  
+  Automatski pokrene build.  
+  Ne moraš ručno.
+  To je ogromna ušteda vremena.
+
+</br>
+
+**Jedan primer**  
+Recimo da klikneš u browseru
+  
+```txt
+Create Customer
+```
+
+Šta se dešava?
+
+Otprilike:
+
+```txt
+Browser -> HTTP -> WEB -> Python -> PostgreSQL -> vrati rezultat -> Browser
+```
+
+Ali ako taj Customer treba da pošalje email dobrodošlice:
+
+```txt
+WEB -> Queue -> Redis Queue -> Worker -> SMTP -> Email poslat
+```
+
+Browser u međuvremenu već prikazuje stranicu.
+
+Ne čeka email.
+
+</br>
+
+**A ako email traje 20 sekundi?**  
+Nema problema.
+Worker radi.
+Browser radi.
+SocketIO može da kaže:
+
+```txt
+Email sent.
+```
+
+bez refresh-a.
+
+</br>
+
+**Šta je zapravo Frappe?**
 
 Ja bih odgovorio ovako:
 
@@ -1793,7 +1922,9 @@ PostgreSQL Redis Queue Redis Cache
 
 To je mnogo bliže stvarnoj slici nego jednostavno reći "Frappe je Python web framework".
 
-#### Dve zanimljive sitnice iz tvog izlaza
+</br>
+
+**Dve zanimljive sitnice iz tvog izlaza**:
 
 - Prva je upozorenje:
 
@@ -1820,106 +1951,113 @@ To je mnogo bliže stvarnoj slici nego jednostavno reći "Frappe je Python web f
 
 Sada si prvi put video Frappe kao celovit sistem, a ne samo kao skup direktorijuma i komandi. Sledeći korak bi bio da otvorimo aplikaciju u pregledaču i ispratimo jedan zahtev od klika u browseru, preko web procesa i baze, pa nazad do odgovora. To će lepo povezati sve što smo danas objasnili.
 
-### Prva poseta sajtu
+</br>
 
+**Prva poseta sajtu**  
 Sada prelazimo na ono što ja smatram prvim pravim susretom sa Frappe-om. Do sada smo bili "ispod haube". Sada ćemo prvi put pogledati kako izgleda sistem iz ugla korisnika, ali ćemo ga posmatrati iz ugla programera.
 
-#### Otvori Frappe u browseru
+</br>
 
-Pošto radiš u VM-u, trebalo bi da možeš da otvoriš:
+- **Otvori Frappe u browseru**
 
-```txt
-http://192.168.122.74:8000
-```
-
-ili, ako koristiš SSH tunel ili port forwarding, odgovarajuću adresu na hostu.
-
-Trebalo bi da dobiješ login ekran.
-
-Nemoj još ništa da istražuješ. Samo potvrdi da se stranica otvara.
-
-#### Jedan HTTP zahtev
-
-Pre nego što se uloguješ, hajde da ispratimo jedan jedini HTTP zahtev.
-
-- Browser šalje:
-
+  Pošto radiš u VM-u, trebalo bi da možeš da otvoriš:
+  
   ```txt
-  GET /
+  http://192.168.122.74:8000
   ```
+  
+  ili, ako koristiš SSH tunel ili port forwarding, odgovarajuću adresu na hostu.
+  
+  Trebalo bi da dobiješ login ekran.
+  
+  Nemoj još ništa da istražuješ. Samo potvrdi da se stranica otvara.
 
-- Web server prima zahtev.
-- Frappe kaže: "Koji sajt je tražen?". Pošto imaš samo jedan sajt (`site1.
-local`), odgovor je jednostavan.->  
-- Frappe učitava:  
+</br>
 
+- **Jedan HTTP zahtev**
+
+  Pre nego što se uloguješ, hajde da ispratimo jedan jedini HTTP zahtev.
+  
+  - Browser šalje:
+  
+    ```txt
+    GET /
+    ```
+  
+  - Web server prima zahtev.
+  - Frappe kaže: "Koji sajt je tražen?". Pošto imaš samo jedan sajt (`site1.
+    local`), odgovor je jednostavan.
+  - Frappe učitava:  
+  
+    ```txt
+    sites/site1.local/site_config.json
+    ```
+  
+  - Povezuje se na PostgreSQL.  
+  - Pronalazi da korisnik nije prijavljen.  
+  - Generiše HTML login stranice.  
+  - Browser je prikazuje.  
+  
+  To je ceo prvi ciklus.
+
+</br>
+
+- **Kako Frappe zna da treba da koristi baš `site1.local`?**
+
+  Ovo je odlično pitanje.
+  
+  Na produkcionom serveru odgovor je jednostavan:
+  
+  ```sh
+  erp.firma.rs
+  ```
+  
+  - Host zaglavlje (HTTP Host header)
+  - site1.local ili firma.rs ili erp.example.com
+  - Svaki domen odgovara jednom sajtu.
+  
+  Ali ti nemaš domen.
+  I nemaš Nginx.
+  
+  Imaš samo:
+  
   ```txt
-  sites/site1.local/site_config.json
+  <http://192.168.122.74:8000>
   ```
+  
+  Pa kako onda zna?
+  Hajde da pogledamo.
+  
+  Pošalji rezultat ove komande:
+  
+  ```sh
+  cat sites/common_site_config.json
+  ```
+  
+  To je sledeći važan fajl u Bench arhitekturi.
+  
+  Zašto baš sada?
+  
+  Do sada smo videli:
 
-- Povezuje se na PostgreSQL.  
-- Pronalazi da korisnik nije prijavljen.  
-- Generiše HTML login stranice.  
-- Browser je prikazuje.  
-
-To je ceo prvi ciklus.
-
-#### Kako Frappe zna da treba da koristi baš `site1.local`?
-
-Ovo je odlično pitanje.
-
-Na produkcionom serveru odgovor je jednostavan:
-
-```sh
-erp.firma.rs
-```
-
-- Host zaglavlje (HTTP Host header)
-- site1.local ili firma.rs ili erp.example.com
-- Svaki domen odgovara jednom sajtu.
-
-Ali ti nemaš domen.
-I nemaš Nginx.
-
-Imaš samo:
-
-```txt
-<http://192.168.122.74:8000>
-```
-
-Pa kako onda zna?
-Hajde da pogledamo.
-
-Pošalji rezultat ove komande:
-
-```sh
-cat sites/common_site_config.json
-```
-
-To je sledeći važan fajl u Bench arhitekturi.
-
-Zašto baš sada?
-
-Do sada smo videli:
-
-```sh
-site_config.json
-```
-
-(samo jedan sajt)
-Sada ćemo videti:
-
-```sh
-common_site_config.json
-```
-
-(globalna konfiguracija Bench-a)
-Kada ih uporedimo, dobićeš kompletnu sliku kako Bench odlučuje:
-
-- koji Redis koristi,
-- koje portove koristi,
-- kako pronalazi sajt,
-- koje vrednosti važe za sve sajtove.
+  ```sh
+  site_config.json
+  ```
+  
+  (samo jedan sajt)
+  Sada ćemo videti:
+  
+  ```sh
+  common_site_config.json
+  ```
+  
+  (globalna konfiguracija Bench-a)
+  Kada ih uporedimo, dobićeš kompletnu sliku kako Bench odlučuje:
+  
+  - koji Redis koristi,
+  - koje portove koristi,
+  - kako pronalazi sajt,
+  - koje vrednosti važe za sve sajtove.
 
 </br>
 
@@ -1933,7 +2071,10 @@ Kada ih uporedimo, dobićeš kompletnu sliku kako Bench odlučuje:
   
   Kada razumeš ovu putanju, razumeš kako Frappe "pronalazi" i pokreće jedan sajt. Posle toga će nam mnogo lakše biti da pređemo na DocType-ove, aplikacije i razvoj sopstvenog koda.
 
-### Zajednička definicija za sve sajtove
+</br>
+
+**Zajednička definicija za sve sajtove**  
+`common_site_config.json`
 
 ---
 
@@ -1965,123 +2106,139 @@ cat sites/common_site_config.json
 
 Sada imamo praktično kompletnu sliku kako Bench funkcioniše.
 
-Po mom mišljenju, **common_site_config.json je "kontrolni centar" Bench-a**, dok je **site_config.json lična karta jednog sajta**.
+Po mom mišljenju, `common_site_config.json` je "kontrolni centar" Bench-a, dok je `site_config.json` lična karta jednog sajta.
 
 Hajde da ga rastavimo.
 
-#### Dva nivoa konfiguracije
+</br>
 
-Već sada možeš da vidiš da postoje dva nivoa:
+- **Dva nivoa konfiguracije**
 
-```text
-sites/
-    common_site_config.json [ 1. -> (važi za sve sajtove)]
-    site1.local/
-        site_config.json    [ 2. -> (samo za site1.local)]
-```
+  Već sada možeš da vidiš da postoje dva nivoa:
+  
+  ```txt
+  sites/
+      common_site_config.json [ 1. -> (važi za sve sajtove)]
+      site1.local/
+          site_config.json    [ 2. -> (samo za site1.local)]
+  ```
+  
+  To je veoma elegantan dizajn. Globalne stvari pišu se jednom. Specifične stvari pišu se po sajtu.
+  
+</br>
 
-To je veoma elegantan dizajn. Globalne stvari pišu se jednom. Specifične stvari pišu se po sajtu.
+- **Redis**
 
-#### Redis
+  Odmah vidiš tri Redis konekcije:
+  
+  ```json
+  "redis_cache": "redis://127.0.0.1:13000",
+  "redis_queue": "redis://127.0.0.1:11000",
+  "redis_socketio": "redis://127.0.0.1:13000"
+  ```
+  
+  Odmah možemo da povežemo sa onim što smo videli juče.
+  
+  ```txt
+  Redis Cache -> port:13000
+  Redis Queue -> port: 11000
+  SocketIO -> koristi isti Redis kao Cache.
+  ```
+  
+  Zašto?  
+  Zato što SocketIO koristi Redis kao **message broker** između procesa.  
+  To ćemo detaljnije videti kasnije kada budemo pričali o realtime događajima.
 
-Odmah vidiš tri Redis konekcije:
+</br>
 
-```json
-"redis_cache": "redis://127.0.0.1:13000",
-"redis_queue": "redis://127.0.0.1:11000",
-"redis_socketio": "redis://127.0.0.1:13000"
-```
+- **Web server**
 
-Odmah možemo da povežemo sa onim što smo videli juče.
+  Ovde stoji
+  
+  ```json
+  "webserver_port": 8000
+  ```
+  
+  To je upravo ono što si video u izlazu:
+  
+  ```sh
+  Running on http://127.0.0.1:8000
+  ```
+  
+  Dakle Bench nije "pogodio" port. On ga je pročitao odavde.
 
-```txt
-Redis Cache -> port:13000
-Redis Queue -> port: 11000
-SocketIO -> koristi isti Redis kao Cache.
-```
+</br>
 
-Zašto?  
-Zato što SocketIO koristi Redis kao **message broker** između procesa.  
-To ćemo detaljnije videti kasnije kada budemo pričali o realtime događajima.
+- **SocketIO**
 
-#### Web server
+  Ovde piše
+  
+  ```json
+  "socketio_port": 9000
+  ```
+  
+  A u logovima si video
+  
+  ```sh
+  Realtime service listening
+  ws://0.0.0.0:9000
+  ```
+  
+  Opet se sve poklapa.
 
-Ovde stoji
+</br>
 
-```json
-"webserver_port": 8000
-```
+- **File watcher**
 
-To je upravo ono što si video u izlazu:
+  ```json
+  "file_watcher_port": 6787
+  ```
+  
+  Ovo koristi Watch proces.  
+  Ne koristi ga browser.  
+  Ne koristi PostgreSQL.  
+  Koristi ga razvojni alat.
 
-```sh
-Running on http://127.0.0.1:8000
-```
+</br>
 
-Dakle Bench nije "pogodio" port. On ga je pročitao odavde.
+- **Background workers**
 
-#### SocketIO
+  ```json
+  "background_workers": 1
+  ```
+  
+  To znači da trenutno imaš jednog Worker-a.
+  
+  Kasnije možeš imati
+  
+  ```json
+  "background_workers": 4
+  ```
+  
+  ili
+  
+  ```json
+  "background_workers": 8
+  ```
+  
+  u zavisnosti od opterećenja.
 
-Ovde piše
+</br>
 
-```json
-"socketio_port": 9000
-```
+- **Gunicorn workers**
 
-A u logovima si video
+  ```json
+  "gunicorn_workers": 5
+  ```
+  
+  Ovo te možda zbuni. Jer si video Flask development server. Zašto onda Gunicorn?
+  Odgovor je jednostavan. `bench start` koristi flask ako razvojni server.
+  
+  U produkciji Bench koristi Gunicorn. Dakle ova vrednost će biti važna kasnije kada pređeš na produkciono okruženje.
+  
+</br>
 
-```sh
-Realtime service listening
-ws://0.0.0.0:9000
-```
-
-Opet se sve poklapa.
-
-#### File watcher
-
-```json
-"file_watcher_port": 6787
-```
-
-Ovo koristi Watch proces.  
-Ne koristi ga browser.  
-Ne koristi PostgreSQL.  
-Koristi ga razvojni alat.
-
-#### Background workers
-
-```json
-"background_workers": 1
-```
-
-To znači da trenutno imaš jednog Worker-a.
-
-Kasnije možeš imati
-
-```json
-"background_workers": 4
-```
-
-ili
-
-```json
-"background_workers": 8
-```
-
-u zavisnosti od opterećenja.
-
-#### Gunicorn workers
-
-```json
-"gunicorn_workers": 5
-```
-
-Ovo te možda zbuni. Jer si video Flask development server. Zašto onda Gunicorn?
-Odgovor je jednostavan. `bench start` koristi flask ako razvojni server.
-
-U produkciji Bench koristi Gunicorn. Dakle ova vrednost će biti važna kasnije kada pređeš na produkciono okruženje.
-
-#### Najzanimljivija stavka
+- **Najzanimljivija stavka**
 
   Po meni je ovo:
   
@@ -2119,46 +2276,49 @@ U produkciji Bench koristi Gunicorn. Dakle ova vrednost će biti važna kasnije 
   
   HTTP Host zaglavlje ili Nginx će odlučivati koji sajt treba otvoriti.
 
-#### Korisnik Bench-a
+</br>
 
-Ovde piše
+- **Korisnik Bench-a**
 
-```json
-"frappe_user": "radosav"
-```
-
-To znači da je ceo Bench napravljen pod tvojim Linux korisnikom.
-
-To je razlog zašto nikada ne radimo:
-
-```bash
-sudo bench ...
-```
-
-Bench treba da radi kao običan korisnik.
-
-To je veoma dobra praksa.
-
-- **Jedna mala "Aha!" stvar**
-
-  Pogledaj sada zajedno oba fajla.
+  Ovde piše
   
-  </br>
+  ```json
+  "frappe_user": "radosav"
+  ```
   
-  - **Globalno - common_site_config.json**
-    - redis
-    - portovi
-    - worker
-    - socketio
+  To znači da je ceo Bench napravljen pod tvojim Linux korisnikom.
   
-  </br>
+  To je razlog zašto nikada ne radimo:
   
-  - **Lokalno - site1.local/site_config.json**
-    - db_name
-    - db_password
-    - db_type
+  ```bash
+  sudo bench ...
+  ```
   
-  Odjednom postaje jasno zašto su odvojeni.
+  Bench treba da radi kao običan korisnik.
+  
+  To je veoma dobra praksa.
+  
+</br>
+
+**Jedna mala "Aha!" stvar**  
+Pogledaj sada zajedno oba fajla.
+  
+</br>
+
+- **Globalno - common_site_config.json**
+  - redis
+  - portovi
+  - worker
+  - socketio
+
+</br>
+
+- **Lokalno - site1.local/site_config.json**
+  - db_name
+  - db_password
+  - db_type
+
+Odjednom postaje jasno zašto su odvojeni.
 
 ## Faza 5 - Frappe aplikacija
 
@@ -2177,8 +2337,9 @@ U `apps/` trenutno postoji samo:
 frappe/
 ```
 
-### Aplikacija Frappe
+</br>
 
+**Aplikacija Frappe**
 To je ogromna aplikacija.
 
 Moje mišljenje je da je sledeći logičan korak da je "otvorimo" i upoznamo njenu unutrašnju strukturu.
@@ -2200,8 +2361,9 @@ Odlično. Sada ulazimo u ono što bih nazvao "Anatomija Frappe aplikacije".
 
 Do sada smo posmatrali Bench kao grad. Sada ulazimo u jednu zgradu — aplikaciju Frappe.
 
-#### Gde se nalazi
+</br>
 
+**Gde se nalazi**  
 Kod tebe:
 
 ```text
@@ -2232,7 +2394,9 @@ Nećemo ništa naučiti.
 
 Želim da prvo vidimo vrh strukture*, pa ćemo onda ulaziti samo u one delove koji su važni.
 
-#### Šta ćemo tražiti?
+</br>
+
+**Šta ćemo tražiti?**
 
 Kada dobijemo izlaz, pokazaću ti:
 
@@ -2258,16 +2422,17 @@ i pomisliti:
 
 Odgovor je veoma logičan kada se jednom objasni, i posle toga ćeš isti obrazac prepoznavati i u drugim Python projektima.
 
-- **Mali cilj za ovu fazu**
-  
-  Ne želim da zapamtiš nazive svih direktorijuma.
-  
-  Želim da na kraju možeš da odgovoriš na jedno pitanje:
-  
-  > "Ako želim da pronađem deo Frappe koda koji implementira neku funkcionalnost, gde bih uopšte počeo da tražim?"
-  
-  Kada to budeš znao, prelazak sa "korisnika Frappe-a" na "programera Frappe-a" biće mnogo prirodniji.
-  
+</br>
+
+**Mali cilj za ovu fazu**
+Ne želim da zapamtiš nazive svih direktorijuma.
+
+Želim da na kraju možeš da odgovoriš na jedno pitanje:
+
+> "Ako želim da pronađem deo Frappe koda koji implementira neku funkcionalnost, gde bih uopšte počeo da tražim?"
+
+Kada to budeš znao, prelazak sa "korisnika Frappe-a" na "programera Frappe-a" biće mnogo prirodniji.
+
 --
 
 Evo izlaza:
@@ -2320,249 +2485,249 @@ drwxrwxr-x   4 radosav radosav 4,0K jul 11 00:35 realtime
 
 Prvo, želim da razdvojimo dve stvari koje se često mešaju.
 
-### Pregled frape direktorijuma
-
-#### Git repozitorijum
-
-Nalaziš se ovde:
-
-```text
-apps/frappe/
-```
-
-Ovo je ceo Git repozitorijum Frappe-a.  
-
-To potvrđuje:
-
-```text
-.git/
-```
-
-Dakle:
-
-```sh
-git clone https://github.com/frappe/frappe.git
-```
-
-bi napravio upravo ovakav direktorijum.
-
-Unutra je sve:
-
-- izvorni kod
-- dokumentacija
-- testovi
-- frontend
-- konfiguracija
-- Git istorija
-
-#### Python paket
-
-Sada pogledaj ovu stavku:
-
-```sh
-frappe/
-```
-
-Ona nije isto što i spoljni direktorijum.
-
-Imamo:
-
-```text
-apps/
-└── frappe/          ← Git repozitorijum
-    └── frappe/      ← Python paket
-```
-
-Ovo je veoma čest obrazac u Python svetu.
-
-Na primer Django izgleda slično:
-
-```text
-django/
-    django/
-```
-
-Flask:
-
-```text
-flask/
-    flask/
-```
-
-SQLAlchemy:
-
-```text
-sqlalchemy/
-    sqlalchemy/
-```
-
-Nije ništa neobično.
-
-#### Šta je sve ostalo?
-
-Pogledajmo redom.
-
 </br>
 
-- `.git`  
-  - Očekivano.  
-  - Git istorija.  
-  - Branch-evi.  
-  - Commit-i.  
-  - Tagovi.  
-  - Ništa Frappe-specifično.  
+**Pregled frape direktorijuma**:
 
-</br>
+- **Git repozitorijum**
 
-- `README.md`
-
-  - Opis projekta.  
-  - Kako se instalira.  
-  - Kako se razvija.
-
-</br>
-
-- `pyproject.toml`
-  - Ovo je veoma važan fajl.  
-  - Danas skoro svaki ozbiljan Python projekat koristi upravo njega.  
-
-  - On govori:
-    - kako se paket zove
-    - koje su zavisnosti
-    - koji build sistem koristi
-    - koje Python verzije podržava
+  Nalaziš se ovde:
   
-    Drugim rečima: "Ja sam Python paket."
-
-</br>
-
-- `package.json`
-  - E ovo je zanimljivo.  
-  - Odmah vidiš da Frappe nije samo Python.  
-  - To je istovremeno i Node projekat.  
-  - Frontend koristi:
-    - JavaScript
-    - Node
-    - Yarn
-    - esbuild
-  
-  Zbog toga si instalirao Node.js.
-
-</br>
-
-- `node_modules`  
-  
-  - Ogroman direktorijum.  
-  - Tu su svi frontend paketi.  
-  - Nema potrebe da ga ikada ručno diraš.  
-
-</br>
-
-- `esbuild`
-  - Frontend build.  
-  - JavaScript.  
-  - CSS.  
-  - Bundle.  
-
-</br>
-
-- **`realtime`**
-  - Odmah vidiš da postoji poseban direktorijum.  
-  - To je SocketIO server.  
-  - Kasnije ćemo ga otvoriti.  
-
-</br>
-
-- **`cypress`**
-  - Automatski testovi.
-  - Browser testovi.
-
-</br>
-
-- **Šta mi nedostaje?**
-  - Zapravo, najvažniji direktorijum još nismo otvorili.
-  - To je upravo ovaj:
-  
-    ```sh
-    apps/frappe/frappe/
-    ```
-
-    Tu počinje framework.
-
-</br>
-
-- **Sledeći korak u aplikaciji Frappe**
-
-  Hajde da otvorimo samo prvi nivo tog direktorijuma.
-  
-  Pošalji:
-  
-  ```bash
-  tree -L 1 frappe
+  ```text
+  apps/frappe/
   ```
   
-  ili, ako nemaš `tree` pri ruci:
+  Ovo je ceo Git repozitorijum Frappe-a.  
   
-  ```bash
-  ls -alh frappe
+  To potvrđuje:
+  
+  ```text
+  .git/
   ```
   
-  To je možda **najvažniji direktorijum u celom framework-u**.
+  Dakle:
+  
+  ```sh
+  git clone https://github.com/frappe/frappe.git
+  ```
+  
+  bi napravio upravo ovakav direktorijum.
+  
+  Unutra je sve:
+  
+  - izvorni kod
+  - dokumentacija
+  - testovi
+  - frontend
+  - konfiguracija
+  - Git istorija
+
+- **Python paket**
+
+  Sada pogledaj ovu stavku:
+  
+  ```sh
+  frappe/
+  ```
+  
+  Ona nije isto što i spoljni direktorijum.
+  
+  Imamo:
+  
+  ```text
+  apps/
+  └── frappe/          ← Git repozitorijum
+      └── frappe/      ← Python paket
+  ```
+  
+  Ovo je veoma čest obrazac u Python svetu.
+  
+  Na primer Django izgleda slično:
+  
+  ```text
+  django/
+      django/
+  ```
+  
+  Flask:
+  
+  ```text
+  flask/
+      flask/
+  ```
+  
+  SQLAlchemy:
+  
+  ```text
+  sqlalchemy/
+      sqlalchemy/
+  ```
+  
+  Nije ništa neobično.
+
+- **Šta je sve ostalo?**
+
+  Pogledajmo redom.
+  
+  </br>
+  
+  - `.git`  
+    - Očekivano.  
+    - Git istorija.  
+    - Branch-evi.  
+    - Commit-i.  
+    - Tagovi.  
+    - Ništa Frappe-specifično.  
+  
+  </br>
+  
+  - `README.md`
+  
+    - Opis projekta.  
+    - Kako se instalira.  
+    - Kako se razvija.
+  
+  </br>
+  
+  - `pyproject.toml`
+    - Ovo je veoma važan fajl.  
+    - Danas skoro svaki ozbiljan Python projekat koristi upravo njega.  
+  
+    - On govori:
+      - kako se paket zove
+      - koje su zavisnosti
+      - koji build sistem koristi
+      - koje Python verzije podržava
+
+      Drugim rečima: "Ja sam Python paket."
+  
+  </br>
+  
+  - `package.json`
+    - E ovo je zanimljivo.  
+    - Odmah vidiš da Frappe nije samo Python.  
+    - To je istovremeno i Node projekat.  
+    - Frontend koristi:
+      - JavaScript
+      - Node
+      - Yarn
+      - esbuild
+
+    Zbog toga si instalirao Node.js.
+  
+  </br>
+  
+  - `node_modules`  
+    - Ogroman direktorijum.  
+    - Tu su svi frontend paketi.  
+    - Nema potrebe da ga ikada ručno diraš.  
+  
+  </br>
+  
+  - `esbuild`
+    - Frontend build.  
+    - JavaScript.  
+    - CSS.  
+    - Bundle.  
+  
+  </br>
+  
+  - **`realtime`**
+    - Odmah vidiš da postoji poseban direktorijum.  
+    - To je SocketIO server.  
+    - Kasnije ćemo ga otvoriti.  
+  
+  </br>
+  
+  - **`cypress`**
+    - Automatski testovi.
+    - Browser testovi.
+  
+  </br>
+  
+  - **Šta mi nedostaje?**
+    - Zapravo, najvažniji direktorijum još nismo otvorili.
+    - To je upravo ovaj:
+
+      ```sh
+      apps/frappe/frappe/
+      ```
+  
+      Tu počinje framework.
+
+</br>
+
+**Sledeći korak u aplikaciji Frappe**
+Hajde da otvorimo samo prvi nivo tog direktorijuma.
+  
+Pošalji:
+
+```bash
+tree -L 1 frappe
+```
+
+ili, ako nemaš `tree` pri ruci:
+
+```bash
+ls -alh frappe
+```
+
+To je možda **najvažniji direktorijum u celom framework-u**.
   
 </br>
 
-- **Šta je urađeno**
+**Šta je urađeno**
+Do sada smo praktično složili sledeću mentalnu mapu:
 
-  Do sada smo praktično složili sledeću mentalnu mapu:
-  
-  ```txt
-  frappe-bench/
-  ├── apps/
-  │   └── frappe/          ← Git repozitorijum
-  │       └── frappe/      ← Python paket (framework)
-  │
-  ├── sites/
-  │   ├── common_site_config.json
-  │   └── site1.local/
-  │       └── site_config.json
-  │
-  ├── env/                 ← Python virtuelno okruženje
-  ├── logs/
-  └── config/
-  ```
-  
-  A takođe smo razjasnili i odnose:
-  
-  - **Bench** upravlja okruženjem.
-  - **App** predstavlja funkcionalnost (za sada samo `frappe`).
-  - **Site** predstavlja jednu instalaciju sa sopstvenom bazom.
-  - Jedna **aplikacija** može biti instalirana na više sajtova.
-  - Jedan **sajt** može imati više aplikacija.
-  - Svaki sajt ima svoju PostgreSQL bazu (ili MariaDB, u zavisnosti od konfiguracije).
-  
-  To je zapravo temelj cele Frappe arhitekture.
+```txt
+frappe-bench/
+├── apps/
+│   └── frappe/          ← Git repozitorijum
+│       └── frappe/      ← Python paket (framework)
+│
+├── sites/
+│   ├── common_site_config.json
+│   └── site1.local/
+│       └── site_config.json
+│
+├── env/                 ← Python virtuelno okruženje
+├── logs/
+└── config/
+```
+
+A takođe smo razjasnili i odnose:
+
+- **Bench** upravlja okruženjem.
+- **App** predstavlja funkcionalnost (za sada samo `frappe`).
+- **Site** predstavlja jednu instalaciju sa sopstvenom bazom.
+- Jedna **aplikacija** može biti instalirana na više sajtova.
+- Jedan **sajt** može imati više aplikacija.
+- Svaki sajt ima svoju PostgreSQL bazu (ili MariaDB, u zavisnosti od konfiguracije).
+
+To je zapravo temelj cele Frappe arhitekture.
   
 </br>
 
-- **Plan za sledeći nastavak**
-  
-  Sledeći put ćemo konačno "otvoriti motor", odnosno `apps/frappe/frappe/`, i upoznati najvažnije delove framework-a:
-  
-  - `model/` — gde žive DocType-ovi i ORM.
-  - `database/` — sloj za rad sa bazom.
-  - `desk/` — backend za Desk interfejs.
-  - `www/` — web stranice.
-  - `api/` — API endpointi.
-  - `utils/` — pomoćne funkcije.
-  - `hooks.py` — jedan od najvažnijih fajlova u svakoj Frappe aplikaciji.
-  
-  Cilj neće biti da zapamtimo sve direktorijume, već da stekneš osećaj:  
-  **"Ako tražim određenu funkcionalnost, gde bih je potražio?"**
+**Plan za sledeći nastavak**
+Sledeći put ćemo konačno "otvoriti motor", odnosno `apps/frappe/frappe/`, i upoznati najvažnije delove framework-a:
 
-### Frappe direktorijum (frappe/frappe)
+- `model/` — gde žive DocType-ovi i ORM.
+- `database/` — sloj za rad sa bazom.
+- `desk/` — backend za Desk interfejs.
+- `www/` — web stranice.
+- `api/` — API endpointi.
+- `utils/` — pomoćne funkcije.
+- `hooks.py` — jedan od najvažnijih fajlova u svakoj Frappe aplikaciji.
+
+Cilj neće biti da zapamtimo sve direktorijume, već da stekneš osećaj:  
+**"Ako tražim određenu funkcionalnost, gde bih je potražio?"**
+
+</br>
+
+**Frappe direktorijum**
+Pregled frape/frape direktorijuma
 
 ---
-
 Evo izlaza
 
 ```sh
@@ -2642,7 +2807,9 @@ frappe
 
 Mnogi početnici pogledaju ovaj spisak i pomisle: *"Ovo je haos."* Međutim, kada se grupiše po nameni, postaje prilično logičan.
 
-#### Prvo zapažanje
+</br>
+
+- **Prvo zapažanje**
 
   Ako pogledaš ovaj direktorijum, videćeš da **nije** organizovan kao Django.
   
@@ -2677,220 +2844,225 @@ Mnogi početnici pogledaju ovaj spisak i pomisle: *"Ovo je haos."* Međutim, kad
   
   Svaki od njih predstavlja jednu veću celinu sistema.
 
-#### Ja ga obično podelim na 7 velikih grupa
-
 </br>
 
-- **Core framework**
-  Ovo je srce Frappe-a.
+- **Ja ga obično podelim na 7 velikih grupa**
 
+  </br>
+  
+  - **Core framework**
+    Ovo je srce Frappe-a.
+  
+    ```sh
+    model/
+    database/
+    query_builder/
+    utils/
+    permissions.py
+    exceptions.py
+    hooks.py
+    ```
+  
+    Ovo je nešto poput motora automobila.
+    Ako bi pravio svoj framework, upravo bi ovde završio najveći deo posla.
+  
+  </br>
+  
+  - **HTTP/Web**
+    Ovde počinje svaki zahtev iz browsera.
+  
+    ```sh
+    app.py
+    handler.py
+    middlewares.py
+    api/
+    www/
+    website/
+    templates/
+    ```
+  
+    ```txt
+    Browser -> Nginx -> Gunicorn -> app.py -> handler.py -> Python
+    ```
+  
+    To je ceo tok.
+  
+  </br>
+  
+  - **Desk (ERP interfejs)**
+  
+    ```sh
+    desk/
+    boot.py
+    client.py
+    ```
+  
+    Ovo je ono što korisnik vidi nakon logovanja.
+    Dakle:
+  
+    - Workspace
+    - List View
+    - Form View
+    - Report View
+    - Search
+    - Notifications
+
+    Sve to živi ovde.
+  
+  </br>
+  
+  - **ORM i DocType**
+  
+    Za mene je ovo najlepši deo Frappe-a.
+  
+    ```sh
+    model/
+    database/
+    modules/
+    custom/
+    workflow/
+    ```
+  
+    Ovde nastaje ono po čemu je Frappe poznat.
+  
+    ```txt
+    DocType -> Python objekat -> ORM -> SQL
+    ```
+  
+  </br>
+  
+  - **Poslovni moduli**
+  
+    Ovo nisu framework delovi.
+    To su ugrađene funkcionalnosti.
+  
+    ```sh
+    contacts/
+    email/
+    printing/
+    geo/
+    social/
+    oauth/
+    workflow/
+    ```
+  
+    Drugim rečima:  
+    Framework kaže: "Evo kako se pravi modul."  
+    Ovi folderi su: "Evo modula napravljenih pomoću tog framework-a."
+  
+  </br>
+  
+  - **Administracija**
+  
+    ```sh
+    installer.py
+    migrate.py
+    patches/
+    commands/
+    tests/
+    ```
+  
+    Ovde Bench i Frappe rade:
+  
+    - instalaciju
+    - migracije
+    - update
+    - testove
+  
+  </br>
+  
+  - **Statički sadržaj**
+  
+    ```sh
+    public/
+    locale/
+    translations/
+    gettext/
+    ```
+  
+    CSS  
+    JS  
+    ikonice  
+    prevodi  
+    fontovi  
+
+- **Šta je najvažnije**
+
+  Po meni nisu svi ovi folderi jednako važni.
+  
+  Ja bih ih rangirao ovako:
+  
   ```sh
+  ⭐⭐⭐⭐⭐
+  
   model/
   database/
-  query_builder/
+  desk/
+  ```
+  
+  ```sh
+  ⭐⭐⭐⭐
+  
+  api/
   utils/
   permissions.py
-  exceptions.py
   hooks.py
   ```
-
-  Ovo je nešto poput motora automobila.
-  Ako bi pravio svoj framework, upravo bi ovde završio najveći deo posla.
-
-</br>
-
-- **HTTP/Web**
-  Ovde počinje svaki zahtev iz browsera.
-
+  
   ```sh
-  app.py
-  handler.py
-  middlewares.py
-  api/
-  www/
+  ⭐⭐⭐
+  
   website/
+  www/
   templates/
   ```
-
-  ```txt
-  Browser -> Nginx -> Gunicorn -> app.py -> handler.py -> Python
-  ```
-
-  To je ceo tok.
-
-</br>
-
-- **Desk (ERP interfejs)**
-
-  ```sh
-  desk/
-  boot.py
-  client.py
-  ```
-
-  Ovo je ono što korisnik vidi nakon logovanja.
-  Dakle:
-
-  - Workspace
-  - List View
-  - Form View
-  - Report View
-  - Search
-  - Notifications
   
-  Sve to živi ovde.
-
-</br>
-
-- **ORM i DocType**
-
-  Za mene je ovo najlepši deo Frappe-a.
-
   ```sh
-  model/
-  database/
-  modules/
-  custom/
-  workflow/
-  ```
-
-  Ovde nastaje ono po čemu je Frappe poznat.
-
-  ```txt
-  DocType -> Python objekat -> ORM -> SQL
-  ```
-
-</br>
-
-- **Poslovni moduli**
-
-  Ovo nisu framework delovi.
-  To su ugrađene funkcionalnosti.
-
-  ```sh
-  contacts/
+  ⭐⭐
+  
   email/
   printing/
-  geo/
-  social/
-  oauth/
   workflow/
+  oauth/
+  ```
+  
+  ```sh
+  ⭐
+  
+  social/
+  geo/
+  pulse/
   ```
 
-  Drugim rečima:  
-  Framework kaže: "Evo kako se pravi modul."  
-  Ovi folderi su: "Evo modula napravljenih pomoću tog framework-a."
+  Njih možeš proučavati i mnogo kasnije.
 
 </br>
 
-- **Administracija**
+- **Šta bih ja voleo da prvo razumemo**
 
-  ```sh
-  installer.py
-  migrate.py
-  patches/
-  commands/
-  tests/
+  Ako bismo učili Frappe kao da zajedno pravimo sopstveni framework, redosled bi bio:
+  
+  ```txt
+  model/ -> database/ -> query_builder/ -> Document -> DocType -> Meta -> Desk -> API -> Website
   ```
-
-  Ovde Bench i Frappe rade:
-
-  - instalaciju
-  - migracije
-  - update
-  - testove
-
+  
+  Zašto baš ovako?
+  
+  Zato što sve u Frappe-u počinje od `Document` klase. Bukvalno sve.
+  
+  Customer  
+  Item  
+  Sales Invoice  
+  User  
+  Role  
+  Project  
+  Task  
+  
+  ...sve su oni samo izvedene forme jednog osnovnog koncepta: `Document`.
+  
 </br>
 
-- **Statički sadržaj**
-
-  ```sh
-  public/
-  locale/
-  translations/
-  gettext/
-  ```
-
-  CSS  
-  JS  
-  ikonice  
-  prevodi  
-  fontovi  
-
-#### Šta je najvažnije
-
-Po meni nisu svi ovi folderi jednako važni.
-
-Ja bih ih rangirao ovako:
-
-```sh
-⭐⭐⭐⭐⭐
-
-model/
-database/
-desk/
-```
-
-```sh
-⭐⭐⭐⭐
-
-api/
-utils/
-permissions.py
-hooks.py
-```
-
-```sh
-⭐⭐⭐
-
-website/
-www/
-templates/
-```
-
-```sh
-⭐⭐
-
-email/
-printing/
-workflow/
-oauth/
-```
-
-```sh
-⭐
-
-social/
-geo/
-pulse/
-```
-
-Njih možeš proučavati i mnogo kasnije.
-
-#### Šta bih ja voleo da prvo razumemo
-
-Ako bismo učili Frappe kao da zajedno pravimo sopstveni framework, redosled bi bio:
-
-```txt
-model/ -> database/ -> query_builder/ -> Document -> DocType -> Meta -> Desk -> API -> Website
-```
-
-Zašto baš ovako?
-
-Zato što sve u Frappe-u počinje od `Document` klase. Bukvalno sve.
-
-Customer  
-Item  
-Sales Invoice  
-User  
-Role  
-Project  
-Task  
-
-...sve su oni samo izvedene forme jednog osnovnog koncepta: `Document`.
-
-### Frappe model
-
+**Frappe model**
 Mislim da je sada pravi trenutak da ne "skačemo" po direktorijumima, već da pratimo jednu nit kroz framework.
 
 Predložio bih sledeći put:
@@ -2929,7 +3101,7 @@ I sada ću usporiti. Nećemo juriti kroz kod. Cilj nije da naučimo napamet gde 
   
   Ali nema magije. Samo dosta automatizacije.
 
-#### `model/`
+**`model/`**
 
 Molim te pošalji izlaz:
 
@@ -3061,35 +3233,34 @@ Ako to ispratimo, videćemo gotovo ceo `model` direktorijum u prirodnom redosled
 
 </br>
 
-- **Pogledaj ova imena**
+**Pogledaj ova imena**:
 
-  ```text
-  base_document.py
-  document.py
-  meta.py
-  docfield.py
-  ```
-  
-  Da li primećuješ nešto?
-  
-  Nisu nazvani:
-  
-  - customer.py
-  - sales_invoice.py
-  - employee.py
-  
-  nego:
-  
-  - Document
-  - Meta
-  - DocField
-  
-  To znači da Frappe ne razmišlja o "Customer-u". Razmišlja o bilo kom dokumentu. To je veoma važna filozofija.
-  
+```text
+base_document.py
+document.py
+meta.py
+docfield.py
+```
+
+Da li primećuješ nešto?
+
+Nisu nazvani:
+
+- customer.py
+- sales_invoice.py
+- employee.py
+
+nego:
+
+- Document
+- Meta
+- DocField
+
+To znači da Frappe ne razmišlja o "Customer-u". Razmišlja o bilo kom dokumentu. To je veoma važna filozofija.
+
 </br>
 
-- **Postoje četiri glavna pojma**
-
+**Postoje četiri glavna pojma**
 Ja ih zamišljam ovako:
 
 ```txt
@@ -3098,169 +3269,163 @@ DocType -> Meta -> Document -> Database
 
 Svaki od ova četiri ima svoju ulogu.
 
-#### DocType
+</br>
 
-Ovo već poznaješ.  
-Na primer: Customer ili Item ili Task  
-DocType nije Python klasa.  
-DocType je opis.  
-Na primer:  
+- **DocType**
+  Ovo već poznaješ.  
+  Na primer: Customer ili Item ili Task  
+  DocType nije Python klasa.  
+  DocType je opis.  
+  Na primer:  
+  
+  ```txt
+  Customer
+    Fields:
+      name
+      email
+      phone
+      country
+  ```
+  
+  To su samo podaci.
+
+- **Meta**
+  Ovde dolazi `meta.py`.  
+  Meta odgovara na pitanje: "Kako izgleda Customer?"
+  Ne: "Koji je Customer?" nego: "Šta Customer uopšte jeste?"  
+  Drugim rečima:
+
+  ```txt
+  Customer
+    field 1 = Data
+    field 2 = Link
+    field 3 = Check
+    field 4 = Date
+  ```
+
+  Meta opisuje strukturu.  
+  Ne sadržaj.
+
+</br>
+
+- **Document**
+  Tek ovde dolazi jedan konkretan zapis.  
+  Na primer:
+  
+  ```txt
+  Customer
+  Name: Petar
+  Phone: 12345
+  ```
+  
+  To više nije opis.  
+  To je konkretan objekat.
+
+- **Database**
+  Na kraju se sve pretvori u SQL.
+
+</br>
+
+**Analogija**  
+Recimo da praviš Excel.
+  
+Meta bi bila:
 
 ```txt
-Customer
-  Fields:
-    name
-    email
-    phone
-    country
+Kolona A
+Kolona B
+Kolona C
 ```
 
-To su samo podaci.
-
-#### Meta
-
-   Ovde dolazi `meta.py`.  
-   Meta odgovara na pitanje: "Kako izgleda Customer?"
-   Ne: "Koji je Customer?" nego: "Šta Customer uopšte jeste?"
-
-   Drugim rečima:
-
-   ```txt
-   Customer
-     field 1 = Data
-     field 2 = Link
-     field 3 = Check
-     field 4 = Date
-   ```
-  
-   Meta opisuje strukturu.  
-   Ne sadržaj.
-
-</br>
-
-#### Document
-
-Tek ovde dolazi jedan konkretan zapis.  
-Na primer:
+Document bi bio:
 
 ```txt
-Customer
-Name: Petar
-Phone: 12345
+Marko
+Beograd
+25
 ```
 
-To više nije opis.  
-To je konkretan objekat.
+Vidiš razliku?
 
-#### Database
-
-Na kraju se sve pretvori u SQL.
+Meta opisuje tabelu.  
+Document predstavlja jedan red.
 
 </br>
 
-- **Analogija**
+**Da pogledamo ova četiri fajla**:
 
-  Recimo da praviš Excel.
-  
-  Meta bi bila:
-  
-  ```txt
-  Kolona A
-  Kolona B
-  Kolona C
-  ```
-  
-  Document bi bio:
-  
-  ```txt
-  Marko
-  Beograd
-  25
-  ```
-  
-  Vidiš razliku?
-  
-  Meta opisuje tabelu.  
-  Document predstavlja jedan red.
+- `base_document.py` -> Osnovna funkcionalnost.  
+- `document.py` -> Pravi Document.  
+- `meta.py` -> Opis DocType-a.  
+- `docfield.py` -> Opis jednog polja.  
 
-</br>
+Već sada možeš da naslutiš hijerarhiju:
 
-- **Da pogledamo ova četiri fajla**
-
-  - `base_document.py` -> Osnovna funkcionalnost.  
-  - `document.py` -> Pravi Document.  
-  - `meta.py` -> Opis DocType-a.  
-  - `docfield.py` -> Opis jednog polja.  
-  
-  Već sada možeš da naslutiš hijerarhiju:
-  
-  ```txt
-  Meta
+```txt
+Meta
   ├── DocField
   ├── DocField
   ├── DocField
-  ```
-  
-  a zatim:
-  
-  ```txt
-  Document
+```
+
+a zatim:
+
+```txt
+Document
   ├── value 1
   ├── value 2
   ├── value 3
-  ```
+```
 
-  To je veoma elegantna ideja.
-
-</br>
-
-- **Ono što mene posebno fascinira**
-
-  Većina ORM-ova radi ovako:
-  
-  ```py
-  class Customer(Model):
-      name = CharField(...)
-  ```
-  
-  Kod je opis modela.
-  
-  U Frappe-u je obrnuto.
-  
-  Model se nalazi u bazi (kao DocType definicija), a Python ga učitava u `Meta` objekat.
-  
-  To znači da framework može da radi sa DocType-om koji nije postojao kada je Frappe pokrenut.
-  
-  Napraviš novi DocType u Desk-u.
-  
-  Ne restartuješ server. Odmah radi.
-  
-  To je moguće upravo zahvaljujući ovom sloju `Meta`.
+To je veoma elegantna ideja.
 
 </br>
 
-- **Šta ćemo sada?**
+**Ono što mene posebno fascinira**  
+Većina ORM-ova radi ovako:
 
-  Sada više nema smisla da obilazimo direktorijume.
-  
-  Došli smo do mesta gde počinje "život" svakog dokumenta.
-  
-  Predlažem da sledeći korak bude da otvorimo `document.py`, ali ne da čitamo ceo fajl (ima dosta koda), već da pronađemo:
-  
-  - kako izgleda klasa `Document`,
-  - od koje klase nasleđuje,
-  - koje su njene najvažnije metode (`insert`, `save`, `delete`, `db_insert`, `db_update`...).
-  
-  Na taj način ćemo pratiti životni ciklus jednog dokumenta od njegovog nastanka do upisa u PostgreSQL. Mislim da će ti to dati mnogo bolju sliku nego da analiziramo fajlove izolovano.
-  
-### Frappe iznutra
+```py
+class Customer(Model):
+    name = CharField(...)
+```
 
+Kod je opis modela.
+
+U Frappe-u je obrnuto.
+
+Model se nalazi u bazi (kao DocType definicija), a Python ga učitava u `Meta` objekat.
+
+To znači da framework može da radi sa DocType-om koji nije postojao kada je Frappe pokrenut.
+
+Napraviš novi DocType u Desk-u.
+
+Ne restartuješ server. Odmah radi.
+
+To je moguće upravo zahvaljujući ovom sloju `Meta`.
+
+</br>
+
+**Šta ćemo sada?**  
+Sada više nema smisla da obilazimo direktorijume.
+
+Došli smo do mesta gde počinje "život" svakog dokumenta.
+
+Predlažem da sledeći korak bude da otvorimo `document.py`, ali ne da čitamo ceo fajl (ima dosta koda), već da pronađemo:
+
+- kako izgleda klasa `Document`,
+- od koje klase nasleđuje,
+- koje su njene najvažnije metode (`insert`, `save`, `delete`, `db_insert`, `db_update`...).
+
+Na taj način ćemo pratiti životni ciklus jednog dokumenta od njegovog nastanka do upisa u PostgreSQL. Mislim da će ti to dati mnogo bolju sliku nego da analiziramo fajlove izolovano.
+  
+</br>
+
+**Frappe iznutra**  
 Ali pre nego što otvorimo `document.py`, želim da ti pokažem kako ja čitam veliki framework. To je metod koji koristim godinama kada upoznajem novi projekat (Linux kernel, Django, PostgreSQL, Qt...). Nikada ne krenem od prvog reda fajla.
 
 Krenem od pitanja: Šta je glavna klasa ovog modula?
 
-#### Pronađi klasu
-
+**Pronađi klasu**  
 Pošalji izlaz:
 
 ```bash
@@ -3273,78 +3438,75 @@ Nemoj još otvarati ceo fajl.
 
 </br>
 
-- **Zašto?**
+**Zašto?**  
+Zamisli da si ušao u biblioteku od 3000 knjiga. Nećeš otvoriti prvu stranu prve knjige. Prvo pogledaš sadržaj. Kod je isti.
+Kada vidimo klase, pronaći ćemo njihove metode.
 
-  Zamisli da si ušao u biblioteku od 3000 knjiga. Nećeš otvoriti prvu stranu prve knjige. Prvo pogledaš sadržaj. Kod je isti.
+Na primer:
 
-  Kada vidimo klase, pronaći ćemo njihove metode.
-  
-  Na primer:
-  
-  ```bash
-  grep "^ def " document.py
-  ```
-  
-  ili
-  
-  ```bash
-  grep "^    def " document.py
-  ```
-  
-  (zavisi da li koristi tabove ili razmake).
-  
-  Time ćemo dobiti nešto poput:
-  
-  ```py
-  __init__
-  save
-  insert
-  delete
-  ...
-  ```
-  
-  I odjednom će fajl od nekoliko hiljada linija postati mapa od dvadesetak metoda.
-  
-  To je mnogo lakše za razumevanje.
+```bash
+grep "^ def " document.py
+```
+
+ili
+
+```bash
+grep "^    def " document.py
+```
+
+(zavisi da li koristi tabove ili razmake).
+
+Time ćemo dobiti nešto poput:
+
+```py
+__init__
+save
+insert
+delete
+...
+```
+
+I odjednom će fajl od nekoliko hiljada linija postati mapa od dvadesetak metoda.
+
+To je mnogo lakše za razumevanje.
 
 </br>
 
-- **Zašto ovo radimo?**
+**Zašto ovo radimo?**
 
-  Većina ljudi čita framework ovako:
-  
-  ```txt
-  linija 1
-  linija 2
-  linija 3
-  ...
-  ```
-  
-  Posle 15 minuta više ne znaju šta čitaju.
-  
-  Ja ga čitam ovako:
-  
-  ```txt
-  Modul -> Klase -> Metode -> Jedna metoda -> Pozivi drugih metoda
-  ```
-  
-  To je kao da prvo pogledaš mapu grada, pa tek onda kreneš ulicama.
+Većina ljudi čita framework ovako:
+
+```txt
+linija 1
+linija 2
+linija 3
+...
+```
+
+Posle 15 minuta više ne znaju šta čitaju.
+
+Ja ga čitam ovako:
+
+```txt
+Modul -> Klase -> Metode -> Jedna metoda -> Pozivi drugih metoda
+```
+
+To je kao da prvo pogledaš mapu grada, pa tek onda kreneš ulicama.
 
 </br>
 
-- **Jedna mala digresija**
+**Jedna mala digresija**  
+Ovo nije samo korisno za Frappe.
 
-  Ovo nije samo korisno za Frappe.
-  
-  Ako jednog dana budeš čitao:
-  
-  - Django,
-  - SQLAlchemy,
-  - Flask,
-  - Linux kernel,
-  - PostgreSQL izvorni kod,
-  
-  isti pristup će ti uštedeti mnogo vremena.
+Ako jednog dana budeš čitao:
+
+- Django,
+- SQLAlchemy,
+- Flask,
+- Linux kernel,
+- PostgreSQL izvorni kod,
+
+isti pristup će ti uštedeti mnogo vremena.
 
 Dakle, pošalji izlaz:
 
@@ -3375,138 +3537,140 @@ govori mnogo više nego što izgleda na prvi pogled.
 
 </br>
 
-- **Prvo pitanje**
+**Pitanje**
+Zašto nije napisano:
 
-  Zašto nije napisano:
-  
-  ```python
-  class Document:
-  ```
-  
-  nego
-  
-  ```python
-  class Document(BaseDocument):
-  ```
-  
-  To znači da je autor Frappe-a rekao: "Postoje stvari koje važe za svaki dokument, i postoje stvari koje važe samo za Frappe Document."
-  
-  Drugim rečima:
-  
-  ```txt
-  BaseDocument
-      ▲
-      │
-      │ nasleđivanje
-      │
-  Document
-  ```
-  
-  Ovo je veoma uobičajen obrazac u velikim framework-ovima.
+```python
+class Document:
+```
 
-#### `BaseDocument`
+nego
 
-Pre nego što uopšte otvorimo taj fajl, hajde da pogađamo.
+```python
+class Document(BaseDocument):
+```
 
-Po nazivu bih očekivao da sadrži stvari kao što su:
-
-- čuvanje atributa (`self.name`, `self.owner`, ...)
-- pristup poljima (`doc.email`)
-- pretvaranje u `dict`
-- iteraciju kroz polja
-- osnovne pomoćne metode
-
-Drugim rečima... ništa što ima veze sa bazom.
-
-#### `Document`
-
-E tu već očekujem Frappe logiku.
-
-Na primer:
-
-- `insert()`
-- `save()`
-- `delete()`
-- `submit()`
-- `cancel()`
-- validaciju
-- hook-ove
-- dozvole
-- komunikaciju sa bazom
+To znači da je autor Frappe-a rekao: "Postoje stvari koje važe za svaki dokument, i postoje stvari koje važe samo za Frappe Document."
 
 Drugim rečima:
 
 ```txt
 BaseDocument
+    ▲
     │
-    ├── čuva podatke
-    ├── ponaša se kao objekat
-    └── pomoćne metode
-
+    │ nasleđivanje
+    │
 Document
-    │
-    ├── ORM
-    ├── SQL
-    ├── Hooks
-    ├── Permissions
-    └── Business Logic
+```
+
+Ovo je veoma uobičajen obrazac u velikim framework-ovima.
+
+</br>
+
+- **`BaseDocument`**
+
+  Pre nego što uopšte otvorimo taj fajl, hajde da pogađamo.
+  
+  Po nazivu bih očekivao da sadrži stvari kao što su:
+  
+  - čuvanje atributa (`self.name`, `self.owner`, ...)
+  - pristup poljima (`doc.email`)
+  - pretvaranje u `dict`
+  - iteraciju kroz polja
+  - osnovne pomoćne metode
+  
+  Drugim rečima... ništa što ima veze sa bazom.
+
+</br>
+
+- **`Document`**
+
+  E tu već očekujem Frappe logiku.
+  
+  Na primer:
+  
+  - `insert()`
+  - `save()`
+  - `delete()`
+  - `submit()`
+  - `cancel()`
+  - validaciju
+  - hook-ove
+  - dozvole
+  - komunikaciju sa bazom
+  
+  Drugim rečima:
+  
+  ```txt
+  BaseDocument
+      │
+      ├── čuva podatke
+      ├── ponaša se kao objekat
+      └── pomoćne metode
+  
+  Document
+      │
+      ├── ORM
+      ├── SQL
+      ├── Hooks
+      ├── Permissions
+      └── Business Logic
+  ```
+
+</br>
+
+**Zašto je ovo dobro projektovanje?**
+
+Zamisli da sutra Frappe želi da uvede još jednu vrstu dokumenta.
+Na primer:
+
+```txt
+BaseDocument
+        │
+   ┌────┴─────┐
+   │          │
+Document   VirtualDocument
+```
+
+Oba mogu koristiti iste osnovne mehanizme.
+
+To je jedan od razloga zašto postoji `virtual_doctype.py`, koji si video u spisku fajlova.
+
+Dakle, `BaseDocument` nije napravljen slučajno.
+
+</br>
+
+**Šta ćemo sada dalje?**
+
+Sada bih voleo da ne otvorimo odmah `document.py`, već da proverimo da li je moja pretpostavka tačna.
+
+Hajde da pogledamo koje metode ima `BaseDocument`.
+
+Pošalji izlaz:
+
+```bash
+grep "^    def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
+```
+
+Ako ništa ne vrati (zbog drugačije indentacije), probaj:
+
+```bash
+grep "def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
 ```
 
 </br>
 
-- **Zašto je ovo dobro projektovanje?**
+**Zašto baš `BaseDocument` prvo?**
+Zato što želim da razdvojimo dva sloja:
 
-  Zamisli da sutra Frappe želi da uvede još jednu vrstu dokumenta.
-
-  Na primer:
-  
-  ```txt
-  BaseDocument
-          │
-     ┌────┴─────┐
-     │          │
-  Document   VirtualDocument
-  ```
-  
-  Oba mogu koristiti iste osnovne mehanizme.
-  
-  To je jedan od razloga zašto postoji `virtual_doctype.py`, koji si video u spisku fajlova.
-  
-  Dakle, `BaseDocument` nije napravljen slučajno.
+- Mehaniku Python objekta (`BaseDocument`),
+- Frappe ORM ponašanje (`Document`).
+Po mom iskustvu, to je mnogo lakše za razumevanje nego odmah uskočiti u `save()` i `insert()`, gde se odjednom pojavljuju dozvole, validacije, hook-ovi, transakcije i SQL.
 
 </br>
 
-- **Šta ćemo sada dalje?**
-
-  Sada bih voleo da ne otvorimo odmah `document.py`, već da proverimo da li je moja pretpostavka tačna.
-  
-  Hajde da pogledamo koje metode ima `BaseDocument`.
-  
-  Pošalji izlaz:
-  
-  ```bash
-  grep "^    def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-  ```
-  
-  Ako ništa ne vrati (zbog drugačije indentacije), probaj:
-  
-  ```bash
-  grep "def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-  ```
-  
-  - **Zašto baš `BaseDocument` prvo?**
-  
-    Zato što želim da razdvojimo dva sloja:
-
-    - Mehaniku Python objekta (`BaseDocument`),
-    - Frappe ORM ponašanje (`Document`).
-
-    Po mom iskustvu, to je mnogo lakše za razumevanje nego odmah uskočiti u `save()` i `insert()`, gde se odjednom pojavljuju dozvole, validacije, hook-ovi, transakcije i SQL.
-
-    </br>
-
-    **Mala napomena**
-    Ovo nije jedini mogući redosled učenja. Mogli bismo odmah analizirati `save()`. Ja biram ovaj put zato što gradi mentalni model od temelja ka složenijim slojevima. Kasnije ćeš mnogo lakše razumeti zašto `Document` radi to što radi, jer ćeš već znati šta je nasledio od `BaseDocument`.
+**Mala napomena**
+Ovo nije jedini mogući redosled učenja. Mogli bismo odmah analizirati `save()`. Ja biram ovaj put zato što gradi mentalni model od temelja ka složenijim slojevima. Kasnije ćeš mnogo lakše razumeti zašto `Document` radi to što radi, jer ćeš već znati šta je nasledio od `BaseDocument`.
 
 ---
 
@@ -3610,25 +3774,24 @@ I sada ću uraditi nešto što će ti, nadam se, pomoći da ne "utoneš" u more 
   
   To je važna lekcija kada čitamo tuđi kod: uvek pravimo hipotezu, pa je proverimo. Nekad je pogodimo, nekad ne. To nije greška – to je način na koji se uči arhitektura.
 
-#### Grupisanje metode
-
+**Grupisanje metode**
 Ovaj spisak od 60+ metoda izgleda zastrašujuće, ali u stvari može da se podeli u nekoliko logičkih grupa.
 
 </br>
 
-- **Konstrukcija objekta**
+- **Konstrukcija objekta**:
 
   ```py
   __init__()
   update()
   update_if_missing()
   ```
-  
+
   Ove metode služe da naprave i popune objekat.
 
 </br>
 
-- **Pristup podacima**
+- **Pristup podacima**:
 
   ```py
   get()
@@ -3640,24 +3803,24 @@ Ovaj spisak od 60+ metoda izgleda zastrašujuće, ali u stvari može da se podel
   delete_key()
   get_value()
   ```
-
+  
   Ovo je interfejs za rad sa poljima dokumenta.
 
 </br>
 
-- **Serijalizacija**
-
+  **Serijalizacija**:
+  
   ```text
   as_dict()
   as_json()
   __getstate__()
   ```
-  
+
   Pretvaranje objekta u rečnik, JSON ili stanje za pickle.
 
 </br>
 
-- **Meta informacije**
+**Meta informacije**:
 
   ```text
   meta()
@@ -3669,7 +3832,7 @@ Ovaj spisak od 60+ metoda izgleda zastrašujuće, ali u stvari može da se podel
 
 </br>
 
-- **Validacija**
+**Validacija**:
 
   Ovde ih ima mnogo:
   
@@ -3680,12 +3843,12 @@ Ovaj spisak od 60+ metoda izgleda zastrašujuće, ali u stvari može da se podel
   _validate_constants()
   ...
   ```
-
+  
   To znači da se dosta validacije dešava na nivou samog dokumenta.
 
 </br>
 
-- **Baza**
+**Baza**:
 
   ```text
   db_insert()
@@ -3730,7 +3893,7 @@ Ovaj spisak od 60+ metoda izgleda zastrašujuće, ali u stvari može da se podel
 
 </br>
 
-- **Ono što mi je posebno zapalo za oko**
+**Ono što mi je posebno zapalo za oko**:
 
 Pogledaj ove metode:
 
@@ -3752,33 +3915,35 @@ nije samo teorija.
 
 Već sada vidimo tragove te veze u samom kodu.
 
-- **Hajde da proverimo jednu hipotezu**
+</br>
 
-  Po meni, najvažnija metoda u celom fajlu nije `db_update()`. Nije ni `append()`.
-  Nije ni `get()`.
+**Hajde da proverimo jednu hipotezu**:  
+Po meni, najvažnija metoda u celom fajlu nije `db_update()`. Nije ni `append()`.
+Nije ni `get()`.
   
-  Ja mislim da je to:
-  
-  ```python
-  @property
-  def meta(...)
-  ```
-  
-  Zašto?
-  
-  Jer bez `Meta` objekta `BaseDocument` ne zna:
-  
-  - koja polja postoje,
-  - koji je tip svakog polja,
-  - koja su obavezna,
-  - koja predstavljaju child tabele,
-  - koja su `Link` polja,
-  - koja su `Date`, `Currency`, `Check`, itd.
-  
-  Drugim rečima, `Meta` je "uputstvo za upotrebu" svakog dokumenta.
+Ja mislim da je to:
 
-#### Meta property
+```python
+@property
+def meta(...)
+```
 
+Zašto?
+
+Jer bez `Meta` objekta `BaseDocument` ne zna:
+
+- koja polja postoje,
+- koji je tip svakog polja,
+- koja su obavezna,
+- koja predstavljaju child tabele,
+- koja su `Link` polja,
+- koja su `Date`, `Currency`, `Check`, itd.
+
+Drugim rečima, `Meta` je "uputstvo za upotrebu" svakog dokumenta.
+
+</br>
+
+**Meta property**  
 Umesto da odmah analiziramo `save()`, voleo bih da otvorimo baš tu `meta` osobinu. To je mali komad koda, ali mislim da će nam objasniti kako se `Document` povezuje sa `Meta`.
 
 Možeš da pošalješ izlaz:
@@ -3797,10 +3962,12 @@ sed -n '40,70p' ~/frappe-bench/apps/frappe/frappe/model/base_document.py
 **Jedna napomena za kraj**
 Želim da uvedemo još jedno pravilo u naše proučavanje Frappe-a.
 
-**Nećemo analizirati ceo fajl odjednom.**
+</br>
 
-Umesto toga, svaki put ćemo izabrati jednu važnu ideju (kao što je `Meta`, `Document`, `save()` ili `get_doc()`), razumeti je do kraja, pa tek onda nastaviti dalje. Po mom iskustvu, tako se veliki framework zaista nauči, umesto da ostane samo utisak da si "prošao kroz kod".
+- **Nećemo analizirati ceo fajl odjednom.**
 
+  Umesto toga, svaki put ćemo izabrati jednu važnu ideju (kao što je `Meta`, `Document`, `save()` ili `get_doc()`), razumeti je do kraja, pa tek onda nastaviti dalje. Po mom iskustvu, tako se veliki framework zaista nauči, umesto da ostane samo utisak da si "prošao kroz kod".
+  
 ---
 
 Evo izlaza
@@ -3820,8 +3987,6 @@ def __getstate__(self):
 ```
 
 ---
-
-Odlično! Ovo je jedan od onih trenutaka kada 3 linije koda objašnjavaju stotine drugih.
 
 Pogledaj ponovo:
 
@@ -3895,6 +4060,8 @@ Ali u stvari, ovde se krije jedna od najvažnijih ideja Frappe-a.
   To nije red iz baze.  
   To je opis strukture.
 
+</br>
+
 - **Zašto je ovo genijalno?**
 
   Pogledaj šta nigde ne postoji.
@@ -3913,6 +4080,8 @@ Ali u stvari, ovde se krije jedna od najvažnijih ideja Frappe-a.
   ```
   
   To je ogromna razlika u odnosu na Django.
+
+</br>
 
 - **Upoređenje sa Django**
 
@@ -4056,8 +4225,9 @@ Ali u stvari, ovde se krije jedna od najvažnijih ideja Frappe-a.
   
   Drugi put... neće ponovo računati. Vratiće vrednost iz keša. To je važno jer se dozvole mogu proveravati mnogo puta tokom jednog zahteva.
 
-#### Tok izvršenja u Frappeu
+</br>
 
+**Tok izvršenja u Frappeu**  
 Mislim da je vreme da prestanemo da gledamo pomoćne metode i da krenemo da pratimo jedan konkretan tok izvršavanja.
 
 Na primer:
@@ -4497,6 +4667,8 @@ Njegov posao je samo da kaže: "Idi u `frappe.model.document` i tamo odradi prav
   
   Zašto?
   
+  </br>
+
   - **Hipoteza 1 — Izbegavanje kružnih zavisnosti**
 
     Zamisli:
@@ -4513,10 +4685,14 @@ Njegov posao je samo da kaže: "Idi u `frappe.model.document` i tamo odradi prav
 
     Lokalni `import` često rešava ovakve probleme.
 
+  </br>
+
   - **Hipoteza 2 — Brže pokretanje**
   
     Ako nikad ne pozoveš `get_doc()`, nikad se neće importovati `document.py`.
     To može malo ubrzati startovanje.
+
+  </br>
 
   - **Koja hipoteza je tačna?**
 
@@ -4538,6 +4714,8 @@ Njegov posao je samo da kaže: "Idi u `frappe.model.document` i tamo odradi prav
   
   Sada treba da otkrijemo ono **???**
   
+</br>
+
 - **Sledeći korak**
 
   Sada više nema razloga da ostajemo u `__init__.py`.
@@ -4555,6 +4733,8 @@ Njegov posao je samo da kaže: "Idi u `frappe.model.document` i tamo odradi prav
   ```bash
   grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
   ```
+
+</br>
 
 - **Zašto mislim da će sada postati baš zanimljivo**
 
@@ -4740,9 +4920,6 @@ def get_doc(*args, **kwargs):
     return controller(*args, **kwargs)
 
   raise ImportError(doctype)
-
-
-class Document(BaseDocument):
 ```
 
 ---
@@ -4761,150 +4938,155 @@ Hajde da ga pročitamo kao da smo autori Frappe-a.
   
   Nema: `SELECT ...`. Nema: `frappe.db.sql(...)`. Nema: `db.get(...)`.
   Ništa.  
+
   </br>
   To znači da ova funkcija ima sasvim drugu ulogu. Šta ona zapravo radi?
   Ja bih je nazvao:
   
-#### Fabrika (Factory)
-  
-Ona ne pravi SQL.  Ona odlučuje:  
-"Koju klasu treba napraviti?"
-
-Hajde redom
-
 </br>
 
-- **Prvi slučaj**
+- **Fabrika (Factory)**
+  
+  Ona ne pravi SQL.  Ona odlučuje:  
+  "Koju klasu treba napraviti?"
+  
+  Hajde redom
+  
+  </br>
+  
+  - **Prvi slučaj**
+  
+    ```py
+    if isinstance(args[0], BaseDocument):
+      return args[0]
+    ```
+  
+    Ako joj pošalješ već gotov dokument:
+  
+    ```py
+    doc = frappe.get_doc(existing_doc)
+    ˙˙˙
+    ```
+  
+    ona kaže: "Već imaš Document." i vrati ga.
+  
+    To je elegantno.
+  
+  </br>
+  
+  - **Drugi slučaj**
 
-  ```py
-  if isinstance(args[0], BaseDocument):
-    return args[0]
-  ```
+    ```py
+    elif isinstance(args[0], str):
+        doctype = args[0]
+    ```
+  
+    Ovo je najčešći poziv.
+  
+    Na primer:
+  
+    ```py
+    frappe.get_doc("Customer", "CUST-0001")
+    ```
+  
+    Ovde samo zapamti:
+  
+    ```py
+    doctype = "Customer"
+    ```
+  
+    Još ništa nije učitano.
+  
+  </br>
+  
+  - **Treći slučaj**
 
-  Ako joj pošalješ već gotov dokument:
+    ```py
+    elif isinstance(args[0], dict):
+    ```
+  
+    Ovde praviš novi dokument.
+  
+    Na primer:
+  
+    ```py
+    frappe.get_doc({
+        "doctype": "Customer",
+        "customer_name": "Marko"
+    })
+    ```
+  
+    Dakle ista funkcija podržava i:
 
-  ```py
-  doc = frappe.get_doc(existing_doc)
-  ˙˙˙
-  ```
+    - otvaranje postojećeg,
+    - pravljenje novog.
 
-  ona kaže: "Već imaš Document." i vrati ga.
+    A onda... Dolazimo do najvažnije linije.
 
-  To je elegantno.
+    ```py
+    controller = get_controller(doctype)
+    ```
 
+    Po meni, ovo je ključ cele funkcije.
+
+    Jer odjednom više nije važno:
+
+    - da li je dokument novi,
+    - da li dolazi iz baze,
+    - da li je Customer,
+    - da li je Item.
+
+    Sve se svodi na jedno pitanje: Ko upravlja ovim DocType-om?
+  
 </br>
 
-- **Drugi slučaj**
+- **Controller**
   
-  ```py
-  elif isinstance(args[0], str):
-      doctype = args[0]
-  ```
+  Ovde moram da napravim malu pauzu.
 
-  Ovo je najčešći poziv.
+  Jer reč `controller` može da zavara.
+
+  Ako dolaziš iz MVC sveta, očekuješ:
+
+  - Model
+  - View
+  - Controller
+
+  Ali ovde to nije to. Ovde je "controller" zapravo Python klasa koja predstavlja taj DocType.
 
   Na primer:
 
-  ```py
-  frappe.get_doc("Customer", "CUST-0001")
+  ```txt
+  Customer -> Customer(Document)
   ```
 
-  Ovde samo zapamti:
+  ili
 
-  ```py
-  doctype = "Customer"
+  ```txt
+  User -> User(Document)
   ```
 
-  Još ništa nije učitano.
+  Ako takva klasa postoji. Ako ne... videćemo šta Frappe radi.
 
-</br>
+  Pogledaj završetak funkcije.
 
-- **Treći slučaj**
-  
-  ```py
-  elif isinstance(args[0], dict):
+  ```py  
+  return controller(*args, **kwargs)
   ```
 
-  Ovde praviš novi dokument.
+  Ovo je fantastično.
 
-  Na primer:
+  Ne piše: `Customer(...)`. Ne piše: `User(...)`. Ne piše: `Task(...)`.
+  Nego: `controller(...)`
+
+  Drugim rečima:
 
   ```py
-  frappe.get_doc({
-      "doctype": "Customer",
-      "customer_name": "Marko"
-  })
+  get_doc() -> get_controller() -> ??? -> pozovi klasu
   ```
 
-Dakle ista funkcija podržava i:
-  
-- otvaranje postojećeg,
-- pravljenje novog.
-  
-A onda... Dolazimo do najvažnije linije.
-  
-```py
-controller = get_controller(doctype)
-```
-  
-Po meni, ovo je ključ cele funkcije.
-  
-Jer odjednom više nije važno:
-  
-- da li je dokument novi,
-- da li dolazi iz baze,
-- da li je Customer,
-- da li je Item.
-  
-Sve se svodi na jedno pitanje: Ko upravlja ovim DocType-om?
-  
-#### Controller
-  
-Ovde moram da napravim malu pauzu.
-  
-Jer reč `controller` može da zavara.
-  
-Ako dolaziš iz MVC sveta, očekuješ:
-  
-- Model
-- View
-- Controller
-  
-Ali ovde to nije to. Ovde je "controller" zapravo Python klasa koja predstavlja taj DocType.
-  
-Na primer:
-  
-```txt
-Customer -> Customer(Document)
-```
-  
-ili
-  
-```txt
-User -> User(Document)
-```
-  
-Ako takva klasa postoji. Ako ne... videćemo šta Frappe radi.
-  
-Pogledaj završetak funkcije.
-  
-```py  
-return controller(*args, **kwargs)
-```
-  
-Ovo je fantastično.
-  
-Ne piše: `Customer(...)`. Ne piše: `User(...)`. Ne piše: `Task(...)`.
-Nego: `controller(...)`
-  
-Drugim rečima:
-  
-```py
-get_doc() -> get_controller() -> ??? -> pozovi klasu
-```
-  
-To je čisti **Factory Pattern**.
-  
+  To je čisti **Factory Pattern**.
+
 </br>
 
 - **Sada jedna veoma zanimljiva stvar**
@@ -4950,7 +5132,9 @@ To je čisti **Factory Pattern**.
   
   Pošalji:
   
+  ```h
   grep -A 50 "^def get_controller" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
+  ```
   
   Nemoj se uplašiti ako bude malo duža. To je verovatno jedna od najvažnijih funkcija u celom mehanizmu Frappe-a, jer ona predstavlja most između naziva DocType-a (običnog stringa poput "Customer") i Python klase koja će na kraju biti instancirana.
   
@@ -5084,6 +5268,8 @@ I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videl
     menjaš fajl... a Frappe i dalje koristi staru klasu.  
     To bi bilo veoma frustrirajuće.
 
+</br>
+
 - **Treća stvar**
 
   Ovaj deo mi se posebno sviđa.
@@ -5184,62 +5370,63 @@ I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videl
 
 - **Hajde da zastanemo na trenutak**
 
-Voleo bih da obratiš pažnju na nešto.
-
-Pre desetak koraka imali smo dijagram:
-
-```txt
-get_doc() -> Document
-```
-
-Sada je on postao mnogo precizniji.
-
-```txt
-get_doc() -> get_controller() -> import_controller() -> Python class -> Document instance
-```
-
-Primećuješ?
-
-Naš mentalni model postaje sve detaljniji. Ne zato što učimo napamet funkcije.
-Nego zato što svaku "crnu kutiju" polako otvaramo.
+  Voleo bih da obratiš pažnju na nešto.
+  
+  Pre desetak koraka imali smo dijagram:
+  
+  ```txt
+  get_doc() -> Document
+  ```
+  
+  Sada je on postao mnogo precizniji.
+  
+  ```txt
+  get_doc() -> get_controller() -> import_controller() -> Python class -> Document instance
+  ```
+  
+  Primećuješ?
+  
+  Naš mentalni model postaje sve detaljniji. Ne zato što učimo napamet funkcije.
+  Nego zato što svaku "crnu kutiju" polako otvaramo.
 
 </br>
+
 - **Još jedna stvar koju želim da naglasim**
 
-Pogledaj kako je funkcija napisana. Nema 200 linija. Nema ogromnog `if`. Nema SQL-a. Radi samo jednu stvar:
+  Pogledaj kako je funkcija napisana. Nema 200 linija. Nema ogromnog `if`. Nema SQL-a. Radi samo jednu stvar:
 
-> pronađi odgovarajuću klasu i keširaj je.
-
-To je odličan primer principa **Single Responsibility Principle (SRP)** iz SOLID-a.
-
-Zato je lako razumeti šta radi i lako je testirati.
-
+  > pronađi odgovarajuću klasu i keširaj je.
+  
+  To je odličan primer principa **Single Responsibility Principle (SRP)** iz SOLID-a.
+  
+  Zato je lako razumeti šta radi i lako je testirati.
+  
 </br>
 
 - **Moj predlog za nastavak**
 
-Mislim da smo sada došli do mesta gde treba otvoriti poslednju "crnu kutiju":
-
-```python
-import_controller(doctype)
-```
-
-Ali... Tu bih napravio malu promenu u našem načinu rada.
-
-Do sada smo pratili izvršavanje. Sada bih voleo da na trenutak stanemo i nacrtamo kompletnu arhitekturu onoga što smo do sada otkrili, pre nego što uđemo u `import_controller()`.
-
-Zašto?
-
-Zato što smo već sakupili dovoljno delova slagalice da možemo da vidimo celu sliku:
-
-```txt
-Program -> frappe.get_doc(...) -> frappe.model.document.get_doc(...) -> get_controller(doctype) -> import_controller(doctype) -> Python klasa -> Instanca Document
-```
-
-Mislim da je to dobar trenutak da zastanemo, proverimo da li nam je model jasan i tek onda otvorimo `import_controller()`, jer sumnjam da će baš tamo početi priča o tome:
-
-- kako Frappe pronalazi Python modul za dati DocType,
-- kako rade standardni i custom DocType-ovi i
-- kako se uključuju aplikacije (`apps`).
-
-To je već sledeći veliki deo arhitekture.
+  Mislim da smo sada došli do mesta gde treba otvoriti poslednju "crnu kutiju":
+  
+  ```python
+  import_controller(doctype)
+  ```
+  
+  Ali... Tu bih napravio malu promenu u našem načinu rada.
+  
+  Do sada smo pratili izvršavanje. Sada bih voleo da na trenutak stanemo i nacrtamo kompletnu arhitekturu onoga što smo do sada otkrili, pre nego što uđemo u `import_controller()`.
+  
+  Zašto?
+  
+  Zato što smo već sakupili dovoljno delova slagalice da možemo da vidimo celu sliku:
+  
+  ```txt
+  Program -> frappe.get_doc(...) -> frappe.model.document.get_doc(...) -> get_controller(doctype) -> import_controller(doctype) -> Python klasa -> Instanca Document
+  ```
+  
+  Mislim da je to dobar trenutak da zastanemo, proverimo da li nam je model jasan i tek onda otvorimo `import_controller()`, jer sumnjam da će baš tamo početi priča o tome:
+  
+  - kako Frappe pronalazi Python modul za dati DocType,
+  - kako rade standardni i custom DocType-ovi i
+  - kako se uključuju aplikacije (`apps`).
+  
+  To je već sledeći veliki deo arhitekture.
