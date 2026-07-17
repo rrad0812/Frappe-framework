@@ -14,11 +14,9 @@ Koji način koristim kada kreiram dokument u kojoj situaciji. Nisi mi baš najja
 
 Dobro je što si ovo rekao, jer mislim da si pogodio dve stvari u centar.
 
-Prvo, mislim da sam napravio grešku u načinu na koji vodim ovo proučavanje.
+Prvo, mislim da sam napravio grešku u načinu na koji vodim ovo proučavanje. Mi smo se toliko fokusirali na pitanje **kako Frappe radi?** da smo izgubili pitanje koje je za programera mnogo važnije:
 
-Mi smo se toliko fokusirali na pitanje **kako Frappe radi?** da smo izgubili pitanje koje je za programera mnogo važnije:
-
-**Šta ja kao programer treba da koristim?**
+### Šta ja kao programer treba da koristim
 
 A to je zapravo ono zbog čega učiš Frappe.
 
@@ -26,7 +24,7 @@ Hajde da vratimo fokus**!
 
 Da sam danas seo pored nekoga ko tek uči Frappe, rekao bih mu da postoje četiri osnovna scenarija rada sa dokumentima.
 
-### Kreiranje novog dokumenta
+#### Kreiranje novog dokumenta
 
 **Koristiš**:
 
@@ -71,7 +69,7 @@ Na kraju oba završe sa:
 doc.insert()
 ```
 
-### Učitavanje postojećeg dokumenta
+#### Učitavanje postojećeg dokumenta
 
 **Koristiš:**
 
@@ -83,7 +81,7 @@ Ovo je potpuno druga priča.
 
 Ovde Frappe odlazi u bazu, pročita podatke i vrati objekat.
 
-### Brzo čitanje podataka
+#### Brzo čitanje podataka
 
 Ako ti ne treba ceo objekat:
 
@@ -103,11 +101,11 @@ Zato što je mnogo brže.
 
 Ne pravi `Document`, ne pokreće dodatnu logiku.
 
-### Direktan SQL
+#### Direktan SQL
 
 Tek kada ORM nije dovoljan.
 
-### Hijerarhija pristupa
+#### Hijerarhija pristupa
 
 Ja bih to danas nacrtao ovako:
 
@@ -133,7 +131,7 @@ Treba mi dokument?
                 └── get_doc({...})
 ```
 
-### Filozofija Frappea
+## Filozofija Frappea
 
 - sve je `Document`,
 - svaki `Document` ima `Meta`,
@@ -142,55 +140,6 @@ Treba mi dokument?
 - hook-ovi i događaji omogućavaju proširenje bez menjanja jezgra framework-a.
 
 To je već sasvim zaokružen model.
-
-</br>
-
-**Mislim da bih promenio i način rada**:
-
-Imam jedan predlog koji će, po mom mišljenju, biti mnogo korisniji za nastavak.
-
-Umesto da nastavimo da čitamo funkciju po funkciju, hajde da svaku novu temu počnemo pitanjem:
-
-"Šta programer želi da uradi?"
-
-Na primer:
-
-- Želim da napravim novi dokument.
-- Želim da učitam postojeći.
-- Želim da dodam red u child tabelu.
-- Želim da presretnem `save()`.
-- Želim da napravim svoj DocType.
-- Želim da napišem API.
-- Želim da napravim Workflow.
-  
-Tek onda ćemo pratiti kako Frappe to interno ostvaruje.
-  
-Mislim da ćeš tako mnogo lakše povezati API koji koristiš svaki dan sa kodom koji smo već proučili.
-  
-</br>
-
-**O Fazi 5**:
-
-Mislim da "Faza 5" više nije jedna tema. Ona već prirodno sadrži nekoliko poglavlja:
-
-- **5.1 Arhitektura Frappe-a**
-- **5.2 Kako nastaje `Document`**
-- **5.3 Rad sa DocType kontrolerima**
-- **5.4 Životni ciklus dokumenta**
-- **5.5 Hook-ovi i događaji**
-
-Ako ostane kao jedna celina od nekoliko hiljada linija, za šest meseci će i tebi biti teško da pronađeš ono što tražiš. Ako je razbiješ na manje logičke celine, dobićeš nešto što će zaista ličiti na lični priručnik za Frappe.
-
-I mislim da bi od sledećeg susreta trebalo da promenimo ugao gledanja:
-
-- prvo "šta kao programer radim"
-- pa tek onda kako Frappe to izvodi ispod haube.
-
-Mislim da si sada pogodio **pravo pitanje**. Zapravo, mislim da je ovo pitanje važnije od svega što smo do sada čitali.
-
-I da budem samokritičan: tu sam stvarno ostao nedorečen. Mi smo proučavali **mehanizam**, a nismo odgovorili na pitanje **"gde pišem svoj kod?"**
-
-To je ono što programera zanima.
 
 Hajde da zaboravimo na implementaciju na trenutak. Zamisli da praviš aplikaciju za servis računara.
 
@@ -361,54 +310,293 @@ Odgovor je: na više mesta, i svako ima svoju namenu.
                            └── Server Script
   ```
 
+... Prvo, hvala što si podelio repozitorijum. Pogledaću ga sa zadovoljstvom:
+
+[rrad0812/Frappe-framework na GitHub-u](https://github.com/rrad0812/Frappe-framework?utm_source=chatgpt.com)
+
+To mi je korisno iz dva razloga:
+
+- moći ću da vidim kako organizuješ beleške i dokumentaciju,
+- a još važnije, videću šta smo već obradili da ne bismo ponavljali ili preskakali stvari.
+
+Umesto da sledeću temu bude: "Hajde da čitamo `save()`.", predlažem da bude:
+
+### Kako izgleda razvoj jedne Frappe aplikacije iz ugla programera
+
+Drugim rečima, svaku temu ćemo posmatrati kroz tri pitanja:
+
+1. **Šta želim da uradim?**
+2. **Koji Frappe API koristim?**
+3. **Kada se izvršava moj kod?**
+
+Na primer, za dokumente:
+
+| Želim da...                            | Koristim                                       | Moj kod pišem u... |
+| -------------------------------------- | ---------------------------------------------- | ------------------ |
+| Napravim novi dokument                 | `frappe.new_doc()` ili `frappe.get_doc({...})` | Controller         |
+| Učitam postojeći                       | `frappe.get_doc()`                             | Controller         |
+| Reagujem na događaj drugog DocType-a   | `hooks.py` (`doc_events`)                      | Hook               |
+| Zamenim ponašanje postojećeg DocType-a | `override_doctype_class`                       | Novi Controller    |
+| Samo pročitam podatke                  | `frappe.db.get_value()`, `frappe.get_all()`    | Nema Controller-a  |
+
+Po mom mišljenju, ovakva tabela je vrednija za svakodnevni rad nego deset stranica analize `BaseDocument`.
+
+Na kraju prošlog razgovora došli smo do ovoga:  
+
+**Kada koristim Controller, a kada Hook?**
+
+Ja bih voleo da sledeću celinu posvetimo upravo tome, ali ne teorijski, nego kroz jedan konkretan primer.
+
+Recimo da pravimo DocType:
+
+```text
+Service Order
+```
+
+i onda rešavamo pitanja jedno po jedno:
+
+- Gde računam ukupnu cenu?
+- Gde proveravam da li je serijski broj obavezan?
+- Gde šaljem e-mail nakon `submit`?
+- Gde sinhronizujem podatke sa drugim sistemom?
+- Gde dodajem logiku ako ne smem da menjam ERPNext?
+
+Mislim da će posle takve vežbe razlika između **Controller-a**, **Hook-ova**, **Server Script-ova** i **Override-a** postati potpuno prirodna.
+
+### Prva velika ideja Frappe-a
+
+Ako bih morao da objasnim Frappe u jednoj rečenici, rekao bih:  
+
+Frappe je framework u kome se skoro sve vrti oko Document objekta i njegovog životnog ciklusa.
+
+Dakle, nije centar:
+
+- tabela,
+- SQL,
+- ORM,
+- ili HTTP.
+
+Centar je:
+
+```text
+Document
+```
+
+Sve ostalo se vrti oko njega.
+
 </br>
 
-### U kom trenutku izvršenja koda se šta poziva?
+**Kao programer, šta zapravo radiš?**
 
-E to je, po mom mišljenju, sledeća velika tema.
+Većinu vremena radićeš jednu od ovih stvari:
 
-Ne interesuje te samo gde pišeš kod.
+- **Praviš novi Document**
 
-Nego: **Kada će taj kod biti pozvan?**?
+  ```python
+  doc = frappe.new_doc("Customer")
+  doc.customer_name = "ABC"
+  doc.insert()
+  ```
+  
+  ili
+  
+  ```python
+  doc = frappe.get_doc({
+      "doctype": "Customer",
+      "customer_name": "ABC"
+  })
+  doc.insert()
+  ```
 
-Na primer, ako uradiš:
+</br>
+
+- **Menjaš postojeći**
+
+  ```python
+  doc = frappe.get_doc("Customer", "CUST-0001")
+  
+  doc.mobile_no = "064..."
+  
+  doc.save()
+  ```
+
+</br>
+
+- **Čitaš podatke**
+
+  ```python
+  frappe.get_all(...)
+  ```
+  
+  ili
+  
+  ```python
+  frappe.db.get_value(...)
+  ```
+
+</br>
+
+- **Reaguješ na događaje**
+
+  I ovde dolazimo do onoga što si pitao prošli put.
+
+  </br>
+
+  **Gde pišem kod?**
+  
+  Ja bih danas nacrtao ovu sliku.
+  
+  ```text
+                      Želim da napišem kod
+  
+                             │
+            ┌────────────────┴────────────────┐
+            │                                 │
+        Logika pripada                  Logika NE pripada
+        ovom DocType-u                 ovom DocType-u
+            │                                 │
+            ▼                                 ▼
+       Controller                        Hook
+  ```
+  
+  To je osnovno pravilo.
+  
+  </br>
+
+  **Primer**
+  
+  Napravio si DocType:
+  
+  ```text
+  Service Order
+  ```
+  
+  Sada postavimo nekoliko pitanja.
+  
+  </br>
+
+  - **Treba izračunati ukupnu cenu.**  
+    Gde? U:
+  
+    ```python
+    class ServiceOrder(Document):
+    ```
+  
+    Zašto? Jer je to **sastavni deo Service Order-a**.
+    Bez toga dokument nije ispravan.
+
+  </br>
+
+  - **Treba poslati e-mail**
+    Posle Submit-a.
+    Ovde već postoji dilema. Ako je slanje e-maila deo samog poslovnog procesa Service Order-a, može ići u kontroler.  Ali... Ako praviš aplikaciju koja šalje SMS za više različitih DocType-ova:
+
+    - Sales Invoice
+    - Purchase Invoice
+    - Service Order
+      onda je to već:
+
+      ```text
+      Hook
+      ```
+
+      Zašto? Jer više nije logika jednog dokumenta.
+      To je logika aplikacije.
+
+  </br>
+
+  - **Pravilo**
+    Controller odgovara na pitanje: **Kako se ponaša ovaj dokument?**.  
+    Hook odgovara na pitanje: **Šta moja aplikacija želi da uradi kada se nešto dogodi?**  
+
+  </br>
+
+  - **Jedan primer**
+  
+    **Controller:**
+
+    ```python
+    class ServiceOrder(Document):
+    
+        def validate(self):
+    
+            if self.total == 0:
+                frappe.throw(...)
+    ```
+
+    To je prirodno.
+
+    **Hook:**
+
+    ```python
+    doc_events = {
+    
+        "Service Order": {
+    
+            "on_submit": "my_app.sms.send_sms"
+    
+        }
+    
+    }
+    ```
+
+    Ovo nije deo dokumenta.
+
+    Ovo je dodatna funkcionalnost aplikacije.
+
+  </br>
+
+  - **A šta je Override?**
+
+    Override kaže: "Ne sviđa mi se postojeći kontroler."
+
+    Koristi moj.
+
+    To je ozbiljna intervencija.
+
+    Većina projekata ga koristi veoma retko.
+
+### Redosle evaulacije koda
+
+Do sada smo pratili:
+
+```text
+get_doc() -> get_controller() -> ...
+...
+```
+
+To je bilo korisno jednom. Ali više ne. Od sada ćemo pratiti:
+
+```text
+Programer napiše insert() -> 
+Framework pozove -> before_insert -> validate -> before_save -> SQL -> after_insert ->
+...
+```
+
+To je ono što programer zaista mora da zna.
+
+### Predlažem novu "Fazu 5"
+
+Ako bih sada organizovao nastavak našeg učenja, ona bi izgledala ovako:
+
+1. **Životni ciklus dokumenta** (insert, save, submit, cancel)
+2. **Controller metode** (šta radi koja i kada se poziva)
+3. **Hook-ovi** (kada ih koristiti umesto kontrolera)
+4. **Server Script** (kada je dovoljan, kada nije)
+5. **Override mehanizmi**
+6. **Klijent–server tok** (Desk → API → Document → DB → odgovor)
+
+## Za sledeći korak
+
+Ja bih već sledeći put uzeo **jedan jedini poziv**:
 
 ```python
 doc.insert()
 ```
 
-šta se desi?
+i odgovorio na pitanje koje si postavio pre nekoliko dana: **U kom trenutku izvršenja se šta poziva?**
 
-Otprilike:
-
-```text
-insert() -> before_insert -> before_validate -> validate -> before_save -> INSERT INTO database -> after_insert -> on_update -> on_change
-```
-
-**Napomena**: ovo je pojednostavljen redosled. Sledeći put ćemo ga proveriti u izvornom kodu i napraviti tačan dijagram.
-
-Mislim da je upravo taj redosled ono što će ti najviše koristiti u svakodnevnom radu.
-
-Jer tada više nećeš razmišljati: "Da li ovo ide u validate?" nego: "Treba mi da se izvrši pre nego što ode u bazu." ili "Treba mi da se izvrši samo kada je dokument prvi put napravljen."
-
-To je mnogo prirodniji način razmišljanja.
-
-### Moj predlog
-
-Mislim da je vreme da **prestanemo da pratimo sitne pomoćne metode** i da sledeću sesiju posvetimo jednoj temi:
-
-> **Kompletan životni ciklus jednog dokumenta.**
-
-Ne samo `save()`, nego:
-
-- kada se poziva svaki događaj,
-- kada se izvršava kontroler,
-- kada se izvršavaju hook-ovi,
-- kojim redosledom,
-- šta je bezbedno raditi u kom događaju,
-- i, što je meni najvažnije, kada kao programer biraš jedno mesto umesto drugog.
-
-Iskreno, mislim da će ti ta tema dati mnogo više praktičnog znanja nego narednih 500 linija `BaseDocument` koda. To je ono što ćeš koristiti svaki dan dok budeš razvijao Frappe aplikacije.
+Ne kroz teoriju, nego kroz tačan dijagram poziva. Mislim da će to biti jedna od najkorisnijih lekcija koje ćemo napraviti, jer ćeš posle nje tačno znati gde se piše koja vrsta logike i zašto.
 
 [Sadržaj][00]
 
