@@ -15,6 +15,8 @@
 - [10 Instanciranje klase DocType][10]
 - [11 Kako se koristi Frappe API][11]
 - [12 Živptni ciklus dokumenta][12]
+- [13 Eksperimenti - I][13]
+- [14 Eksperimenti - II][14]
 
 ---
 
@@ -30,3 +32,5 @@
 [10]: 10%20Instanciranje%20klase%20DocTypea.md
 [11]: 11%20Kako%20se%20koristi%20Frappe%20framework.md
 [12]: 12%20Životni%20ciklus%20dokumenta.md
+[13]: 13%20Eksperimenti%201.md
+[14]: 14%20Eksperimenti%202.md
