@@ -7,40 +7,6 @@
 
 Mislim da je vreme da prestanemo da gledamo pomoćne metode i da krenemo da pratimo jedan konkretan tok izvršavanja.
 
-Na primer:
-
-```py
-doc = frappe.get_doc("Customer", "CUST-0001")
-```
-
-To je savršena početna tačka.
-
-Od tog jednog poziva možemo pratiti:
-
-```txt
-get_doc() -> Document -> Meta -> Database -> SQL -> Python objekat
-```
-
-To je, po mom mišljenju, mnogo uzbudljivije nego da analiziramo metodu po metodu. Počećemo da pratimo kako Frappe "oživljava" jedan dokument iz baze, a usput ćemo prirodno nailaziti na `Document`, `Meta`, ORM i ostale ključne delove framework-a. Mislim da će ti se taj način proučavanja mnogo više dopasti, jer prati stvarni životni ciklus jednog dokumenta umesto strukture fajlova.
-
-E sada dolazimo do dela koji je meni bio "aha!" trenutak kada sam prvi put ozbiljno proučavao Frappe.
-
-Do sada smo gledali **strukturu**. Sada ćemo pratiti **izvršavanje**.
-
-</br>
-
-**Naš cilj!**
-
-Želimo da odgovorimo na jedno jedino pitanje:  
-
-Šta se tačno dogodi kada napišem:**
-
-```python
-doc = frappe.get_doc("Customer", "CUST-0001")
-```
-
-Ne zanima nas još SQL. Ne zanima nas još Desk. Samo ovaj jedan poziv.
-  
 **Gde se nalazi `get_doc`?**
 
 Prvo, razmisli logički.
@@ -51,29 +17,11 @@ Da si ti pisao Frappe, gde bi stavio funkciju koja se zove:
 frappe.get_doc(...)
 ```
 
-Da li u:
-
-```sh
-database/
-```
-
-ili
-
-```sh
-model/
-```
-
-ili
-
-```sh
-__init__.py
-```
+Da li u: `database/` ili `model/` ili `__init__.py`?
 
 Ja bih rekao: `frappe/__init__.py`
 
-Zašto?
-
-Zato što je korisnik poziva kao:
+Zašto? Zato što je korisnik poziva kao:
 
 ```python
 frappe.get_doc(...)
@@ -81,15 +29,15 @@ frappe.get_doc(...)
 
 To znači da mora biti izložena na nivou paketa `frappe`.
 
-Pošalji:
+> [!Note] AI Zahtev
+>
+> Pošalji:
+>
+> ```bash
+> grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
+> ```
   
-```bash
-grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
-```
-  
-  Ako je tamo, nećemo odmah čitati telo funkcije.
-  
-  Hoću prvo da vidimo koliko je velika.
+Nećemo odmah čitati telo funkcije. Hoću prvo da vidimo koliko je velika.
 
 Zašto? U velikim framework-ovima često postoji obrazac:
   
@@ -109,11 +57,7 @@ Drugim rečima, javni API je često veoma tanak sloj koji prosleđuje posao dalj
 
 Ako je tako i u Frappe-u, onda ćemo odmah pratiti gde nas vodi.
 
-</br>
-
-**Usput jedna zanimljiva stvar:**
-
-Već smo videli:
+Usput jedna zanimljiva stvar, već smo videli:
 
 ```python
 doc.meta
@@ -134,36 +78,33 @@ frappe.get_doc(...)
 Mene baš zanima da li će se i ovde ponoviti isti obrazac:
 
 ```py
-frappe.get_doc() -> model.get_doc() -> Document(...)
+frappe.get_doc() -> 
+model.get_doc()
 ```
 
 ili postoji još neki sloj između.
 
 To nećemo nagađati – proverićemo u kodu.
 
-Evo izlaza
-
-```sh
-radosav@frappe:~/frappe-bench/apps/frappe$ grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
-```
-
-```py
-1223:def get_document_cache_key(doctype: str, name: str):
-1269:def get_doc(document: "Document", /) -> "Document":
-1274:def get_doc(doctype: str, /) -> _SingleDocument:
-1280:def get_doc(doctype: str, name: str, /, *, for_update: bool | None = None) -> "Document":
-1286:def get_doc(**kwargs: dict) -> "_NewDocument":
-1293:def get_doc(documentdict: dict) -> "_NewDocument":
-1299:def get_doc(*args, **kwargs):
-1571:def get_doc_hooks():
-2299:def get_doctype_app(doctype):
-```
+> [!Info] Izlaz
+>
+> ```sh
+> grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
+> ```
+>
+> ```py
+> 1223:def get_document_cache_key(doctype: str, name: str):
+> 1269:def get_doc(document: "Document", /) -> "Document":
+> 1274:def get_doc(doctype: str, /) -> _SingleDocument:
+> 1280:def get_doc(doctype: str, name: str, /, *, for_update: bool | None = None) -> "Document":
+> 1286:def get_doc(**kwargs: dict) -> "_NewDocument":
+> 1293:def get_doc(documentdict: dict) -> "_NewDocument":
+> 1299:def get_doc(*args, **kwargs):
+> 1571:def get_doc_hooks():
+> 2299:def get_doctype_app(doctype):
+> ```
 
 I sada smo naišli na nešto veoma zanimljivo. Ovo je jedan od razloga zašto volim da se framework čita polako.
-
-</br>
-
-**Prvo što upada u oči**:
 
 Pogledaj ovo:
 
@@ -176,11 +117,7 @@ Pogledaj ovo:
 1299:def get_doc(*args, **kwargs):
 ```
 
-Prva reakcija je obično: "Kako može Python da ima šest funkcija sa istim imenom?".
-
-Odgovor je: ne može.
-
-Ovo nisu različite implementacije. One služe za **type hinting**.
+Prva reakcija je obično: "Kako može Python da ima šest funkcija sa istim imenom?". Odgovor je: ne može. Ovo nisu različite implementacije. One služe za **type hinting**.
 
 Pogledaj pažljivo poslednju:
 
@@ -221,11 +158,7 @@ vraća novi dokument.
 
 Dakle, ovo nije "preopterećenje funkcija" kao u C++ ili Javi, već način da se jednom implementacijom opiše više načina korišćenja.
 
-</br>
-
-**Ovo je lep primer zašto ne treba stati na prvi pogled**:
-
-Da smo samo preleteli fajl, mogli bismo pogrešno zaključiti da Python podržava overload.
+Ovo je lep primer zašto ne treba stati na prvi pogled, da smo samo preleteli fajl, mogli bismo pogrešno zaključiti da Python podržava overload.
 
 A zapravo podržava samo:
 
@@ -234,25 +167,23 @@ A zapravo podržava samo:
 
 Sada nas zanima samo jedna stvar
 
-Hoću da vidimo **pravu implementaciju**.
+Hoću da vidimo pravu implementaciju.
 
-Pošalji nekoliko linija oko nje:
+> [!Note] AI Zahtev
+>
+> Pošalji nekoliko linija oko nje:
+>
+> ```bash
+> sed -n '1299, 1315p' ~/frappe-bench/apps/frappe/frappe/__init__.py
+> ```
+>
+> Ako se poziv nastavlja dalje, slobodno i malo više, recimo:
+>
+> ```bash
+> sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
+> ```
 
-```bash
-sed -n '1299, 1315p' ~/frappe-bench/apps/frappe/frappe/__init__.py
-```
-
-Ako se poziv nastavlja dalje, slobodno i malo više, recimo:
-
-```bash
-sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
-```
-
-**Šta očekujem?**
-
-Imam hipotezu.
-
-Mislim da će implementacija biti veoma kratka.
+Šta očekujem? Imam hipotezu. Mislim da će implementacija biti veoma kratka.
 
 Nešto u stilu:
 
@@ -266,40 +197,38 @@ ili nešto veoma slično.
 
 Ako se to potvrdi, naučićemo još jednu važnu stvar o Frappe-u:
 
-- `frappe.__init__.py` je **javni API**,
+- `frappe.__init__.py` je javni API,
 - prava logika je smeštena u drugim modulima.
 
 To je obrazac koji ćeš verovatno viđati na mnogo mesta u Frappe-u.
 
-Evo izlaza
-
-```sh
-sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
-```
-
-```py
-def get_doc(*args, **kwargs):
-  """Return a `frappe.model.document.Document` object of the given type and name.
-
-  :param arg1: DocType name as string **or** document JSON.
-  :param arg2: [optional] Document name as string.
-
-  Examples:
-            # insert a new document
-          todo = frappe.get_doc({"doctype":"ToDo", "description": "test"})
-          todo.insert()
-            # open an existing document
-          todo = frappe.get_doc("ToDo", "TD0001")
-  """
-  import frappe.model.document
-  return frappe.model.document.get_doc(*args, **kwargs)
-```
+> [!Info] Izlaz
+>
+> ```sh
+> sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
+> ```
+>
+> ```py
+> def get_doc(*args, **kwargs):
+>   """Return a `frappe.model.document.Document` object of the given type and name.
+> 
+>   :param arg1: DocType name as string **or** document JSON.
+>   :param arg2: [optional] Document name as string.
+> 
+>   Examples:
+>             # insert a new document
+>           todo = frappe.get_doc({"doctype":"ToDo", "description": "test"})
+>           todo.insert()
+>             # open an existing document
+>           todo = frappe.get_doc("ToDo", "TD0001")
+>   """
+>   import frappe.model.document
+>   return frappe.model.document.get_doc(*args, **kwargs)
+> ```
 
 I sada mogu da ti pokažem jedan obrazac koji se ponavlja kroz ceo Frappe.
 
-</br>
-
-**Pogledaj koliko je funkcija mala**:
+Pogledaj koliko je funkcija mala:
 
 ```python
 def get_doc(*args, **kwargs):
@@ -315,7 +244,7 @@ Dakle... `frappe.get_doc()` ne radi gotovo ništa.
 
 Njegov posao je samo da kaže: "Idi u `frappe.model.document` i tamo odradi pravi posao."
 
-**Zašto ovako?**. Ovo je veoma lepo projektovanje. Zamisli da nije ovako. Morali bismo da pišemo:
+Zašto ovako?. Ovo je veoma lepo projektovanje. Zamisli da nije ovako. Morali bismo da pišemo:
   
 ```python
 from frappe.model.document import get_doc
@@ -341,27 +270,31 @@ To je mnogo prijatniji javni API.
 
 </br>
 
-**Ovo se zove "Facade"**:
+**Facade**:
 
-Ne znam da li si ranije nailazio na taj termin.
-
-U objektno orijentisanom projektovanju postoji obrazac:
+Ne znam da li si ranije nailazio na taj termin. U objektno orijentisanom projektovanju postoji obrazac:
 
 ```txt
-Korisnik -> Facade -> Komplikovan sistem
+Korisnik ->
+Facade ->
+Komplikovan sistem
 ```
 
 Ovde je:
 
 ```txt
-Programer -> frappe.get_doc() -> frappe.model.document.get_doc() -> Document -> Database
+Programer ->
+frappe.get_doc() ->
+frappe.model.document.get_doc() ->
+Document ->
+Database
 ```
 
 Programer vidi samo jednu funkciju.
 
 Sve ostalo je sakriveno.
 
-**A zašto `import` nije na vrhu fajla?**
+A zašto `import` nije na vrhu fajla?
 
 Ovo je još zanimljivije.
 
@@ -388,12 +321,16 @@ Zašto?
 
 </br>
 
-- **Hipoteza 1 — Izbegavanje kružnih zavisnosti**
+- Hipoteza 1 — Izbegavanje kružnih zavisnosti
 
   Zamisli:
 
   ```sh
-  __init__.py -> document.py -> base_document.py -> frappe -> __init__.py
+  __init__.py ->
+  document.py ->
+  base_document.py ->
+  frappe ->
+  __init__.py
   ```
 
   I odjednom:
@@ -406,14 +343,14 @@ Zašto?
 
 </br>
 
-- **Hipoteza 2 — Brže pokretanje**
+- Hipoteza 2 — Brže pokretanje
   
     Ako nikad ne pozoveš `get_doc()`, nikad se neće importovati `document.py`.
     To može malo ubrzati startovanje.
 
   </br>
 
-- **Koja hipoteza je tačna?**
+- Koja hipoteza je tačna?
 
   Ne znamo.
 
@@ -423,19 +360,21 @@ Zašto?
 
 </br>
 
-**Ono što smo upravo naučili**:
+Ono što smo upravo naučili:
 
 Već sada imamo malu mapu.
 
 ```txt
-Program -> frappe.get_doc() -> frappe.model.document.get_doc() -> ??? -> Document
+Program ->
+frappe.get_doc() ->
+frappe.model.document.get_doc() ->
+??? ->
+Document
 ```
 
 Sada treba da otkrijemo ono **???**
   
 </br>
-
-**Sledeći korak**:
 
 Sada više nema razloga da ostajemo u `__init__.py`.
 
@@ -447,11 +386,13 @@ frappe/model/document.py
 
 Hajde da pronađemo sledeću funkciju.
 
-Pošalji:
-
-```bash
-grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
-```
+> [!Note] AI Zahtev
+>
+> Pošalji:
+>
+> ```bash
+> grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
+> ```
 
 </br>
 
@@ -472,55 +413,44 @@ frappe.get_doc("System Settings")
 
 Pošalji izlaz, pa nastavljamo da pratimo tok izvršavanja korak po korak.
   
-Evo izlaza
-
-```sh
-grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
-```
-
-```py
-36:def get_doc(*args, **kwargs):
-```
+> [!Info] Izlaz
+>
+> Evo izlaza
+>
+> ```sh
+> grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
+> ```
+>
+> ```py
+> 36:def get_doc(*args, **kwargs):
+> ```
 
 Do sada smo radili ovako:
 
 ```py
-frappe.get_doc() -> frappe.model.document.get_doc()
+frappe.get_doc() ->
+frappe.model.document.get_doc()
 ```
 
-To je bilo lako.
-
-Sada prvi put ulazimo u pravi kod.
-
-I ovde želim da uvedem jedno pravilo koje sam naučio čitajući velike projekte.
-
-**Ne analiziramo funkciju po imenu. Analiziramo njeno telo.**
-
-Zato sada više nije dovoljno da znamo da postoji `get_doc()`.
+Sada više nije dovoljno da znamo da postoji `get_doc()`.
 
 Moramo videti šta radi.
 
-</br>
+> [!Note] Ai Zahtev
+>
+> Pošalji prvih dvadesetak-tridesetak linija te funkcije:
+>
+> ```bash
+> sed -n '36,70p' ~/frappe-bench/apps/frappe/frappe/model/document.py
+> ```
+>
+> Ako se vidi da je funkcija duža, možemo proširiti na:
+>
+> ```bash
+> sed -n '36,90p' ~/frappe-bench/apps/frappe/frappe/model/document.py
+> ```
 
-**Sledeći korak**:
-
-Pošalji prvih dvadesetak-tridesetak linija te funkcije:
-
-```bash
-sed -n '36,70p' ~/frappe-bench/apps/frappe/frappe/model/document.py
-```
-
-Ako se vidi da je funkcija duža, možemo proširiti na:
-
-```bash
-sed -n '36,90p' ~/frappe-bench/apps/frappe/frappe/model/document.py
-```
-
-Nemoj više od toga za sada.
-
-**Zašto baš toliko?**
-
-Zato što očekujem da ćemo vrlo brzo naići na neku od sledećih stvari:
+Zašto baš toliko? Zato što očekujem da ćemo vrlo brzo naići na neku od sledećih stvari:
 
 - `match` (Python 3.10+),
 - `if isinstance(...)`,
@@ -531,9 +461,11 @@ To će nam objasniti kako jedna funkcija uspeva da podrži toliko različitih na
   
 Evo izlaza
 
-```py
+```sh
 sed -n '36,90p' ~/frappe-bench/apps/frappe/frappe/model/document.py
+```
 
+```py
 def get_doc(*args, **kwargs):
   """returns a frappe.model.Document object.
 
@@ -592,10 +524,6 @@ Sada smo konačno stigli do mesta gde Frappe počinje da pokazuje svoju filozofi
 
 Hajde da ga pročitamo kao da smo autori Frappe-a.
 
-</br>
-
-**Prvi utisak**:
-
 Mene je odmah iznenadilo nešto.
 
 `get_doc()` uopšte ne učitava dokument iz baze.
@@ -614,126 +542,107 @@ Ja bih je nazvao:
 
 </br>
 
-- **Fabrika (Factory)**
-  
-  Ona ne pravi SQL.  Ona odlučuje:
+**Fabrika (Factory)**:
 
-  "Koju klasu treba napraviti?"
-  
-  Hajde redom
-  
-  </br>
-  
-  - **Prvi slučaj**
-  
-    ```py
-    if isinstance(args[0], BaseDocument):
-      return args[0]
-    ```
-  
-    Ako joj pošalješ već gotov dokument:
-  
-    ```py
-    doc = frappe.get_doc(existing_doc)
-    ˙˙˙
-    ```
-  
-    ona kaže: "Već imaš Document." i vrati ga.
-  
-    To je elegantno.
-  
-  </br>
-  
-  - **Drugi slučaj**
+Ona ne pravi SQL.  Ona odlučuje: "Koju klasu treba napraviti?"
 
-    ```py
-    elif isinstance(args[0], str):
-        doctype = args[0]
-    ```
-  
-    Ovo je najčešći poziv.
-  
-    Na primer:
-  
-    ```py
-    frappe.get_doc("Customer", "CUST-0001")
-    ```
-  
-    Ovde samo zapamti:
-  
-    ```py
-    doctype = "Customer"
-    ```
-  
-    Još ništa nije učitano.
-  
-  </br>
-  
-  - **Treći slučaj**
+Hajdemo redom
 
-    ```py
-    elif isinstance(args[0], dict):
-    ```
+</br>
+
+- **Prvi slučaj**
+
+  ```py
+  if isinstance(args[0], BaseDocument):
+    return args[0]
+  ```
+
+  Ako joj pošalješ već gotov dokument:
+
+  ```py
+  doc = frappe.get_doc(existing_doc)
+  ˙˙˙
+  ```
+
+  ona kaže: "Već imaš Document." i vrati ga.
+
+  To je elegantno.
+
+</br>
+
+- **Drugi slučaj**
   
-    Ovde praviš novi dokument.
+  ```py
+  elif isinstance(args[0], str):
+      doctype = args[0]
+  ```
+
+  Ovo je najčešći poziv.
+
+  Na primer:
+
+  ```py
+  frappe.get_doc("Customer", "CUST-0001")
+  ```
+
+  Ovde samo zapamti:
+
+  ```py
+  doctype = "Customer"
+  ```
+
+  Još ništa nije učitano.
+
+</br>
+
+- **Treći slučaj**
   
-    Na primer:
+  ```py
+  elif isinstance(args[0], dict):
+  ```
+
+  Ovde praviš novi dokument.
+
+  Na primer:
+
+  ```py
+  frappe.get_doc({
+      "doctype": "Customer",
+      "customer_name": "Marko"
+  })
+  ```
+
+  Dakle ista funkcija podržava i:
+  - otvaranje postojećeg,
+  - pravljenje novog.
+  A onda... Dolazimo do najvažnije linije.
+
+  ```py
+  controller = get_controller(doctype)
+  ```
   
-    ```py
-    frappe.get_doc({
-        "doctype": "Customer",
-        "customer_name": "Marko"
-    })
-    ```
+  Po meni, ovo je ključ cele funkcije.
   
-    Dakle ista funkcija podržava i:
+  Jer odjednom više nije važno:
 
-    - otvaranje postojećeg,
-    - pravljenje novog.
+  - da li je dokument novi,
+  - da li dolazi iz baze,
+  - da li je Customer,
+  - da li je Item.
 
-    A onda... Dolazimo do najvažnije linije.
-
-    ```py
-    controller = get_controller(doctype)
-    ```
-
-    Po meni, ovo je ključ cele funkcije.
-
-    Jer odjednom više nije važno:
-
-    - da li je dokument novi,
-    - da li dolazi iz baze,
-    - da li je Customer,
-    - da li je Item.
-
-    Sve se svodi na jedno pitanje: Ko upravlja ovim DocType-om?
+  Sve se svodi na jedno pitanje: Ko upravlja ovim DocType-om?
   
 </br>
 
 ### Controller
   
-Ovde moram da napravim malu pauzu.
-
-Jer reč `controller` može da zavara.
-
-Ako dolaziš iz MVC sveta, očekuješ:
-
-- Model
-- View
-- Controller
-
-Ali ovde to nije to. Ovde je "controller" zapravo Python klasa koja predstavlja taj DocType.
+"Controller" je zapravo Python klasa koja predstavlja taj DocType.
 
 Na primer:
 
 ```txt
-Customer -> Customer(Document)
-```
-
-ili
-
-```txt
-User -> User(Document)
+Customer
+Customer(Document)
 ```
 
 Ako takva klasa postoji. Ako ne... videćemo šta Frappe radi.
@@ -744,20 +653,21 @@ Pogledaj završetak funkcije.
 return controller(*args, **kwargs)
 ```
 
-Ovo je fantastično.
-
-Ne piše:
+Ovo je fantastično. Ne piše:
 
 - `Customer(...)`.
 - `User(...)`.
 - `Task(...)`.
 
-Nego: `controller(...)`
+Nego: `controller(...)`.
 
 Drugim rečima:
 
 ```py
-get_doc() -> get_controller() -> ??? -> pozovi klasu
+    get_doc() ->
+    get_controller() ->
+    ??? ->
+    pozovi klasu
 ```
 
 To je čisti **Factory Pattern**.
@@ -769,38 +679,31 @@ To je čisti **Factory Pattern**.
 Sećaš se kada smo govorili:
 
 ```txt
-DocType -> Meta -> Document
+    DocType ->
+    Meta ->
+    Document
 ```
 
 Sada možemo malo da dopunimo dijagram.
 
 ```txt
-frappe.get_doc() -> document.get_doc() -> get_controller() -> ??? -> Document(...)
+    frappe.get_doc() ->
+    document.get_doc() ->
+    get_controller() ->
+    ??? ->
+    Document(...)
 ```
 
 Odgovor na ono veliko ??? krije se upravo u `get_controller()`.
   
-</br>
-
-**I evo pitanja koje sada možemo postaviti**:
-  
-Ako napišem: `frappe.get_doc("Customer")` kako `get_controller()` zna da vrati baš: "Customer" a ne: "User" ili: "Task".
+I evo pitanja koje sada možemo postaviti: "Ako napišem: `frappe.get_doc("Customer")` kako `get_controller()` zna da vrati baš: "Customer" a ne: "User" ili: "Task".
 
 I još važnije... Šta ako "Customer.py" uopšte ne postoji?
 
 To je upravo ono po čemu je Frappe poseban.
   
-</br>
-
-**Moj predlog**:
-  
-Mislim da je sledeći korak potpuno prirodan.  
-
-Nemojmo još otvarati Document.  
-
-Nemojmo još gledati SQL.  
-
-Pratimo ovu jednu liniju:
+Mislim da je sledeći korak potpuno prirodan. Nemojmo još otvarati Document.  
+Nemojmo još gledati SQL. Pratimo ovu jednu liniju:
 
 ```py
 controller = get_controller(doctype)
@@ -808,38 +711,42 @@ controller = get_controller(doctype)
 
 Pošto smo je već videli u `base_document.py`, sada ćemo konačno razumeti njenu ulogu.
 
-Pošalji:
-
-```sh
-grep -A 50 "^def get_controller" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
+> [!Note] AI Zahtev
+>
+> Pošalji:
+>
+> ```sh
+> grep -A 50 "^def get_controller" ~/frappe-bench/apps/frappe/frappe/model/
+> base_document.py
+> ```
 
 Nemoj se uplašiti ako bude malo duža. To je verovatno jedna od najvažnijih funkcija u celom mehanizmu Frappe-a, jer ona predstavlja most između naziva DocType-a (običnog stringa poput "Customer") i Python klase koja će na kraju biti instancirana.
   
-Evo izlaza:
-
-```sh
-grep -A 50 "^def get_controller" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
-
-```py
-def get_controller(doctype):
-  """
-  Returns the locally cached **class** object of the given DocType.
-  For `custom` type, returns `frappe.model.document.Document`.
-
-  :param doctype: DocType name as string.
-  """
-
-  if frappe.local.dev_server or frappe.flags.in_migrate:
-    return import_controller(doctype)
-
-  site_controllers = frappe.controllers.setdefault(frappe.local.site, {})
-  if doctype not in site_controllers:
-    site_controllers[doctype] = import_controller(doctype)
-
-  return site_controllers[doctype]
-```
+> [!Info] Izlaz
+>
+> ```sh
+> grep -A 50 "^def get_controller" ~/frappe-bench/apps/frappe/frappe/model/
+> base_document.py
+> ```
+>
+>```py
+>def get_controller(doctype):
+>  """
+>  Returns the locally cached **class** object of the given DocType.
+>  For `custom` type, returns `frappe.model.document.Document`.
+>
+>  :param doctype: DocType name as string.
+>  """
+>
+>  if frappe.local.dev_server or frappe.flags.in_migrate:
+>    return import_controller(doctype)
+>
+>  site_controllers = frappe.controllers.setdefault(frappe.local.site, {})
+>  if doctype not in site_controllers:
+>    site_controllers[doctype] = import_controller(doctype)
+>
+>  return site_controllers[doctype]
+>```
 
 I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videli. Nije velika, ali otkriva dosta o arhitekturi Frappe-a.
 
@@ -863,7 +770,7 @@ I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videl
   
   nego: **class object**.
   
-  To znači da ova funkcija ne vraća Customer.
+  To znači da ova funkcija ne vraća Customer objekat.
 
   Ona vraća:
   
@@ -871,9 +778,7 @@ I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videl
   Customer
   ```
   
-  odnosno samu **klasu**.
-  
-  To je ogromna razlika.
+  odnosno sam objekat klase. To je ogromna razlika.
   
   Dakle... Do sada smo imali:
   
@@ -890,7 +795,7 @@ I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videl
   ili možda:
   
   ```py
-  controller == Document
+  controller == Document # Zato što je Customer nasleđen iz Document
   ```
   
   zavisno od DocType-a.
@@ -934,10 +839,7 @@ I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videl
 
     Ne koristi keš.
 
-    Zašto?
-
-    Jer u development-u menjaš kod. Ako bi klasa ostala keširana...  menjaš fajl... a Frappe i dalje koristi staru klasu.  
-    To bi bilo veoma frustrirajuće.
+    Zašto? Jer u development-u menjaš kod. Ako bi klasa ostala keširana...  menjaš fajl... a Frappe i dalje koristi staru klasu. To bi bilo veoma frustrirajuće.
 
 </br>
 
@@ -974,29 +876,25 @@ I moram da kažem – ovo je jedna od najlepših funkcija koje smo do sada videl
 
   Dakle... **keš nije globalan.**. Keš je: **po sajtu**.
 
-  To ima potpuno smisla.
+  To ima potpuno smisla. Jer dva sajta mogu imati različite aplikacije.
 
-  Jer dva sajta mogu imati različite aplikacije.
-
-Evo kako ja to zamišljam:
-
-Negde u memoriji postoji nešto ovako:
-
-```python
-controllers = {
-    "site1.local": {
-        "Customer": Customer,
-        "Item": Item,
-        "User": User,
-    },
-
-    "companyB": {
-        "Customer": Customer,
-        "Vehicle": Vehicle,
-    }
-
-}
-```
+  Evo kako ja to zamišljam:
+  
+  Negde u memoriji postoji nešto ovako:
+  
+  ```python
+  controllers = {
+      "site1.local": {
+          "Customer": Customer,
+          "Item": Item,
+          "User": User,
+      },
+      "companyB": {
+          "Customer": Customer,
+          "Vehicle": Vehicle,
+      }
+  }
+  ```
 
 Naravno, pojednostavljeno, ali mislim da je mentalni model dobar.
   
@@ -1039,41 +937,32 @@ Naravno, pojednostavljeno, ali mislim da je mentalni model dobar.
 
 </br>
 
-**Hajde da zastanemo na trenutak**:
-
 Voleo bih da obratiš pažnju na nešto.
 
 Pre desetak koraka imali smo dijagram:
 
 ```txt
-get_doc() -> Document
+    get_doc() -> 
+    Document
 ```
 
 Sada je on postao mnogo precizniji.
 
 ```txt
-get_doc() -> get_controller() -> import_controller() -> Python class -> Document instance
+    get_doc() ->
+    get_controller() ->
+    import_controller() ->
+    Python class ->
+    Document instance
 ```
 
-Primećuješ?
-
-Naš mentalni model postaje sve detaljniji.
-
-Ne zato što učimo napamet funkcije, nego zato što svaku "crnu kutiju" polako otvaramo.
-
-</br>
-
-**Još jedna stvar koju želim da naglasim**:
+Primećuješ? Naš mentalni model postaje sve detaljniji. Ne zato što učimo napamet funkcije, nego zato što svaku "crnu kutiju" polako otvaramo.
 
 Pogledaj kako je funkcija napisana. Nema 200 linija. Nema ogromnog `if`. Nema SQL-a. Radi samo jednu stvar: "Pronađi odgovarajuću klasu i keširaj je."
 
 To je odličan primer principa **Single Responsibility Principle (SRP)** iz SOLID-a.
 
 Zato je lako razumeti šta radi i lako je testirati.
-  
-</br>
-
-**Moj predlog za nastavak**:
 
 Mislim da smo sada došli do mesta gde treba otvoriti poslednju "crnu kutiju":
 
@@ -1088,7 +977,13 @@ Do sada smo pratili izvršavanje. Sada bih voleo da na trenutak stanemo i nacrta
 Zašto? Zato što smo već sakupili dovoljno delova slagalice da možemo da vidimo celu sliku:
 
 ```txt
-Program -> frappe.get_doc(...) -> frappe.model.document.get_doc(...) -> get_controller(doctype) -> import_controller(doctype) -> Python klasa -> Instanca Document
+    Program ->
+    frappe.get_doc(...) ->
+    frappe.model.document.get_doc(...) ->
+    get_controller(doctype) ->
+    import_controller(doctype) ->
+    Python klasa ->
+    Instanca Document
 ```
 
 Mislim da je to dobar trenutak da zastanemo, proverimo da li nam je model jasan i tek onda otvorimo `import_controller()`, jer sumnjam da će baš tamo početi priča o tome:
@@ -1106,12 +1001,6 @@ doc = frappe.get_doc(...)
 pokrene pola framework-a.
 
 Sada već imamo kontinuitet, pa idemo dalje.
-
-</br>
-
-**Nastavljamo dalje**:  
-
-Gde smo stali? Na ovome:
 
 ```python
 def get_doc(*args, **kwargs):
@@ -1139,133 +1028,64 @@ Dakle sada ulazimo u poslednju "crnu kutiju".
 
 **Šta očekujem od `import_controller()`?**  
 
-Pre nego što pogledamo kod, hajde da razmišljamo.
-
-Ako dobije:
-
-```python
-doctype = "Customer"
-```
-
-mora nekako da odgovori na pitanje:
-
-> Gde se nalazi Python kod za Customer?
-
-Po meni ima nekoliko mogućnosti.
-
-Na primer:
+Očekujem da radi otprilike ovo:
 
 ```sh
-apps/erpnext/selling/doctype/customer/customer.py
+DocType ->
+Kojoj aplikaciji pripada? ->
+Koji modul? ->
+Import Python modula ->
+Nađi klasu ->
+Vrati klasu
 ```
-
-ili
-
-```sh
-apps/my_app/my_app/doctype/customer/customer.py
-```
-
-ili...
-
-ako ne postoji:
-
-```sh
-Document
-```
-
-Drugim rečima, očekujem da radi otprilike ovo:
-
-```sh
-DocType -> Kojoj aplikaciji pripada? -> Koji modul? -> Import Python modula -> Nađi klasu -> Vrati klasu
-```
-
-Da li sam u pravu?
-
-Ne znam.
-
-Ali ćemo proveriti.
-
-</br>
-
-**Ono što me posebno zanima**:  
-Sećaš se kada si rekao: "Nema klasa koje definišu Item."
-
-E, ovde očekujem najveću razliku između Jam.py i Frappe.
-
-Mislim da će Frappe pokušati:
-
-```sh
-Customer.py
-```
-
-i ako postoji:
-
-```sh
-class Customer(Document)
-```
-
-koristi nju.
-
-Ako ne postoji...
-
-verovatno vrati običan:
-
-```sh
-Document
-```
-
-Ako se to potvrdi, onda Frappe ima veoma zanimljiv kompromis:
-
-```sh
-100% metadata + opciona Python logika
-```
-
-Što je, po mom mišljenju, veoma elegantno.
 
 </br>
 
 **Hajde sada da proverimo**  
 
-Pošalji izlaz:
-
-```bash
-grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
-
-Ako funkcija bude duža od 80 linija, nema veze. Pročitaćemo je u delovima.
+> [!Note] AI Zahtev
+>
+> Pošalji izlaz:
+>
+> ```bash
+> grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/
+> base_document.py
+> ```
 
 </br>
 
-Evo izlaza
-
-```sh
-grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
-  
-```py
-def import_controller(doctype):
-  from frappe.model.document import Document
-  from frappe.utils.nestedset import NestedSet
-
-  module_name = "Core"
-  if doctype not in DOCTYPES_FOR_DOCTYPE:
-    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
-    if doctype_info:
-      if doctype_info.custom:
-        return NestedSet if doctype_info.is_tree else Document
-      module_name = doctype_info.module
-
-  module_path = None
-  class_overrides = frappe.get_hooks("override_doctype_class")
-  if class_overrides and class_overrides.get(doctype):
-    import_path = class_overrides[doctype][-1]
-    module_path, classname = import_path.rsplit(".", 1)
-    module = frappe.get_module(module_path)
-
-  else:
-    module = load_doctype_module(doctype, module_name)
-    classname = doctype.replace(" ", "").replace("-", "")
-```
+> [!Info] Izlaz
+>
+> ```sh
+> grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/
+> base_document.py
+> ```
+>
+> ```py
+> def import_controller(doctype):
+>   from frappe.model.document import Document
+>   from frappe.utils.nestedset import NestedSet
+> 
+>   module_name = "Core"
+>   if doctype not in DOCTYPES_FOR_DOCTYPE:
+>     doctype_info = frappe.db.get_value("DocType", doctype, ("module", 
+>        "custom", "is_tree"), as_dict=True)
+>     if doctype_info:
+>       if doctype_info.custom:
+>         return NestedSet if doctype_info.is_tree else Document
+>       module_name = doctype_info.module
+> 
+>   module_path = None
+>   class_overrides = frappe.get_hooks("override_doctype_class")
+>   if class_overrides and class_overrides.get(doctype):
+>     import_path = class_overrides[doctype][-1]
+>     module_path, classname = import_path.rsplit(".", 1)
+>     module = frappe.get_module(module_path)
+> 
+>   else:
+>     module = load_doctype_module(doctype, module_name)
+>     classname = doctype.replace(" ", "").replace("-", "")
+> ```
 
 </br>
 
@@ -1274,7 +1094,10 @@ def import_controller(doctype):
   Ja sam očekivao nešto poput:
   
   ```text
-  DocType -> nađi modul -> import -> vrati klasu
+  DocType ->
+  nađi modul ->
+  import ->
+  vrati klasu
   ```
   
   Ali Frappe radi još nekoliko veoma zanimljivih stvari usput.
@@ -1477,18 +1300,20 @@ To čuva konzistentnost celog framework-a.
 Ako pogledamo ceo tok koji smo do sada ispratili, to izgleda ovako:
 
 ```text
-frappe.get_doc(...) -> document.get_doc(...) -> get_controller(doctype) -> (import iz keša ili import_controller) -> DocType tabela  -> prvi odlazak u bazu ->
+frappe.get_doc(...) ->
+document.get_doc(...) ->
+get_controller(doctype) ->
+(import iz keša ili import_controller) ->
+DocType tabela  -> prvi odlazak u bazu ->
     | -> custom -> Document          |\
     |-> hook overide? -> druga klasa |  ->
     |-> load_doctype_module          |/
--> getattr(...) -> Python klasa -> controller(*args)
+getattr(...) -> Python klasa -> controller(*args)
 ```
 
 Po mom mišljenju, ovo je jedan od najvažnijih dijagrama koje smo do sada napravili.
 
-</br>
-
-**Frappe** kaže:
+Frappe kaže:
 
 - za **custom DocType** → meta model je dovoljan (`Document`),
 - za **standardne ili naprednije DocType-ove** → možeš dodati Python kontroler,
@@ -1496,13 +1321,9 @@ Po mom mišljenju, ovo je jedan od najvažnijih dijagrama koje smo do sada napra
 
 To nije bolji ili lošiji pristup — to je drugačiji kompromis između fleksibilnosti i jednostavnosti.
 
-</br>
-
-**Predlog za sledeći korak**:
-
 Mislim da smo završili jednu veliku celinu.
 
-Prešli smo put od javnog API-ja do trenutka kada Frappe dobije **odgovarajuću Python klasu**.
+Prešli smo put od javnog API-ja do trenutka kada Frappe dobije odgovarajuću Python klasu.
 
 Po mom mišljenju, sada ne treba odmah da skočimo na `save()`.
 

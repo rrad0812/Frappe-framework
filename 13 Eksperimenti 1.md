@@ -6,7 +6,7 @@
 
 Mislim da je ovo odličan trenutak da promenimo perspektivu.
 
-Do sada smo radili ono što radi vrlo malo ljudi – čitali smo izvorni kod Frappe-a i pratili kako se izvršava `Document`. To je bilo korisno jer sada znaš **zašto** se nešto dešava, a ne samo **šta** se dešava.
+Do sada smo radili ono što radi vrlo malo ljudi – čitali smo izvorni kod Frappe-a i pratili kako se izvršava `Document`. To je bilo korisno jer sada znaš zašto se nešto dešava, a ne samo šta se dešava.
 
 Sada je mnogo korisnije da krenemo "odozgo nadole":
 
@@ -23,6 +23,7 @@ Ja bih je malo proširio.
 #### Faza 6.1 — Napraviti sopstveni DocType
 
 Napravićemo novu aplikaciju (ako već nemaš neku za eksperimente) ili ćemo koristiti postojeću.
+
 Napravićemo:
 
 ```txt
@@ -183,7 +184,12 @@ Sada će svaka metoda koju smo ranije čitali imati konkretan smisao.
 Na primer:
 
 ```txt
-insert() -> run_method("before_insert") -> run_before_save_methods() - > _validate() -> db_insert() -> run_method("after_insert")
+    insert() ->
+    run_method("before_insert") ->
+    run_before_save_methods() - >
+    _validate() ->
+    db_insert() ->
+    run_method("after_insert")
 ```
 
 To više neće biti samo kod koji smo pročitali, već nešto što smo videli kako radi u praksi.
@@ -275,7 +281,7 @@ Pošto si već dosta upoznao unutrašnjost Frappe-a, mislim da od ovog trenutka 
 
 Radije bih radio ovako:
 
-1. objasnim **zašto** nešto radimo,
+1. objasnim zašto nešto radimo,
 2. dam jednu ili dve komande,
 3. ti izvršiš,
 4. pogledamo rezultat,
@@ -298,9 +304,9 @@ Dobro, ali sam mislio da ćeš da mi kažeš kako da prebacim frappe u dev mode!
 
 Toliko sam razmišljao o planu da sam preskočio ono što si zapravo pitao.
 
-Međutim, tu postoji jedna važna stvar kod Frappe-a: **"development mode" nije osobina Bench-a, već pojedinačnog Site-a.**
+Međutim, tu postoji jedna važna stvar kod Frappe-a: "development mode" nije osobina Bench-a, već pojedinačnog Site-a.
 
-Dakle, ne prebacuješ **bench** u development mode, već **`site1.local`**.
+Dakle, ne prebacuješ bench u development mode, već `site1.local`.
 
 Najpre proveri trenutno stanje:
 
@@ -390,7 +396,7 @@ Ne zbog `print()` funkcije, već zato što developer mode omogućava stvari koje
 
 Dakle, ja bih ga uključio pre nego što napravimo našu prvu aplikaciju.
 
-Usput, predlažem da odmah na početku Faze 6 uradimo i jednu malu proveru: pogledaćemo zajedno **šta se konkretno menja kada je `developer_mode = 1`**, a šta ostaje potpuno isto. To je jedna od onih stvari koje se često pogrešno razumeju kod Frappe-a, pa vredi da razjasnimo pre nego što nastavimo.
+Usput, predlažem da odmah na početku Faze 6 uradimo i jednu malu proveru: pogledaćemo zajedno šta se konkretno menja kada je `developer_mode = 1`, a šta ostaje potpuno isto. To je jedna od onih stvari koje se često pogrešno razumeju kod Frappe-a, pa vredi da razjasnimo pre nego što nastavimo.
 
 ---
 
@@ -413,9 +419,7 @@ Ideja?
 
 ---
 
-Problem je vrlo verovatno u nazivu aplikacije.
-
-**Hajde prvo da utvrdimo šta je Bench zaista napravio**:
+Problem je vrlo verovatno u nazivu aplikacije. Hajde prvo da utvrdimo šta je Bench zaista napravio:
 
 Pošalji izlaz sledećih komandi.
 
@@ -425,16 +429,13 @@ ls -l ~/frappe-bench/apps
 
 </br>
 
-**Šta Bench vidi kao instalirane aplikacije**:
+Šta Bench vidi kao instalirane aplikacije:
 
 ```bash
 bench version
 ```
 
----
-
-U pravu si, napravio sam je kao frappe_lab.
-Uspešno sam je poveza0 sa site1.local posle
+U pravu si, napravio sam je kao frappe_lab. Uspešno sam je poveza0 sa site1.local posle
 
 `bench --site site1.local install-app frappe_lab`
 
@@ -442,7 +443,7 @@ Uspešno sam je poveza0 sa site1.local posle
 
 Razlog je jednostavan:
 
-* **Naziv direktorijuma / Python paketa** mora biti validan Python identifikator, dakle:
+* Naziv direktorijuma / Python paketa mora biti validan Python identifikator, dakle:
 
   ```text
   frappe_lab
@@ -454,7 +455,7 @@ Razlog je jednostavan:
   bench --site site1.local install-app ...
   ```
 
-  **uvek** koristiš Python naziv aplikacije, a ne "lep" naziv sa crticama.
+  uvek koristiš Python naziv aplikacije, a ne "lep" naziv sa crticama.
 
 Iz traceback-a se lepo videlo:
 
@@ -464,9 +465,7 @@ importlib.import_module("frappe-lab.hooks")
 
 što Python nikada ne može da učita, jer `frappe-lab` nije validan naziv modula.
 
-**Gde smo sada?**
-
-Po mom mišljenju, upravo smo završili ono što bih nazvao **Faza 6.0**:
+Po mom mišljenju, upravo smo završili ono što bih nazvao Faza 6.0:
 
 * ✅ `developer_mode = 1`
 * ✅ napravljena aplikacija `frappe_lab`
@@ -474,9 +473,7 @@ Po mom mišljenju, upravo smo završili ono što bih nazvao **Faza 6.0**:
 
 To je odlična polazna tačka.
 
-**Sledeći korak**:
-
-Ja **ne bih odmah pravio DocType**. Pre toga bih voleo da upoznaš strukturu aplikacije koju je Bench napravio.
+Ja ne bih odmah pravio DocType. Pre toga bih voleo da upoznaš strukturu aplikacije koju je Bench napravio.
 
 Dakle, da odgovorimo na pitanja:
 
@@ -726,7 +723,7 @@ Blizu si, ali treći nije baš to.
 
 * **Zašto je ovo urađeno ovako?**
 
-  Zato što: **jedna aplikacija** može imati **više Frappe modula**.
+  Zato što jedna aplikacija može imati više Frappe modula.
   
   Na primer ERPNext je jedna aplikacija, ali ima module:
   
@@ -1171,6 +1168,210 @@ Zato se ponekad čini da je "sve u bazi", a fajlovi na disku samo prate ono što
 Mislim da sada možemo da zatvorimo ovu temu. Ne zato što smo iscrpeli sve detalje, već zato što sada imaš ispravan mentalni model. A to je mnogo važnije od pamćenja komandi.
 
 I usput, hvala što si me "naterao" da usporim. Tvoja pitanja su pokazala gde objašnjenje nije bilo dovoljno precizno. Mislim da će nam to koristiti u nastavku kada budemo pratili kako jedan `Book` DocType nastaje od zapisa u bazi do Python klase i na kraju do izvršavanja `Document` metoda.
+
+Mislim da je sada pravi trenutak da krenemo da **pravimo nešto**, a ne da filozofiramo.
+
+</br>
+
+### Proverimo Module Def
+
+Pošto u `modules.txt` imaš:
+
+```text
+Frappe Lab
+```
+
+proverimo da li postoji i na sajtu (što si već potvrdio):
+
+```python
+frappe.get_all("Module Def", fields=["name", "app_name"])
+```
+
+Postoji. ✔
+
+To znači da možemo da koristimo modul **Frappe Lab**.
+
+### Napravi prvi DocType
+
+Uradi u Desk-u:
+
+***Developer → DocType → New***
+
+Popuni:
+
+* **Module:** `Frappe Lab` -  Da bi DocType bio u tom modulu
+* **Name:** `Book`
+* **Custom:** ❌ (isključeno)
+* **Is Submittable:** ❌
+* **Is Single:** ❌
+
+Dodaj samo dva polja:
+
+| Label | Type     |
+| ----- | -------- |
+| Title | Data     |
+| Price | Currency |
+
+Sačuvaj.
+
+Pošalji mi izlaz:
+
+```bash
+tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
+```
+
+Hoću da vidiš : "šta je Frappe upravo napravio na disku".
+
+To će biti naš prvi pravi susret sa vezom: "DocType u bazi ↔ Python fajlovi ↔ JSON definicija".
+
+I odatle krećemo na lifecycle eksperimente. Mislim da će od tog trenutka sve postati mnogo konkretnije.
+
+---
+
+Evo izlaza
+
+```sh
+tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
+```
+
+```sh
+/home/radosav/frappe-bench/apps/frappe_lab/frappe_lab
+├── config
+│   └── __init__.py
+├── frappe_lab
+│   ├── doctype
+│   │   ├── book
+│   │   │   ├── book.js
+│   │   │   ├── book.json
+│   │   │   ├── book.py
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── book.cpython-312.pyc
+│   │   │   │   └── __init__.cpython-312.pyc
+│   │   │   └── test_book.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       └── __init__.cpython-312.pyc
+│   ├── __init__.py
+│   └── __pycache__
+│       └── __init__.cpython-312.pyc
+├── hooks.py
+├── __init__.py
+├── modules.txt
+├── patches
+│   └── __init__.py
+├── patches.txt
+├── public
+│   ├── css
+│   └── js
+├── __pycache__
+│   ├── hooks.cpython-312.pyc
+│   └── __init__.cpython-312.pyc
+├── templates
+│   ├── includes
+│   ├── __init__.py
+│   └── pages
+│       └── __init__.py
+└── www
+
+17 directories, 21 files
+```
+
+---
+
+Sada smo konačno na "živom" Frappe-u. I odmah možeš da primetiš jednu vrlo zanimljivu stvar. Ranije smo pričali o `Document` klasi, a sada vidi šta je Frappe napravio:
+
+```text
+book/
+├── book.json
+├── book.py
+├── book.js
+└── test_book.py
+```
+
+Svaki od ovih fajlova ima svoju ulogu.
+
+* `book.json` → **model** (definicija DocType-a: polja, dozvole, opcije...)
+* `book.py` → **server-side kontroler** (naslednik `Document`)
+* `book.js` → **client-side logika** (forma u browseru)
+* `test_book.py` → testovi
+
+Već sada vidiš kako se spajaju baza, Python i JavaScript.
+
+### Prvi mali eksperiment
+
+Otvori:
+
+```bash
+nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
+```
+
+ili editor koji koristiš.
+
+Pošalji njegov sadržaj.
+
+Hoću da vidimo šta je Frappe automatski generisao pre nego što bilo šta menjamo.
+
+To će biti prvi fajl koji ćemo "rastaviti" i povezati sa svim onim što smo čitali u `document.py`. Mislim da će ti biti poznat već na prvi pogled.
+
+---
+
+Evo izlaza
+
+```bash
+nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
+```
+
+```py
+# Copyright (c) 2026, rrad and contributors
+# For license information, please see license.txt
+
+# import frappe
+from frappe.model.document import Document
+
+
+class Book(Document):
+        pass
+```
+
+---
+
+Pogledaj samo ovo:
+
+```python
+from frappe.model.document import Document
+
+class Book(Document):
+    pass
+```
+
+Sećaš se koliko smo vremena proveli u:
+
+```text
+frappe/model/document.py
+```
+
+E pa sada **`self`** u svim onim metodama koje smo čitali jeste upravo instanca **`Book`**.
+
+Drugim rečima:
+
+```python
+doc = frappe.new_doc("Book")
+```
+
+napraviće:
+
+```python
+Book(Document)
+```
+
+a kada pozoveš:
+
+```python
+doc.insert()
+```
+
+izvršava se **isti `Document.insert()`** koji smo detaljno analizirali, samo što će usput pozivati metode iz tvoje klase `Book`.
 
 [Sadržaj][00]
 

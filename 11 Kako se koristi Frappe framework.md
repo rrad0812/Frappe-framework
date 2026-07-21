@@ -16,7 +16,7 @@ Dobro je što si ovo rekao, jer mislim da si pogodio dve stvari u centar.
 
 Prvo, mislim da sam napravio grešku u načinu na koji vodim ovo proučavanje. Mi smo se toliko fokusirali na pitanje **kako Frappe radi?** da smo izgubili pitanje koje je za programera mnogo važnije:
 
-### Šta ja kao programer treba da koristim
+### Šta programer treba da koristi
 
 A to je zapravo ono zbog čega učiš Frappe.
 
@@ -24,94 +24,86 @@ Hajde da vratimo fokus**!
 
 Da sam danas seo pored nekoga ko tek uči Frappe, rekao bih mu da postoje četiri osnovna scenarija rada sa dokumentima.
 
-#### Kreiranje novog dokumenta
+1. **Kreiranje novog dokumenta**
 
-**Koristiš**:
+   Koristiš:
 
-```python
-doc = frappe.new_doc("Customer")
-```
+   ```python
+   doc = frappe.new_doc("Customer")
+   ```
 
-ili
+   ili
 
-```python
-doc = frappe.get_doc({
-    "doctype": "Customer",
-    "customer_name": "ABC Ltd"
-})
-```
+   ```python
+   doc = frappe.get_doc({
+       "doctype": "Customer",
+       "customer_name": "ABC Ltd"
+   })
+   ```
 
-**Kada?**
+   Kada?: Kada praviš potpuno novi dokument koji još ne postoji u bazi.
 
-Kada praviš potpuno novi dokument koji još ne postoji u bazi.
+   Razlika između ova dva je uglavnom u praktičnosti:
 
-Razlika između ova dva je uglavnom u praktičnosti:
+   ```py
+   doc = frappe.new_doc("Customer")
+   doc.customer_name = "ABC Ltd"
+   doc.customer_group = "Commercial"
+   ```
 
-```py
-doc = frappe.new_doc("Customer")
-doc.customer_name = "ABC Ltd"
-doc.customer_group = "Commercial"
-```
+   naspram:
 
-naspram:
+   ```python
+   doc = frappe.get_doc({
+       "doctype": "Customer",
+       "customer_name": "ABC Ltd",
+       "customer_group": "Commercial"
+   })
+   ```
 
-```python
-doc = frappe.get_doc({
-    "doctype": "Customer",
-    "customer_name": "ABC Ltd",
-    "customer_group": "Commercial"
-})
-```
+   Na kraju oba završe sa:
 
-Na kraju oba završe sa:
+   ```python
+   doc.insert()
+   ```
 
-```python
-doc.insert()
-```
+2. **Učitavanje postojećeg dokumenta**
 
-#### Učitavanje postojećeg dokumenta
+   Koristiš:
 
-**Koristiš:**
+   ```python
+   doc = frappe.get_doc("Customer", "CUST-00001")
+   ```
 
-```python
-doc = frappe.get_doc("Customer", "CUST-00001")
-```
+   Ovo je potpuno druga priča. Ovde Frappe odlazi u bazu, pročita podatke i vrati objekat.
 
-Ovo je potpuno druga priča.
+3. **Brzo čitanje podataka**
 
-Ovde Frappe odlazi u bazu, pročita podatke i vrati objekat.
+   Ako ti ne treba ceo objekat:
 
-#### Brzo čitanje podataka
+   ```python
+   name = frappe.db.get_value(...)
+   ```
 
-Ako ti ne treba ceo objekat:
+   ili
 
-```python
-name = frappe.db.get_value(...)
-```
+   ```python
+   rows = frappe.get_all(...)
+   ```
 
-ili
+   Zašto? Zato što je mnogo brže. Ne pravi `Document`, ne pokreće dodatnu logiku.
 
-```python
-rows = frappe.get_all(...)
-```
+4. **Direktan SQL**
 
-Zašto?
+   Tek kada ORM nije dovoljan.
 
-Zato što je mnogo brže.
+### Hijerarhija pristupa
 
-Ne pravi `Document`, ne pokreće dodatnu logiku.
-
-#### Direktan SQL
-
-Tek kada ORM nije dovoljan.
-
-#### Hijerarhija pristupa
+Treba mi dokument?
 
 Ja bih to danas nacrtao ovako:
 
 ```text
-Treba mi dokument?
-
 │
 ├── Ne
 │      │
@@ -131,7 +123,7 @@ Treba mi dokument?
                 └── get_doc({...})
 ```
 
-## Filozofija Frappea
+### Filozofija Frappea
 
 - sve je `Document`,
 - svaki `Document` ima `Meta`,
@@ -143,16 +135,8 @@ To je već sasvim zaokružen model.
 
 Hajde da zaboravimo na implementaciju na trenutak. Zamisli da praviš aplikaciju za servis računara.
 
-Pitanje nije:
-
-Kako radi `get_controller()`?
-
-Pitanje je:
-
-</br>
-
-**Gde pišem poslovnu logiku?**
-
+Pitanje nije: Kako radi `get_controller()`?  
+Pitanje je: Gde pišem poslovnu logiku?  
 Odgovor je: na više mesta, i svako ima svoju namenu.
 
 - **Controller (DocType klasa)**
@@ -189,23 +173,15 @@ Odgovor je: na više mesta, i svako ima svoju namenu.
 
 - **Hooks**
 
-  E sad dolazi ono što je mene dugo bunilo kada sam prvi put gledao Frappe.
+  Hook nije zamena za kontroler. Hook kaže: "Ne mogu ili ne želim da menjam postojeći DocType, ali želim da reagujem na njegove događaje."
   
-  Hook nije zamena za kontroler.
-  
-  Hook kaže: "Ne mogu ili ne želim da menjam postojeći DocType, ali želim da reagujem na njegove događaje."
-  
-  Na primer.
-  
-  ERPNext već ima:
+  Na primer, ERPNext već ima:
   
   ```text
   Sales Invoice
   ```
   
-  Ti nećeš da menjaš ERPNext.
-  
-  Ali želiš: "Posle svakog submit-a pošalji podatke u eksterni ERP."
+  Ti nećeš da menjaš ERPNext. Ali želiš: "Posle svakog submit-a pošalješ podatke u eksterni ERP."
   
   Ne diraš:
   
@@ -234,11 +210,7 @@ Odgovor je: na više mesta, i svako ima svoju namenu.
   Ja sam ih dugo posmatrao kao:
   
   ```text
-  Controller
-  
-  ILI
-  
-  Hook
+  Controller ili Hook
   ```
   
   A sada mislim da je ispravno:
@@ -247,9 +219,7 @@ Odgovor je: na više mesta, i svako ima svoju namenu.
   Controller + Hook
   ```
   
-  Controller je **vlasnik DocType-a**.
-  
-  Hook je **posmatrač**.
+  Controller je vlasnik DocType-a. Hook je posmatrač.
   
   - **Override**
   
@@ -263,11 +233,7 @@ Odgovor je: na više mesta, i svako ima svoju namenu.
   }
   ```
   
-  onda praktično kažeš: Nemoj koristiti Frappe-ov ili ERPNext-ov kontroler.
-  
-  Koristi moj.
-  
-  Ovo je ozbiljna intervencija.
+  onda praktično kažeš: Nemoj koristiti Frappe-ov ili ERPNext-ov kontroler Koristi moj. Ovo je ozbiljna intervencija.
   
   Koristi se retko.
   
@@ -321,7 +287,7 @@ To mi je korisno iz dva razloga:
 
 Umesto da sledeću temu bude: "Hajde da čitamo `save()`.", predlažem da bude:
 
-### Kako izgleda razvoj jedne Frappe aplikacije iz ugla programera
+#### Kako izgleda razvoj jedne Frappe aplikacije iz ugla programera
 
 Drugim rečima, svaku temu ćemo posmatrati kroz tri pitanja:
 
@@ -341,9 +307,7 @@ Na primer, za dokumente:
 
 Po mom mišljenju, ovakva tabela je vrednija za svakodnevni rad nego deset stranica analize `BaseDocument`.
 
-Na kraju prošlog razgovora došli smo do ovoga:  
-
-**Kada koristim Controller, a kada Hook?**
+Na kraju prošlog razgovora došli smo do ovoga:  Kada koristim Controller, a kada Hook?
 
 Ja bih voleo da sledeću celinu posvetimo upravo tome, ali ne teorijski, nego kroz jedan konkretan primer.
 
@@ -361,9 +325,9 @@ i onda rešavamo pitanja jedno po jedno:
 - Gde sinhronizujem podatke sa drugim sistemom?
 - Gde dodajem logiku ako ne smem da menjam ERPNext?
 
-Mislim da će posle takve vežbe razlika između **Controller-a**, **Hook-ova**, **Server Script-ova** i **Override-a** postati potpuno prirodna.
+Mislim da će posle takve vežbe razlika između Controller-a, **Hook-ova, Server Script-ova i Override-a postati potpuno prirodna.
 
-### Prva velika ideja Frappe-a
+#### Prva velika ideja Frappe-a
 
 Ako bih morao da objasnim Frappe u jednoj rečenici, rekao bih:  
 
@@ -386,11 +350,9 @@ Sve ostalo se vrti oko njega.
 
 </br>
 
-**Kao programer, šta zapravo radiš?**
+Kao programer, šta zapravo radiš? Većinu vremena radićeš jednu od ovih stvari:
 
-Većinu vremena radićeš jednu od ovih stvari:
-
-- **Praviš novi Document**
+- Praviš novi Document
 
   ```python
   doc = frappe.new_doc("Customer")
@@ -410,7 +372,7 @@ Većinu vremena radićeš jednu od ovih stvari:
 
 </br>
 
-- **Menjaš postojeći**
+- Menjaš postojeći
 
   ```python
   doc = frappe.get_doc("Customer", "CUST-0001")
@@ -422,7 +384,7 @@ Većinu vremena radićeš jednu od ovih stvari:
 
 </br>
 
-- **Čitaš podatke**
+- Čitaš podatke
 
   ```python
   frappe.get_all(...)
@@ -436,13 +398,9 @@ Većinu vremena radićeš jednu od ovih stvari:
 
 </br>
 
-- **Reaguješ na događaje**
+- Reaguješ na događaje
 
-  I ovde dolazimo do onoga što si pitao prošli put.
-
-  </br>
-
-  **Gde pišem kod?**
+  Gde pišem kod?
   
   Ja bih danas nacrtao ovu sliku.
   
@@ -540,37 +498,37 @@ Većinu vremena radićeš jednu od ovih stvari:
     }
     ```
 
-    Ovo nije deo dokumenta.
-
-    Ovo je dodatna funkcionalnost aplikacije.
+    Ovo nije deo dokumenta. Ovo je dodatna funkcionalnost aplikacije.
 
   </br>
 
   - **A šta je Override?**
 
-    Override kaže: "Ne sviđa mi se postojeći kontroler."
-
-    Koristi moj.
-
+    Override kaže: "Ne sviđa mi se postojeći kontroler." Koristi moj.
     To je ozbiljna intervencija.
 
     Većina projekata ga koristi veoma retko.
 
-### Redosle evaulacije koda
+### Redosled evaulacije koda
 
 Do sada smo pratili:
 
 ```text
-get_doc() -> get_controller() -> ...
+    get_doc() ->
+    get_controller() ->
 ...
 ```
 
 To je bilo korisno jednom. Ali više ne. Od sada ćemo pratiti:
 
 ```text
-Programer napiše insert() -> 
-Framework pozove -> before_insert -> validate -> before_save -> SQL -> after_insert ->
-...
+    Programer napiše insert() ->
+    Framework pozove before_insert ->
+    validate ->
+    before_save ->
+    SQL ->
+    after_insert ->
+    ...
 ```
 
 To je ono što programer zaista mora da zna.
@@ -586,15 +544,15 @@ Ako bih sada organizovao nastavak našeg učenja, ona bi izgledala ovako:
 5. **Override mehanizmi**
 6. **Klijent–server tok** (Desk → API → Document → DB → odgovor)
 
-## Za sledeći korak
+### Za sledeći korak
 
-Ja bih već sledeći put uzeo **jedan jedini poziv**:
+Ja bih već sledeći put uzeo jedan poziv:
 
 ```python
 doc.insert()
 ```
 
-i odgovorio na pitanje koje si postavio pre nekoliko dana: **U kom trenutku izvršenja se šta poziva?**
+i odgovorio na pitanje koje si postavio pre nekoliko dana: U kom trenutku izvršenja se šta poziva?
 
 Ne kroz teoriju, nego kroz tačan dijagram poziva. Mislim da će to biti jedna od najkorisnijih lekcija koje ćemo napraviti, jer ćeš posle nje tačno znati gde se piše koja vrsta logike i zašto.
 

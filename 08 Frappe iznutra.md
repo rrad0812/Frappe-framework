@@ -13,16 +13,15 @@ Krenem od pitanja: Šta je glavna klasa ovog modula?
 
 - **Pronađi klasu**  
 
-  Pošalji izlaz:
+  > [!Note] AI Zahtev
+  >
+  > Pošalji izlaz:
+  >
+  > ```bash
+  > grep "^class " ~/frappe-bench/apps/frappe/frappe/model/document.py
+  > ```
   
-  ```bash
-  grep "^class " ~/frappe-bench/apps/frappe/frappe/model/document.py
-  ```
-  
-  Nemoj još otvarati ceo fajl.
-  
-  Želim prvo da vidimo koje klase postoje.
-  
+  Nemoj još otvarati ceo fajl. Želim prvo da vidimo koje klase postoje.
   Ovo nije samo korisno za Frappe.
   
   Ako jednog dana budeš čitao:
@@ -35,15 +34,15 @@ Krenem od pitanja: Šta je glavna klasa ovog modula?
   
   isti pristup će ti uštedeti mnogo vremena.
 
-Evo izlaza:
-
-```sh
-grep "^class " ~/frappe-bench/apps/frappe/frappe/model/document.py
-```
-
-```sh
-class Document(BaseDocument):
-```
+> [!Info] Izlaz
+>
+> ```sh
+> grep "^class " ~/frappe-bench/apps/frappe/frappe/model/document.py
+> ```
+>
+> ```sh
+> class Document(BaseDocument):
+> ```
 
 Ovaj izlaz:
 
@@ -53,19 +52,7 @@ class Document(BaseDocument):
 
 govori mnogo više nego što izgleda na prvi pogled.
 
-Zašto nije napisano:
-
-```python
-class Document:
-```
-
-nego
-
-```python
-class Document(BaseDocument):
-```
-
-To znači da je autor Frappe-a rekao: "Postoje stvari koje važe za svaki dokument, i postoje stvari koje važe samo za Frappe Document."
+To znači da je autor Frappe-a rekao: "Postoje stvari koje važe za svaki dokument, i postoje stvari koje važe samo za spec. Frappe Document."
 
 Drugim rečima:
 
@@ -116,17 +103,19 @@ To je jedan od razloga zašto postoji `virtual_doctype.py`, koji si video u spis
 
 Dakle, `BaseDocument` nije napravljen slučajno.
 
-Pošalji izlaz:
-
-```sh
-grep "^    def " ~/frappe-bench/apps/frappe/frappe/model/base_document.
-```
-
-Ako ništa ne vrati (zbog drugačije indentacije), probaj:
-
-```sh
-grep "def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
+> [!Note] AI Zahtev
+>
+> Pošalji izlaz:
+>
+> ```sh
+> grep "^    def " ~/frappe-bench/apps/frappe/frappe/model/base_document.
+> ```
+>
+> Ako ništa ne vrati (zbog drugačije indentacije), probaj:
+>
+> ```sh
+> grep "def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
+> ```
 
 Želimo da razdvojimo dva sloja:
 
@@ -135,83 +124,83 @@ grep "def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
 
 Po mom iskustvu, to je mnogo lakše za razumevanje nego odmah uskočiti u `save()` i `insert()`, gde se odjednom pojavljuju dozvole, validacije, hook-ovi, transakcije i SQL.
 
-Evo izlaza
-
-```sh
-grep "def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
-
-```py
-def get_controller(doctype):
-def import_controller(doctype):
-def __init__(self, d):
-def meta(self):
-def permitted_fieldnames(self) -> set[str]:
-def __getstate__(self):
-def remove_unpicklable_values(self, state):
-def update(self, d):
-def update_if_missing(self, d):
-def get_db_value(self, key):
-def get(self, key, filters=None, limit=None, default=None):
-def getone(self, key, filters=None):
-def set(self, key, value, as_value=False):
-def delete_key(self, key):
-def append(self, key: str, value: D | dict | None = None, position: int = -1) -> D:
-def parent_doc(self):
-def parent_doc(self, value):
-def parent_doc(self):
-def extend(self, key, value):
-def remove(self, doc):
-def _init_child(self, value, key):
-def _get_table_fields(self):
-def get_valid_dict(
-def init_child_tables(self):
-def init_valid_columns(self):
-def get_valid_columns(self) -> list[str]:
-def is_new(self) -> bool:
-def docstatus(self) -> DocStatus:
-def docstatus(self, value) -> None:
-def as_dict(
-def as_json(self):
-def get_table_field_doctype(self, fieldname):
-def get_parentfield_of_doctype(self, doctype):
-def db_insert(self, ignore_if_duplicate=False):
-def db_update(self):
-def db_update_all(self):
-def show_unique_validation_message(self, e):
-def get_field_name_by_key_name(self, key_name):
-def get_label_from_fieldname(self, fieldname):
-def update_modified(self):
-def _fix_numeric_types(self):
-def _get_missing_mandatory_fields(self):
-def get_msg(df):
-def has_content(df):
-def get_invalid_links(self, is_submittable=False):
-def get_msg(df, docname):
-def set_fetch_from_value(self, doctype, df, values):
-def _validate_selects(self):
-def _validate_data_fields(self):
-def _validate_constants(self):
-def _validate_length(self):
-def _validate_code_fields(self):
-def _sync_autoname_field(self):
-def throw_length_exceeded_error(self, df, max_length, value):
-def _validate_update_after_submit(self):
-def _sanitize_content(self):
-def _save_passwords(self):
-def get_password(self, fieldname="password", raise_exception=True):
-def is_dummy_password(self, pwd):
-def precision(self, fieldname, parentfield=None) -> int | None:
-def get_formatted(
-def is_print_hide(self, fieldname, df=None, for_print=True):
-def __setup__(self):
-def in_format_data(self, fieldname):
-def reset_values_if_no_permlevel_access(self, has_access_to, high_permlevel_fields):
-def get_value(self, fieldname):
-def cast(self, value, df):
-def _extract_images_from_text_editor(self):
-def _filter(data, filters, limit=None):
-```
+> [!Info] Izlaz
+>
+> ```sh
+> grep "def " ~/frappe-bench/apps/frappe/frappe/model/base_document.py
+> ```
+>
+> ```py
+> def get_controller(doctype):
+> def import_controller(doctype):
+> def __init__(self, d):
+> def meta(self):
+> def permitted_fieldnames(self) -> set[str]:
+> def __getstate__(self):
+> def remove_unpicklable_values(self, state):
+> def update(self, d):
+> def update_if_missing(self, d):
+> def get_db_value(self, key):
+> def get(self, key, filters=None, limit=None, default=None):
+> def getone(self, key, filters=None):
+> def set(self, key, value, as_value=False):
+> def delete_key(self, key):
+> def append(self, key: str, value: D | dict | None = None, position: int = -1) -> D:
+> def parent_doc(self):
+> def parent_doc(self, value):
+> def parent_doc(self):
+> def extend(self, key, value):
+> def remove(self, doc):
+> def _init_child(self, value, key):
+> def _get_table_fields(self):
+> def get_valid_dict(
+> def init_child_tables(self):
+> def init_valid_columns(self):
+> def get_valid_columns(self) -> list[str]:
+> def is_new(self) -> bool:
+> def docstatus(self) -> DocStatus:
+> def docstatus(self, value) -> None:
+> def as_dict(
+> def as_json(self):
+> def get_table_field_doctype(self, fieldname):
+> def get_parentfield_of_doctype(self, doctype):
+> def db_insert(self, ignore_if_duplicate=False):
+> def db_update(self):
+> def db_update_all(self):
+> def show_unique_validation_message(self, e):
+> def get_field_name_by_key_name(self, key_name):
+> def get_label_from_fieldname(self, fieldname):
+> def update_modified(self):
+> def _fix_numeric_types(self):
+> def _get_missing_mandatory_fields(self):
+> def get_msg(df):
+> def has_content(df):
+> def get_invalid_links(self, is_submittable=False):
+> def get_msg(df, docname):
+> def set_fetch_from_value(self, doctype, df, values):
+> def _validate_selects(self):
+> def _validate_data_fields(self):
+> def _validate_constants(self):
+> def _validate_length(self):
+> def _validate_code_fields(self):
+> def _sync_autoname_field(self):
+> def throw_length_exceeded_error(self, df, max_length, value):
+> def _validate_update_after_submit(self):
+> def _sanitize_content(self):
+> def _save_passwords(self):
+> def get_password(self, fieldname="password", raise_exception=True):
+> def is_dummy_password(self, pwd):
+> def precision(self, fieldname, parentfield=None) -> int | None:
+> def get_formatted(
+> def is_print_hide(self, fieldname, df=None, for_print=True):
+> def __setup__(self):
+> def in_format_data(self, fieldname):
+> def reset_values_if_no_permlevel_access(self, has_access_to, high_permlevel_fields):
+> def get_value(self, fieldname):
+> def cast(self, value, df):
+> def _extract_images_from_text_editor(self):
+> def _filter(data, filters, limit=None):
+> ```
 
 I sada ću uraditi nešto što će ti, nadam se, pomoći da ne "utoneš" u more metoda.
 
@@ -401,34 +390,36 @@ Drugim rečima, `Meta` je "uputstvo za upotrebu" svakog dokumenta.
 
 ### Meta property
 
-Možeš da pošalješ izlaz:
-
-```bash
-grep -A 8 "def meta" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
+> [!Note] AI Zahtev
+>
+> Možeš da pošalješ izlaz:
+>
+> ```bash
+> grep -A 8 "def meta" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
+> ```
 
 **Jedna napomena za kraj**  
 Želim da uvedemo još jedno pravilo u naše proučavanje Frappe-a.
 
 Nećemo analizirati ceo fajl odjednom. Umesto toga, svaki put ćemo izabrati jednu važnu ideju (kao što je `Meta`, `Document`, `save()` ili `get_doc()`), razumeti je do kraja, pa tek onda nastaviti dalje. Po mom iskustvu, tako se veliki framework zaista nauči, umesto da ostane samo utisak da si "prošao kroz kod".
   
-Evo izlaza
-
-```sh
-grep -A 8 "def meta" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
-```
-
-```py
-def meta(self):
-  return frappe.get_meta(self.doctype)
-
-@cached_property
-def permitted_fieldnames(self) -> set[str]:
-  return set(get_permitted_fields(doctype=self.doctype, parenttype=getattr(self,  
-    "parenttype", None)))
-
-def __getstate__(self):
-```
+> [!Info] zlaz
+>
+> ```sh
+> grep -A 8 "def meta" ~/frappe-bench/apps/frappe/frappe/model/base_document.py
+> ```
+>
+> ```py
+> def meta(self):
+>   return frappe.get_meta(self.doctype)
+> 
+> @cached_property
+> def permitted_fieldnames(self) -> set[str]:
+>   return set(get_permitted_fields(doctype=self.doctype, parenttype=getattr(self,  
+>     "parenttype", None)))
+> 
+> def __getstate__(self):
+> ```
 
 Pogledaj ponovo:
 
@@ -443,41 +434,41 @@ Ali u stvari, ovde se krije jedna od najvažnijih ideja Frappe-a.
 
 </br>
 
-- **`self.doctype`?**
+**`self.doctype`**
 
-  Zamisli da imaš objekat:
-  
-  ```python
-  customer = frappe.get_doc("Customer", "CUST-0001")
-  ```
-  
-  Taj objekat u sebi ima nešto poput:
-  
-  ```python
-  customer.doctype == "Customer"
-  ```
-  
-  Dakle, `doctype` nije Python klasa.
-  
-  To je običan string.
+Zamisli da imaš objekat:
+
+```python
+customer = frappe.get_doc("Customer", "CUST-0001")
+```
+
+Taj objekat u sebi ima nešto poput:
+
+```python
+customer.doctype == "Customer"
+```
+
+Dakle, `doctype` nije Python klasa.
+
+To je običan string.
 
 </br>
 
-- **Šta se dešava kada pozoveš `customer.meta`?**
+**Šta se dešava kada pozoveš `customer.meta`**
 
-  Izvrši se:
-  
-  ```python
-  frappe.get_meta("Customer")
-  ```
-  
-  Dakle:
-  
-  ```txt
-  Customer Document -> doctype = "Customer" -> frappe.get_meta("Customer") -> Meta objekat
-  ```
-  
-  I sad dolazimo do ključne ideje.
+Izvrši se:
+
+```python
+frappe.get_meta("Customer")
+```
+
+Dakle:
+
+```txt
+Customer Document -> doctype = "Customer" -> frappe.get_meta("Customer") -> Meta objekat
+```
+
+I sad dolazimo do ključne ideje.
 
 </br>
 
@@ -501,8 +492,6 @@ Meta
 
 To nije red iz baze.  
 To je opis strukture.
-
-</br>
 
 Zašto je ovo genijalno? Pogledaj šta nigde ne postoji.
   

@@ -7,29 +7,33 @@
 
 ### `frappe-bench` direktorijum
 
-Uradi u terminalu:
-
-```bash
-cd /home/radosav/frappe-bench
-ls -lah
-```
-
-i pošalji izlaz.
+> [!Note] AI Zahtev
+>
+> Uradi u terminalu:
+>
+> ```bash
+> cd /home/radosav/frappe-bench
+> ls -lah
+> ```
+>
+> i pošalji izlaz.
 
 Prva zanimljiva stvar je da je ovo mnogo "čistije" nego što ljudi obično očekuju. Mnogi misle da je `frappe-bench` neka ogromna struktura, a zapravo je vrlo pregledna.
 
-Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razumemo njihovu ulogu.
+> [!Info] Izlaz
+>
+> ```sh
+> frappe-bench/
+> ├── apps/
+> ├── config/
+> ├── env/
+> ├── logs/
+> ├── sites/
+> ├── Procfile
+> └── patches.txt
+> ```
 
-```sh
-frappe-bench/
-├── apps/
-├── config/
-├── env/
-├── logs/
-├── sites/
-├── Procfile
-└── patches.txt
-```
+Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razumemo njihovu ulogu.
 
 </br>
 
@@ -105,9 +109,15 @@ frappe-bench/
     common_site_config.json
   ```
   
-  Drugim rečima, **aplikacija ≠ sajt**. To je veoma važna razlika.
+  Drugim rečima,
   
-  Jedna aplikacija može biti instalirana na više sajtova.
+  > [!Info]
+  > **Aplikacija ≠ Sajt**.  
+  
+  </br>
+
+  > [!Info]
+  > **Jedna aplikacija može biti instalirana na više sajtova.**
   
   Na primer:
   
@@ -137,8 +147,6 @@ frappe-bench/
   - razni JSON fajlovi
   
   Većinu vremena nećeš ručno menjati ove fajlove.
-  
-  Bench ih uglavnom generiše.
   
 </br>
 
@@ -182,29 +190,34 @@ frappe-bench/
 **Globalna oraganizacija**  
 Primeti da Bench veoma lepo odvaja tri stvari:
 
-```sh
-Code -> apps/
-Data -> sites/
-Enviroment -> env/
-```
+> [!Info]
+>
+> ```sh
+> Code -> apps/
+> Data -> sites/
+> Enviroment -> env/
+> ```
 
 To je veoma elegantna organizacija.
 
-### Pregled apps/ i sites/ direktorijuma
+#### apps/ i sites/ direktorijumi
 
-Voleo bih da sada "zavirimo" u dva direktorijuma koja su ključna za razumevanje Frappe-a:
-
-Prvo:
-
-```bash
-ls -alh apps
-```
-
-a zatim:
-
-```bash
-ls -alh sites
-```
+> [!Note] AI zahtev
+>
+> Hajde da sada "zavirimo" u dva direktorijuma koja su ključna za razumevanje
+> Frappe-a:
+>
+> Prvo:
+>
+> ```bash
+> ls -alh apps
+> ```
+>
+> a zatim:
+>
+> ```bash
+> ls -alh sites
+> ```
 
 Iz toga ćemo odmah videti:
 
@@ -216,18 +229,22 @@ Mislim da će posle toga cela arhitektura Frappe-a početi da leže na svoje mes
 
 Sada ćemo napraviti jednu važnu mentalnu mapu. Ako je razumeš, mnogo ćeš lakše razumeti sve ostalo u Frappe-u.
 
-```text
-               Bench
-                 │
-       ┌─────────┴─────────┐
-       │                   │
-    Applications         Sites
-    (izvorni kod)   (podaci i konfiguracija)
-```
+> [!Info] Vizuelna slika najvažnijeg dela organizacije Frappe
+>
+> ```text
+>                Bench
+>                  │
+>        ┌─────────┴─────────┐
+>        │                   │
+>     Applications         Sites
+>     (izvorni kod)   (podaci i konfiguracija)
+> ```
 
 </br>
 
-- **apps/ dir**  
+Idemo redom:
+
+- **apps/**  
   Kod tebe trenutno postoji samo jedna aplikacija:
 
   ```text
@@ -253,7 +270,7 @@ Sada ćemo napraviti jednu važnu mentalnu mapu. Ako je razumeš, mnogo ćeš la
   └── moja_aplikacija/
   ```
 
-  Primeti jednu stvar: `apps/` ne zna ništa o `site1.local`.
+  Primeti jednu stvar: `apps/` ne zna ništa o `site1.local` sajtu.
   Tu nema:
   - konfiguracije sajta,
   - nema baze,
@@ -264,7 +281,7 @@ Sada ćemo napraviti jednu važnu mentalnu mapu. Ako je razumeš, mnogo ćeš la
 
 </br>
 
-- **sites/ dir**  
+- **sites/**  
   Ovde se već nalazi mnogo zanimljivijih stvari.
   
   </br>
@@ -280,7 +297,9 @@ Sada ćemo napraviti jednu važnu mentalnu mapu. Ako je razumeš, mnogo ćeš la
   
   Svi će koristiti ono što je definisano ovde, osim ako neki sajt ne prepiše (override) određenu vrednost.
   
-  To je isti koncept koji postoji u mnogim frameworcima: globalna podešavanja + lokalna podešavanja.
+  To je isti koncept koji postoji u mnogim frameworcima:
+  
+  **globalna podešavanja + lokalna podešavanja.**
   
   </br>
 
@@ -354,14 +373,16 @@ Sada ćemo napraviti jednu važnu mentalnu mapu. Ako je razumeš, mnogo ćeš la
 
   Ovo je noviji mehanizam koji Bench koristi za dodatne informacije o aplikacijama. U praksi ga retko menjaš ručno; Bench ga održava.
 
-### Jedna aplikacija - više sajtova
+#### Jedna aplikacija - više sajtova
 
 Po mom mišljenju, ovo je najvažnija slika do sada:
 
-```sh
-apps/ -> Izvorni kod
-sites/ -> Podaci o sajtovima
-```
+> [!Info]
+>
+> ```sh
+> apps/ -> Izvorni kod
+> sites/ -> Podaci o sajtovima
+> ```
 
 Zamisli sledeće:
 
@@ -398,61 +419,64 @@ To je veoma elegantan način za **multi-tenant** arhitekturu.
 
 Pre nego što pokrenemo razvojni server, voleo bih da pogledamo jedan konkretan sajt. To će nam dati jasnu sliku šta Frappe smatra "sajtom".
 
-Možeš da pošalješ izlaz:
-
-```bash
-tree -L 2 sites/site1.local
-```
-
-Ako nemaš `tree` instaliran:
-
-```bash
-sudo apt install tree
-```
-
-ili, bez instalacije:
-
-```bash
-find sites/site1.local -maxdepth 2 | sort
-```
+> [!Note] AI Zahtev
+> Možeš da pošalješ izlaz:
+>
+> ```sh
+> tree -L 2 sites/site1.local
+> ```
+>
+> Ako nemaš `tree` instaliran:
+>
+> ```sh
+> sudo apt install tree
+> ```
+>
+> ili, bez instalacije:
+>
+> ```bash
+> find sites/site1.local -maxdepth 2 | sort
+> ```
 
 Posle toga ćemo analizirati `site_config.json`, jer je to jedan od najvažnijih fajlova u celom Frappe ekosistemu. Tu ćeš prvi put videti kako se jedan sajt povezuje sa PostgreSQL bazom i ostatkom sistema.
 
----
+> [!Note] Moje pitanje
+> Pre nego pređemo na sledeći korak može pitanje: "Kažeš da jedna aplikacija može
+> da bude na više sajtova. Da li jedan sajt može da ima više aplikacija?
 
-Pre nego pređemo na sledeći korak pitanje, Kažeš da jedna aplikacija može da bude na više sajtova. Da li jedan sajt može da ima više aplikacija?
+</br>
 
----
+> [!Info] AI odgovor
+> Odgovor je: Da. Zapravo, to je jedan od osnovnih principa Frappe-a.
+>
+> U stvari, odnos je: **više aplikacija ↔ više sajtova**.  
+> Možeš to posmatrati kao matricu.
+>
+> | Aplikacija | site1.local | firmaA.local | firmaB.local |
+> | ---------- | :---------: | :----------: | :----------: |
+> | frappe | ✅ | ✅ | ✅ |
+> | erpnext | ✅ | ✅ | ❌ |
+> | crm | ❌ | ✅ | ✅ |
+> | warehouse | ✅ | ❌ | ✅ |
+>
+> Dakle:
+>
+> - jedan sajt može imati više aplikacija,
+> - jedna aplikacija može biti instalirana na više sajtova.
 
-Odgovor je: Da. Zapravo, to je jedan od osnovnih principa Frappe-a.
+**Frappe je uvek prva instalirana aplikacija na sajtu**  
+Svaki sajt mora imati instaliranu aplikaciju `frappe`. Ona je osnova svega.
+Na nju se "kače" ostale aplikacije. Na primer:
 
-U stvari, odnos nije 1 aplikacija ↔ 1 sajt, već: više aplikacija ↔ više sajtova.
-Možeš to posmatrati kao matricu.
+```txt
+site1.local/
+├── frappe
+├── erpnext
+├── payments
+└── moja_aplikacija
+```
 
-| Aplikacija | site1.local | firmaA.local | firmaB.local |
-| ---------- | :---------: | :----------: | :----------: |
-| frappe | ✅ | ✅ | ✅ |
-| erpnext | ✅ | ✅ | ❌ |
-| crm | ❌ | ✅ | ✅ |
-| warehouse | ✅ | ❌ | ✅ |
-
-Dakle:
-
-- jedan sajt može imati više aplikacija,
-- jedna aplikacija može biti instalirana na više sajtova.
-- **Frappe je uvek prva aplikacija**  
-  Svaki sajt mora imati instaliranu aplikaciju `frappe`. Ona je osnova svega.
-  Na nju se "kače" ostale aplikacije. Na primer:
-
-  ```txt
-  site1.local/
-  ├── frappe
-  ├── erpnext
-  ├── payments
-  └── moja_aplikacija
-  ```
-
-  Sve četiri rade zajedno kao jedna celina.
+Sve četiri rade zajedno kao jedna celina.
 
 </br>
 
@@ -472,31 +496,6 @@ Svaka može da doda:
 
 Drugim rečima, aplikacije se "ugrađuju" u isti Frappe sistem.
 
-Jedna lepa analogija:
-
-Ja to često zamišljam ovako.
-
-1. Bench je operativni sistem.
-
-   ```txt
-   Bench
-   ```
-
-2. Na njemu postoje aplikacije:
-
-   ```text
-   Frappe
-   ERPNext
-   CRM
-   Payments
-   Moja aplikacija
-   ```
-
-3. A jedan sajt je kao jedna instalacija sistema koja bira koji će aplikacije
-   koristiti.
-  
-**I gde se to čuva?**
-
 Za svaki sajt postoji informacija koje su aplikacije na njemu instalirane.
 
 To možeš čak odmah da proveriš:
@@ -505,7 +504,7 @@ To možeš čak odmah da proveriš:
 bench --site site1.local list-apps
 ```
 
-Pošto si napravio potpuno nov sajt, očekujem da će rezultat biti otprilike:
+Pošto si napravio potpuno nov sajt, očekujem da će rezultat biti:
 
 ```txt
 frappe
@@ -548,7 +547,7 @@ Ovde je lako pomešati pojmove jer reč aplikacija u Frappe-u ne znači isto št
 
 To znači da jedan site može biti sastavljen od više Frappe aplikacija, a ista aplikacija može biti korišćena na više različitih sajtova. Upravo ta fleksibilnost je jedan od razloga zašto je Frappe pogodan za razvoj većih poslovnih sistema i SaaS rešenja.
 
-### sites/site1.local direktorijum
+#### sites/site1.local/ direktorijum
 
 Ovde ćemo videti sadržaj `sites/site1.local` direktorijuma.
 
@@ -572,8 +571,7 @@ Ovde nema Python koda. Nema:
 - `.html`
 - DocType definicija
 
-Zašto?  
-Zato što je sav kod u `apps/`, a "site1.local" sadrži samo ono što pripada toj konkretnoj instanci.
+Zašto? Zato što je sav kod u `apps/`, a "site1.local" sadrži samo ono što pripada toj konkretnoj instanci.
 
 To je jedna od najlepših ideja u Frappe-u.
 
@@ -672,19 +670,21 @@ To je jedna od najlepših ideja u Frappe-u.
 
 </br>
 
-- **site_confg.json**  
-  Predložio bih da pogledamo sadržaj:
-  
-  ```bash
-  cat sites/site1.local/site_config.json
-  ```
-  
-  To je možda svega desetak redova, ali iz njega ćemo moći da objasnimo:
-  
-  - kako Frappe pronalazi PostgreSQL bazu,
-  - kako zna kojim Redis instancama da se poveže,
-  - kako razlikuje jedan sajt od drugog,
-  - koje su postavke globalne (`common_site_config.json`), a koje lokalne (`site_config.json`).
+> [!Note] AI Zahtev
+>
+> Predložio bih da pogledamo sadržaj:
+>
+> ```bash
+> cat sites/site1.local/site_config.json
+> ```
+
+To je možda svega desetak redova, ali iz njega ćemo moći da objasnimo:
+
+- kako Frappe pronalazi PostgreSQL bazu,
+- kako zna kojim Redis instancama da se poveže,
+- kako razlikuje jedan sajt od drugog,
+- koje su postavke globalne (`common_site_config.json`), a
+  koje lokalne (`site_config.json`).
   
 </br>
 
@@ -707,19 +707,19 @@ Do sada smo pričali o arhitekturi **Bench → Apps → Sites**, i mislim da je 
 
 Kada to shvatiš, većina `bench` komandi će postati vrlo intuitivna, jer ćeš razumeti **šta** rade, a ne samo **kako** se koriste.
   
-Evo izlaza
-
-```sh
-cat sites/site1.local/site_config.json
-```
-
-```json
-{
- "db_name": "_c9eb2d89e08e8728",
- "db_password": "Oq69qLS1RcrKcUxg",
- "db_type": "postgres"
-}
-```
+> [!Info] Izlaz
+>
+> ```sh
+> cat sites/site1.local/site_config.json
+> ```
+>
+> ```json
+> {
+>  "db_name": "_c9eb2d89e08e8728",
+>  "db_password": "Oq69qLS1RcrKcUxg",
+>  "db_type": "postgres"
+> }
+> ```
   
 Odmah možemo da izvedemo nekoliko zaključaka:
 
@@ -755,49 +755,13 @@ Odmah možemo da izvedemo nekoliko zaključaka:
   
 </br>
 
-**Kako Frappe zna da koristi za pristup PostgreSQL adresu 127.0.0.1 i port 5432?**  
+**Kako Frappe pristupa PostgreSQL?**  
 
 Ako ovde nema `db_host` i `db_port` definicije kako Frappe zna da koristi:  127.0.0.1, 5432?
 
 Odgovor je: Ne zna iz ovog fajla. Te informacije dolaze iz drugih delova konfiguracije (globalnih podešavanja Bench-a i podrazumevanih vrednosti).
 
 To znači da jedan `site_config.json` sadrži samo ono što je specifično za taj sajt.
-
-**Jedna mala digresija**  
-Sećaš se koliko smo juče jurili grešku?
-
-```sh
-password authentication failed
-```
-
-pa zatim
-
-```sh
-pg_hba.conf entry
-```
-
-Sada možeš da rekonstruišeš šta se tada dešavalo.
-Bench je radio otprilike ovo:
-
-```sh
-postgres
-      │
-      │  (superuser)
-      ▼
-CREATE ROLE _c9eb2d89e08e8728
-CREATE DATABASE _c9eb2d89e08e8728
-GRANT ...
-      │
-      ▼
-Disconnect
-Reconnect
-user = _c9eb2d89e08e8728
-database = _c9eb2d89e08e8728
-```
-
-I upravo je na tom drugom povezivanju PostgreSQL rekao: "Ne dozvoljavam ovom korisniku pristup."
-
-Kada smo sredili `pg_hba.conf`, sve je proradilo.
 
 [Sadržaj][00]
 

@@ -53,17 +53,23 @@ frappe-bench/
     └── frappe/
 ```
 
-Ali... To još nije Python paket. Uđi u direktorijum i pogledaj sadržaj:
+Ali... To još nije Python paket.
 
-```bash
-cd apps/frappe
-ls -alh
-```
-
-Pošalji izlaz.
+> [!Note] AI Zahtev
+>
+> Uđi u direktorijum i pogledaj sadržaj:
+>
+> ```bash
+> cd apps/frappe
+> ls -alh
+> ```
+>
+> Pošalji izlaz.
 
 Zašto ne idem odmah na `tree`?  
-Namerno.  Frappe ima više od 3000 fajlova.  Ako odmah uradimo:  
+Namerno.  Frappe ima više od 3000 fajlova.  
+
+Ako odmah uradimo:  
   
 ```bash
 tree
@@ -83,56 +89,54 @@ i pomisliti: "Zašto postoje dva `frappe` dira?"
 
 Odgovor je veoma logičan kada se jednom objasni, i posle toga ćeš isti obrazac prepoznavati i u drugim Python projektima.
 
-</br>
-
-Evo izlaza:
-
-```sh
-ls -alh
-```
-
-```sh
-total 332K
-drwxrwxr-x  10 radosav radosav 4,0K jul 11 00:37 .
-drwxrwxr-x   3 radosav radosav 4,0K jul 11 00:35 ..
--rw-rw-r--   1 radosav radosav 1,5K jul 11 00:35 attributions.md
--rw-rw-r--   1 radosav radosav  741 jul 11 00:35 babel_extractors.csv
--rw-rw-r--   1 radosav radosav 1,2K jul 11 00:35 codecov.yml
--rw-rw-r--   1 radosav radosav 3,2K jul 11 00:35 CODE_OF_CONDUCT.md
--rw-rw-r--   1 radosav radosav  220 jul 11 00:35 CODEOWNERS
--rw-rw-r--   1 radosav radosav  394 jul 11 00:35 commitlint.config.js
--rw-rw-r--   1 radosav radosav  386 jul 11 00:35 .coveragerc
--rw-rw-r--   1 radosav radosav  444 jul 11 00:35 crowdin.yml
-drwxrwxr-x   6 radosav radosav 4,0K jul 11 00:35 cypress
--rw-rw-r--   1 radosav radosav  701 jul 11 00:35 cypress.config.js
--rw-rw-r--   1 radosav radosav  406 jul 11 00:35 .editorconfig
-drwxrwxr-x   2 radosav radosav 4,0K jul 11 00:35 esbuild
--rw-rw-r--   1 radosav radosav  278 jul 11 00:35 .eslintignore
--rw-rw-r--   1 radosav radosav 2,5K jul 11 00:35 .eslintrc
-drwxrwxr-x  36 radosav radosav 4,0K jul 11 00:37 frappe
--rw-rw-r--   1 radosav radosav  568 jul 11 00:35 generate_bootstrap_theme.js
-drwxrwxr-x   8 radosav radosav 4,0K jul 11 00:35 .git
--rw-rw-r--   1 radosav radosav 1,3K jul 11 00:35 .git-blame-ignore-revs
-drwxrwxr-x   5 radosav radosav 4,0K jul 11 00:35 .github
--rw-rw-r--   1 radosav radosav 2,5K jul 11 00:35 .gitignore
-drwxrwxr-x   2 radosav radosav 4,0K jul 11 00:35 .greptile
--rw-rw-r--   1 radosav radosav  890 jul 11 00:35 hooks.md
--rw-rw-r--   1 radosav radosav 1,1K jul 11 00:35 LICENSE
--rw-rw-r--   1 radosav radosav 1,8K jul 11 00:35 .mergify.yml
-drwxrwxr-x 418 radosav radosav  20K jul 11 00:37 node_modules
--rw-rw-r--   1 radosav radosav 2,0K jul 11 00:35 node_utils.js
--rw-rw-r--   1 radosav radosav 2,5K jul 11 00:35 package.json
--rw-rw-r--   1 radosav radosav 2,2K jul 11 00:35 .pre-commit-config.yaml
--rw-rw-r--   1 radosav radosav 4,4K jul 11 00:35 pyproject.toml
--rw-rw-r--   1 radosav radosav 3,2K jul 11 00:35 README.md
-drwxrwxr-x   4 radosav radosav 4,0K jul 11 00:35 realtime
--rw-rw-r--   1 radosav radosav  597 jul 11 00:35 .releaserc
--rw-rw-r--   1 radosav radosav  556 jul 11 00:35 SECURITY.md
--rw-rw-r--   1 radosav radosav    0 jul 11 00:35 .semgrepignore
--rw-rw-r--   1 radosav radosav   37 jul 11 00:35 sider.yml
--rw-rw-r--   1 radosav radosav   23 jul 11 00:35 socketio.js
--rw-rw-r--   1 radosav radosav 162K jul 11 00:35 yarn.lock
-```
+> [!Info] Izlaz
+>
+> ```sh
+> ls -alh
+> ```
+>
+> ```sh
+> total 332K
+> drwxrwxr-x  10 radosav radosav 4,0K jul 11 00:37 .
+> drwxrwxr-x   3 radosav radosav 4,0K jul 11 00:35 ..
+> -rw-rw-r--   1 radosav radosav 1,5K jul 11 00:35 attributions.md
+> -rw-rw-r--   1 radosav radosav  741 jul 11 00:35 babel_extractors.csv
+> -rw-rw-r--   1 radosav radosav 1,2K jul 11 00:35 codecov.yml
+> -rw-rw-r--   1 radosav radosav 3,2K jul 11 00:35 CODE_OF_CONDUCT.md
+> -rw-rw-r--   1 radosav radosav  220 jul 11 00:35 CODEOWNERS
+> -rw-rw-r--   1 radosav radosav  394 jul 11 00:35 commitlint.config.js
+> -rw-rw-r--   1 radosav radosav  386 jul 11 00:35 .coveragerc
+> -rw-rw-r--   1 radosav radosav  444 jul 11 00:35 crowdin.yml
+> drwxrwxr-x   6 radosav radosav 4,0K jul 11 00:35 cypress
+> -rw-rw-r--   1 radosav radosav  701 jul 11 00:35 cypress.config.js
+> -rw-rw-r--   1 radosav radosav  406 jul 11 00:35 .editorconfig
+> drwxrwxr-x   2 radosav radosav 4,0K jul 11 00:35 esbuild
+> -rw-rw-r--   1 radosav radosav  278 jul 11 00:35 .eslintignore
+> -rw-rw-r--   1 radosav radosav 2,5K jul 11 00:35 .eslintrc
+> drwxrwxr-x  36 radosav radosav 4,0K jul 11 00:37 frappe
+> -rw-rw-r--   1 radosav radosav  568 jul 11 00:35 generate_bootstrap_theme.js
+> drwxrwxr-x   8 radosav radosav 4,0K jul 11 00:35 .git
+> -rw-rw-r--   1 radosav radosav 1,3K jul 11 00:35 .git-blame-ignore-revs
+> drwxrwxr-x   5 radosav radosav 4,0K jul 11 00:35 .github
+> -rw-rw-r--   1 radosav radosav 2,5K jul 11 00:35 .gitignore
+> drwxrwxr-x   2 radosav radosav 4,0K jul 11 00:35 .greptile
+> -rw-rw-r--   1 radosav radosav  890 jul 11 00:35 hooks.md
+> -rw-rw-r--   1 radosav radosav 1,1K jul 11 00:35 LICENSE
+> -rw-rw-r--   1 radosav radosav 1,8K jul 11 00:35 .mergify.yml
+> drwxrwxr-x 418 radosav radosav  20K jul 11 00:37 node_modules
+> -rw-rw-r--   1 radosav radosav 2,0K jul 11 00:35 node_utils.js
+> -rw-rw-r--   1 radosav radosav 2,5K jul 11 00:35 package.json
+> -rw-rw-r--   1 radosav radosav 2,2K jul 11 00:35 .pre-commit-config.yaml
+> -rw-rw-r--   1 radosav radosav 4,4K jul 11 00:35 pyproject.toml
+> -rw-rw-r--   1 radosav radosav 3,2K jul 11 00:35 README.md
+> drwxrwxr-x   4 radosav radosav 4,0K jul 11 00:35 realtime
+> -rw-rw-r--   1 radosav radosav  597 jul 11 00:35 .releaserc
+> -rw-rw-r--   1 radosav radosav  556 jul 11 00:35 SECURITY.md
+> -rw-rw-r--   1 radosav radosav    0 jul 11 00:35 .semgrepignore
+> -rw-rw-r--   1 radosav radosav   37 jul 11 00:35 sider.yml
+> -rw-rw-r--   1 radosav radosav   23 jul 11 00:35 socketio.js
+> -rw-rw-r--   1 radosav radosav 162K jul 11 00:35 yarn.lock
+> ```
 
 Prvo, želim da razdvojimo stvari koje se često mešaju.
 
@@ -309,37 +313,41 @@ Prvo, želim da razdvojimo stvari koje se često mešaju.
 
 Hajde da otvorimo samo prvi nivo frappe direktorijuma.
   
-Pošalji:
+> [!Note] AI Zahtev
+>
+> Pošalji:
+>
+> ```bash
+> tree -L 1 frappe
+> ```
+>
+> ili, ako nemaš `tree` pri ruci:
+>
+> ```bash
+> ls -alh frappe
+> ```
 
-```bash
-tree -L 1 frappe
-```
-
-ili, ako nemaš `tree` pri ruci:
-
-```bash
-ls -alh frappe
-```
-
-To je možda **najvažniji direktorijum u celom framework-u**.
+Ovo je možda **najvažniji direktorijum** u celom frameworku.
   
 Do sada smo praktično složili sledeću mentalnu mapu:
 
-```txt
-frappe-bench/
-├── apps/
-│   └── frappe/          ← Git repozitorijum
-│       └── frappe/      ← Python paket (framework)
-│
-├── sites/
-│   ├── common_site_config.json
-│   └── site1.local/
-│       └── site_config.json
-│
-├── env/                 ← Python virtuelno okruženje
-├── logs/
-└── config/
-```
+> [!Info] Vizuelna predstava frappe-bnch direktorijuma
+>
+> ```txt
+> frappe-bench/
+> ├── apps/
+> │   └── frappe/          ← Git repozitorijum
+> │       └── frappe/      ← Python paket (framework)
+> │
+> ├── sites/
+> │   ├── common_site_config.json
+> │   └── site1.local/
+> │       └── site_config.json
+> │
+> ├── env/                 ← Python virtuelno okruženje
+> ├── logs/
+> └── config/
+> ```
 
 A takođe smo razjasnili i odnose:
 
@@ -356,85 +364,85 @@ To je zapravo temelj cele Frappe arhitekture.
 
 ### Frappe python paket
 
-Pregled `frape/frape` direktorijuma
+Pregled `frappe/frappe` direktorijuma
 
-Evo izlaza
-
-```sh
-tree -L 1 frappe
-```
-
-```sh
-frappe
-├── api
-├── app.py
-├── apps.py
-├── auth.py
-├── automation
-├── boot.py
-├── build.py
-├── cache_manager.py
-├── change_log
-├── client.py
-├── commands
-├── config
-├── contacts
-├── core
-├── coverage.py
-├── custom
-├── data
-├── database
-├── defaults.py
-├── deferred_insert.py
-├── desk
-├── email
-├── exceptions.py
-├── frappeclient.py
-├── geo
-├── gettext
-├── handler.py
-├── hooks.py
-├── __init__.py
-├── installer.py
-├── integrations
-├── locale
-├── middlewares.py
-├── migrate.py
-├── model
-├── modules
-├── modules.txt
-├── monitor.py
-├── oauth.py
-├── onboarding.py
-├── parallel_test_runner.py
-├── patches
-├── patches.txt
-├── permissions.py
-├── printing
-├── public
-├── pulse
-├── push_notification.py
-├── __pycache__
-├── query_builder
-├── rate_limiter.py
-├── realtime.py
-├── recorder.py
-├── search
-├── sessions.py
-├── share.py
-├── social
-├── templates
-├── test_runner.py
-├── tests
-├── translate.py
-├── translations
-├── twofactor.py
-├── types
-├── utils
-├── website
-├── workflow
-└── www
-```
+> [!Info] Izlaz
+>
+> ```sh
+> tree -L 1 frappe
+> ```
+>
+> ```sh
+> frappe
+> ├── api
+> ├── app.py
+> ├── apps.py
+> ├── auth.py
+> ├── automation
+> ├── boot.py
+> ├── build.py
+> ├── cache_manager.py
+> ├── change_log
+> ├── client.py
+> ├── commands
+> ├── config
+> ├── contacts
+> ├── core
+> ├── coverage.py
+> ├── custom
+> ├── data
+> ├── database
+> ├── defaults.py
+> ├── deferred_insert.py
+> ├── desk
+> ├── email
+> ├── exceptions.py
+> ├── frappeclient.py
+> ├── geo
+> ├── gettext
+> ├── handler.py
+> ├── hooks.py
+> ├── __init__.py
+> ├── installer.py
+> ├── integrations
+> ├── locale
+> ├── middlewares.py
+> ├── migrate.py
+> ├── model
+> ├── modules
+> ├── modules.txt
+> ├── monitor.py
+> ├── oauth.py
+> ├── onboarding.py
+> ├── parallel_test_runner.py
+> ├── patches
+> ├── patches.txt
+> ├── permissions.py
+> ├── printing
+> ├── public
+> ├── pulse
+> ├── push_notification.py
+> ├── __pycache__
+> ├── query_builder
+> ├── rate_limiter.py
+> ├── realtime.py
+> ├── recorder.py
+> ├── search
+> ├── sessions.py
+> ├── share.py
+> ├── social
+> ├── templates
+> ├── test_runner.py
+> ├── tests
+> ├── translate.py
+> ├── translations
+> ├── twofactor.py
+> ├── types
+> ├── utils
+> ├── website
+> ├── workflow
+> └── www
+> ```
 
 Mnogi početnici pogledaju ovaj spisak i pomisle: *"Ovo je haos."* Međutim, kada se grupiše po nameni, postaje prilično logičan.
 
@@ -453,7 +461,7 @@ django/
 
 Frappe je drugačije organizovan.
 
-Ovde je logika: **"Grupiši kod po funkcionalnosti (feature), a ne po tipu fajla."**
+Ovde je logika: "Grupiši kod po **funkcionalnosti (feature)**, a ne po tipu fajla."
 
 Zbog toga vidiš foldere kao što su:
 
@@ -474,6 +482,7 @@ Svaki od njih predstavlja jednu veću celinu sistema.
 </br>
 
 - **Core framework**
+
   Ovo je srce Frappe-a.
 
   ```sh
@@ -492,6 +501,7 @@ Svaki od njih predstavlja jednu veću celinu sistema.
 </br>
 
 - **HTTP/Web**
+
   Ovde počinje svaki zahtev iz browsera.
 
   ```sh
@@ -529,6 +539,7 @@ Svaki od njih predstavlja jednu veću celinu sistema.
   - Report View
   - Search
   - Notifications
+
   Sve to živi ovde.
 
 </br>
@@ -602,11 +613,13 @@ Svaki od njih predstavlja jednu veću celinu sistema.
   gettext/
   ```
 
-  CSS  
-  JS  
-  ikonice  
-  prevodi  
-  fontovi  
+  - CSS  
+  - JS  
+  - ikonice  
+  - prevodi  
+  - fontovi  
+
+</br>
 
 - **Šta je najvažnije**
 
@@ -660,25 +673,29 @@ Svaki od njih predstavlja jednu veću celinu sistema.
 
 Ako bismo učili Frappe kao da zajedno pravimo sopstveni framework, redosled bi bio:
   
-```txt
-model/ -> database/ -> query_builder/ -> Document -> DocType -> Meta -> Desk -> API -> Website
-```
+- model/
+- database/
+- query_builder/
+- Document
+- DocType
+- Meta
+- Desk
+- API
+- Website
 
-Zašto baš ovako?
+Zašto baš ovako? Zato što sve u Frappe-u počinje od `Document` klase. Bukvalno sve.
 
-Zato što sve u Frappe-u počinje od `Document` klase. Bukvalno sve.
-
-Customer  
-Item  
-Sales Invoice  
-User  
-Role  
-Project  
-Task  
+- Customer  
+- Item  
+- Sales Invoice  
+- User  
+- Role  
+- Project  
+- Task  
 
 ...sve su oni samo izvedene forme jednog osnovnog koncepta: `Document`.
 
-#### Frappe model
+### Frappe model
 
 Mislim da je sada pravi trenutak da ne "skačemo" po direktorijumima, već da pratimo jednu nit kroz framework.
 
@@ -696,10 +713,8 @@ Meni se ovaj pristup čini prirodnijim nego da obilazimo direktorijume jedan po 
 
 Sada krećemo na deo koji ja smatram **srcem Frappe-a**.
 
-I sada ću usporiti. Nećemo juriti kroz kod. Cilj nije da naučimo napamet gde je koji fajl, nego da razumemo zašto postoji.
-
 **Prvo jedno pitanje**  
-Kada kažeš: "Napravio sam DocType `Customer`." šta se zapravo desilo?
+Kada kažeš: "Napravio sam DocType `Customer`. šta se zapravo desilo"?
 
 Da li je napravljen:
 
@@ -709,20 +724,18 @@ Da li je napravljen:
 - JavaScript?
 - REST API?
 
-Odgovor je... Sve od navedenog.
-
-I upravo zato Frappe deluje "magično".
-
-Ali nema magije. Samo dosta automatizacije.
+Odgovor je... Sve od navedenog. I upravo zato Frappe deluje "magično". Ali nema magije. Samo dosta automatizacije.
 
 **`model/`**
 
-Molim te pošalji izlaz:
-
-```bash
-cd ~/frappe-bench/apps/frappe/frappe/model
-tree -L 1
-```
+> [!Note] AI Zahtev
+>
+> Molim te pošalji izlaz:
+>
+> ```bash
+> cd ~/frappe-bench/apps/frappe/frappe/model
+> tree -L 1
+> ```
 
 Ako nemaš `tree`:
 
@@ -732,7 +745,7 @@ ls -al
 
 Nemoj još dublje. Samo prvi nivo.
 
-</br>
+#### Definicija modela
 
 U čistom Pythonu mogao bi da napišeš:
   
@@ -760,52 +773,43 @@ class Person(Base):
 A u Frappe-u ne pišeš skoro ništa.
   
 Zašto? Zato što će DocType definicija postati Python objekat u vreme izvršavanja (runtime).
-
 To je ogromna razlika.
-
-Većina framework-a radi ovako:
-  
-```txt
-Python klasa -> SQL tabela
-```
-
-Frappe radi obrnuto:
-
-```txt
-DocType (meta podaci) -> Meta objekat -> Document objekat -> SQL tabela
-```
 
 To je razlog zašto možeš da napraviš novi DocType iz Desk interfejsa, bez pisanja Python klase, a framework ipak zna kako da kreira, učita, sačuva i validira te dokumente.
 
-Pošalji izlaz `tree -L 1` za `frappe/model`, pa nastavljamo korak po korak.
+> [!Note] AI Zahtev
+>
+> Pošalji izlaz `tree -L 1` za `frappe/model`.
 
-Evo izlaza
+</br>
 
-```sh
-tree -L 1 frappe/model
-```
-
-```sh
-frappe/model
-├── base_document.py
-├── create_new.py
-├── db_query.py
-├── delete_doc.py
-├── docfield.py
-├── docstatus.py
-├── document.py
-├── dynamic_links.py
-├── __init__.py
-├── mapper.py
-├── meta.py
-├── naming.py
-├── __pycache__
-├── rename_doc.py
-├── sync.py
-├── utils
-├── virtual_doctype.py
-└── workflow.py
-```
+> [!Info] Izlaz
+>
+> ```sh
+> tree -L 1 frappe/model
+> ```
+>
+> ```sh
+> frappe/model
+> ├── base_document.py
+> ├── create_new.py
+> ├── db_query.py
+> ├── delete_doc.py
+> ├── docfield.py
+> ├── docstatus.py
+> ├── document.py
+> ├── dynamic_links.py
+> ├── __init__.py
+> ├── mapper.py
+> ├── meta.py
+> ├── naming.py
+> ├── __pycache__
+> ├── rename_doc.py
+> ├── sync.py
+> ├── utils
+> ├── virtual_doctype.py
+> └── workflow.py
+> ```
 
 I sada dolazimo do dela gde bih voleo da radimo malo drugačije nego što to rade većina tutorijala. Nećemo ići redom po fajlovima. Umesto toga, pokušaćemo da odgovorimo na jedno pitanje: "Šta se desi kada napišem `frappe.get_doc(...)` ili kada kliknem `Save` na formi?"
 
@@ -853,7 +857,9 @@ Svaki od ova četiri ima svoju ulogu.
 </br>
 
 - **DocType**  
-  Ovo već poznaješ. Na primer: Customer ili Item ili Task  
+  Ovo već poznaješ.  
+  Na primer:  
+  Customer ili Item ili Task  
   DocType nije Python klasa. DocType je opis.
   
   Na primer:
@@ -947,7 +953,13 @@ Kod je opis modela.
 
 U Frappe-u je obrnuto.
 
-Model se nalazi u bazi (kao DocType definicija), a Python ga učitava u `Meta` objekat. To znači da framework može da radi sa DocType-om koji nije postojao kada je Frappe pokrenut.
+> [!Info] Model
+>
+> Model se nalazi u bazi kao DocType definicija, a Python ga učitava u `Meta`
+> objekat.
+
+To znači da framework može da radi sa DocType-om koji nije postojao
+kada je Frappe pokrenut.
 
 Napraviš novi DocType u Desk-u. Ne restartuješ server. Odmah radi.
 

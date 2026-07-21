@@ -4,210 +4,6 @@
 
 ## 14 Eksperimenti - II
 
-Mislim da je sada pravi trenutak da krenemo da **pravimo nešto**, a ne da filozofiramo.
-
-</br>
-
-### Proverimo Module Def
-
-Pošto u `modules.txt` imaš:
-
-```text
-Frappe Lab
-```
-
-proverimo da li postoji i na sajtu (što si već potvrdio):
-
-```python
-frappe.get_all("Module Def", fields=["name", "app_name"])
-```
-
-Postoji. ✔
-
-To znači da možemo da koristimo modul **Frappe Lab**.
-
-### Napravi prvi DocType
-
-Uradi u Desk-u:
-
-***Developer → DocType → New***
-
-Popuni:
-
-* **Module:** `Frappe Lab` -  Da bi DocType bio u tom modulu
-* **Name:** `Book`
-* **Custom:** ❌ (isključeno)
-* **Is Submittable:** ❌
-* **Is Single:** ❌
-
-Dodaj samo dva polja:
-
-| Label | Type     |
-| ----- | -------- |
-| Title | Data     |
-| Price | Currency |
-
-Sačuvaj.
-
-Pošalji mi izlaz:
-
-```bash
-tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
-```
-
-Hoću da vidiš : "šta je Frappe upravo napravio na disku".
-
-To će biti naš prvi pravi susret sa vezom: "DocType u bazi ↔ Python fajlovi ↔ JSON definicija".
-
-I odatle krećemo na lifecycle eksperimente. Mislim da će od tog trenutka sve postati mnogo konkretnije.
-
----
-
-Evo izlaza
-
-```sh
-tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
-```
-
-```sh
-/home/radosav/frappe-bench/apps/frappe_lab/frappe_lab
-├── config
-│   └── __init__.py
-├── frappe_lab
-│   ├── doctype
-│   │   ├── book
-│   │   │   ├── book.js
-│   │   │   ├── book.json
-│   │   │   ├── book.py
-│   │   │   ├── __init__.py
-│   │   │   ├── __pycache__
-│   │   │   │   ├── book.cpython-312.pyc
-│   │   │   │   └── __init__.cpython-312.pyc
-│   │   │   └── test_book.py
-│   │   ├── __init__.py
-│   │   └── __pycache__
-│   │       └── __init__.cpython-312.pyc
-│   ├── __init__.py
-│   └── __pycache__
-│       └── __init__.cpython-312.pyc
-├── hooks.py
-├── __init__.py
-├── modules.txt
-├── patches
-│   └── __init__.py
-├── patches.txt
-├── public
-│   ├── css
-│   └── js
-├── __pycache__
-│   ├── hooks.cpython-312.pyc
-│   └── __init__.cpython-312.pyc
-├── templates
-│   ├── includes
-│   ├── __init__.py
-│   └── pages
-│       └── __init__.py
-└── www
-
-17 directories, 21 files
-```
-
----
-
-Sada smo konačno na "živom" Frappe-u. I odmah možeš da primetiš jednu vrlo zanimljivu stvar. Ranije smo pričali o `Document` klasi, a sada vidi šta je Frappe napravio:
-
-```text
-book/
-├── book.json
-├── book.py
-├── book.js
-└── test_book.py
-```
-
-Svaki od ovih fajlova ima svoju ulogu.
-
-* `book.json` → **model** (definicija DocType-a: polja, dozvole, opcije...)
-* `book.py` → **server-side kontroler** (naslednik `Document`)
-* `book.js` → **client-side logika** (forma u browseru)
-* `test_book.py` → testovi
-
-Već sada vidiš kako se spajaju baza, Python i JavaScript.
-
-### Prvi mali eksperiment
-
-Otvori:
-
-```bash
-nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
-```
-
-ili editor koji koristiš.
-
-Pošalji njegov sadržaj.
-
-Hoću da vidimo šta je Frappe automatski generisao pre nego što bilo šta menjamo.
-
-To će biti prvi fajl koji ćemo "rastaviti" i povezati sa svim onim što smo čitali u `document.py`. Mislim da će ti biti poznat već na prvi pogled.
-
----
-
-Evo izlaza
-
-```bash
-nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
-```
-
-```py
-# Copyright (c) 2026, rrad and contributors
-# For license information, please see license.txt
-
-# import frappe
-from frappe.model.document import Document
-
-
-class Book(Document):
-        pass
-```
-
----
-
-Pogledaj samo ovo:
-
-```python
-from frappe.model.document import Document
-
-class Book(Document):
-    pass
-```
-
-Sećaš se koliko smo vremena proveli u:
-
-```text
-frappe/model/document.py
-```
-
-E pa sada **`self`** u svim onim metodama koje smo čitali jeste upravo instanca **`Book`**.
-
-Drugim rečima:
-
-```python
-doc = frappe.new_doc("Book")
-```
-
-napraviće:
-
-```python
-Book(Document)
-```
-
-a kada pozoveš:
-
-```python
-doc.insert()
-```
-
-izvršava se **isti `Document.insert()`** koji smo detaljno analizirali, samo što će usput pozivati metode iz tvoje klase `Book`.
-
 ### Eksperiment 1 - Prvi pravi eksperiment
 
 Zameni `pass` ovim:
@@ -238,9 +34,7 @@ class Book(Document):
 
 Nemoj još dodavati više metoda.
 
-**Zašto baš ovih šest?**
-
-Zato što smo ih sreli dok smo čitali `Document.insert()`. Sada ćemo proveriti da li se naše razumevanje poklapa sa stvarnim izvršavanjem. To će biti prvi eksperiment u kome ćemo moći da kažemo: "Aha! Ovo je upravo ono što smo pročitali u izvornom kodu."
+**Zašto baš ovih šest?** ato što smo ih sreli dok smo čitali `Document.insert()`. Sada ćemo proveriti da li se naše razumevanje poklapa sa stvarnim izvršavanjem. To će biti prvi eksperiment u kome ćemo moći da kažemo: "Aha! Ovo je upravo ono što smo pročitali u izvornom kodu."
 
 Mislim da će ti ovo biti mnogo zanimljivije od daljeg čitanja `document.py`. 😊
 
@@ -1505,7 +1299,268 @@ Sledeća stanica bi bila:
 * pa onda prelazak na standardni Frappe DocType,
 * i poređenje: **moj kod u controlleru vs proširenje preko hook-a**.
 
----
+### Moje mišljenje o Frappe ocenama
+
+Ne bih se mnogo obazirao na broj zvezdica ili pojedinačne komentare.
+
+Frappe je pomalo "čudna zver".
+
+Ljudi koji očekuju:
+
+* Django
+* Flask
+* FastAPI
+
+često ga ne vole.
+
+Ljudi koji očekuju:
+
+* Odoo
+* Oracle APEX
+* Power Apps
+* Mendix
+
+često ga obožavaju.
+
+Zašto?
+
+Jer Frappe nije prvenstveno web framework. To je **application framework** sa ugrađenim RAD (Rapid Application Development) alatima.
+
+Zbog toga ima:
+
+* ORM
+* permissions
+* workflow
+* report engine
+* print engine
+* scheduler
+* background jobs
+* REST
+* realtime
+* Desk
+* Website
+* Jinja
+* migrations
+* metadata
+* role system...
+
+...što je zaista retko u jednom open-source projektu.
+
+Njegova mana nije što je siromašan, nego što je **veliki**.
+
+### Hajde da ubrzamo
+
+Predlažem ovakav plan.
+
+#### 1. `doc_events` (15 min)
+
+Već si praktično naučio 90%.
+
+Zapamti samo ovo:
+
+**Controller**:
+
+Koristiš kada pišeš logiku **svog DocType-a**.
+
+```python
+class Book(Document):
+    def validate(self):
+        ...
+```
+
+**doc_events**:
+
+Koristiš kada želiš da se "prikačiš" na:
+
+* tuđi DocType
+* ili svoj DocType bez menjanja controller-a.
+
+```python
+doc_events = {
+    "User": {
+        "validate": "moja_app.user_hooks.validate"
+    }
+}
+```
+
+To je cela filozofija.
+
+Ne bih više trošio vreme na `doc_events`.
+
+#### 2. Desk
+
+Po meni ovo je sledeća velika tema.
+
+Tu bih prošao:
+
+* Workspace
+* Module
+* DocType
+* Report
+* Page
+* Dashboard
+* Print Format
+* Web Form
+
+bez ulaženja u detalje.
+
+Cilj: "Šta sve Desk može da napravi?"
+
+#### 3. Deploy
+
+Ovo me posebno zanima da zajedno prođemo.
+
+Jer postoji razlika između:
+
+Development
+
+```text
+bench start
+```
+
+i
+
+Production
+
+```text
+Supervisor
+Nginx
+Redis
+SocketIO
+Workers
+```
+
+Kako se aplikacija pakuje. Kako ide na Git. Kako ide na drugi server. Kako se instalira. Kako rade migracije.
+
+To je veoma važna tema.
+
+#### 4. Posle toga
+
+Ja bih stao sa Frappe internals. Mislim da tada već znaš dovoljno.
+
+Posle toga bih radio ono što rade pravi programeri: Napravimo malu aplikaciju.
+
+Recimo:
+
+* Library
+* Inventory
+* Help Desk
+* TODO
+
+i usput učimo:
+
+* Query Builder
+* Child Tables
+* REST
+* Background Jobs
+* Print Formats
+* Permissions
+
+onoliko koliko nam zatreba.
+
+## Mislim da je sada pravi trenutak da promenimo način učenja
+
+Do sada smo učili: Kako Frappe radi?
+
+Od sada bih učio: Kako se pravi aplikacija u Frappe-u?
+
+To je, po mom mišljenju, mnogo zanimljiviji i korisniji deo. A kada naiđemo na nešto iz internala, vratićemo se na izvorni kod samo za tu konkretnu temu, umesto da ga čitamo redom. Mislim da ćeš tako mnogo brže steći osećaj za ceo framework.
+
+### `docs_events`
+
+**Ko piše `doc_events`?**
+
+Programer aplikacije. Ne korisnik, ne administrator, ne Desk.
+Ti.
+
+**Gde se piše?**
+
+U svakoj Frappe aplikaciji postoji:
+
+```text
+apps/
+└── frappe_lab/
+    └── frappe_lab/
+        └── hooks.py
+```
+
+U njemu napišeš:
+
+```python
+doc_events = {
+    "Book": {
+        "on_update": "frappe_lab.book_hooks.trace"
+    },
+    "User": {
+        "validate": "frappe_lab.user_hooks.validate_user"
+    },
+    "*": {
+        "after_insert": "frappe_lab.audit.log_insert"
+    }
+}
+```
+
+**Ko ga izvršava?**
+
+Ne pozivaš ga ti.
+
+Kada Frappe izvršava:
+
+```python
+doc.save()
+```
+
+ili
+
+```python
+doc.insert()
+```
+
+interno proverava: "Da li neka instalirana aplikacija ima `doc_events` za ovaj DocType i ovaj događaj?"
+Ako ima, pozove ih.
+
+Zato se i zove `hook` – "zakačiš" svoju funkciju na događaj.
+
+**Zašto je koristan?**
+
+Najčešći slučaj:
+
+Imaš standardni DocType:
+
+```text
+User
+```
+
+Ne smeš da menjaš:
+
+```text
+apps/frappe/frappe/core/doctype/user/user.py
+```
+
+jer će sledeći update Frappe-a pregaziti izmene.
+
+Umesto toga napišeš u svojoj aplikaciji:
+
+```python
+doc_events = {
+    "User": {
+        "validate": "moja_aplikacija.user_hooks.validate_user"
+    }
+}
+```
+
+i gotovo.
+
+**Kada ga JA koristim?**
+
+Ja imam vrlo jednostavno pravilo:
+
+* **Pišem svoj DocType** → koristim metode u kontroleru (`validate()`, `on_update()`, ...).
+* **Proširujem tuđi DocType** (Frappe ili ERPNext) → koristim `doc_events`.
+
+To pravilo pokriva ogromnu većinu slučajeva.
+
+Zapravo, mislim da je ovo sve što treba da znaš o `doc_events` za sada. Kasnije ćemo naići na još hook-ova (`override_doctype_class`, `override_whitelisted_methods`, `scheduler_events`, `fixtures`...), ali filozofija je ista: `hooks.py` je mesto gde aplikacija govori Frappe-u kako želi da proširi njegovo ponašanje.
 
 [Sadržaj][00]
 
