@@ -17,6 +17,8 @@
 - [12 Živptni ciklus dokumenta][12]
 - [13 Eksperimenti - I][13]
 - [14 Eksperimenti - II][14]
+- [15 Desk][15]
+- [16 Izrada aplikacije][16]
 
 ---
 
@@ -34,3 +36,5 @@
 [12]: 12%20Životni%20ciklus%20dokumenta.md
 [13]: 13%20Eksperimenti%201.md
 [14]: 14%20Eksperimenti%202.md
+[15]: 15.Desk.md
+[16]: 16.%20Izrada%20aplikacije.md
