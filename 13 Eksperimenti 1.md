@@ -223,7 +223,7 @@ Po mom mišljenju, ovo je zapravo idealno. Ne bih pravio DocType u samom Frappe-
 
 Ja bih Fazu 6 podelio na još dva mala koraka.
 
-### Faza 6 — Prva Frappe aplikacija
+### Prva Frappe aplikacija
 
 Pre nego što počnemo sa hook-ovima, napravićemo svoju aplikaciju.
 
@@ -232,32 +232,20 @@ Ne zato što nam odmah treba, već zato što će nam ona služiti tokom celog os
 Na primer:
 
 ```sh
-bench new-app playground            [2]
-```
-
-ili
-
-```sh
-learning_app
-```
-
-ili
-
-```sh
 frappe_lab
 ```
 
 Ja čak više volim nazive poput **`playground`** ili **`lab`**, jer odmah govore da je to eksperimentalna aplikacija.
 
-Posle:
+Posle toga:
 
 ```sh
-bench --site site1.local install-app playground
+bench --site site1.local install-app frappe-lab
 ```
 
 Time dobijaš potpuno odvojeno mesto za eksperimente.
 
-#### Faza 6.1 — Prvi Custom DocType
+#### Prvi Custom DocType
 
 Tek tada pravimo
 
@@ -274,8 +262,6 @@ TestDocument
 unutar svoje aplikacije.
 
 To je mnogo bliže načinu na koji ćeš kasnije razvijati stvarne projekte.
-
-#### Šta bih ja još promenio
 
 Pošto si već dosta upoznao unutrašnjost Frappe-a, mislim da od ovog trenutka više ne treba da radimo u stilu: "Evo narednih 15 komandi, izvrši ih."
 
@@ -351,7 +337,7 @@ quit()
 Zatim uključi development mode:
 
 ```bash
-bench --site site1.local set-config developer_mode 1  [1]
+bench --site site1.local set-config developer_mode 1
 ```
 
 To će upisati u:
@@ -384,7 +370,7 @@ bench start
 
 Ako koristiš production setup (`bench setup supervisor` / systemd), onda treba restartovati odgovarajuće servise, ali pošto smo mi u razvojnoj VM, verujem da koristiš `bench start`.
 
-#### Da li nam je developer mode uopšte potreban?
+#### developer mode
 
 Za ono što planiramo u Fazi 6 – **da**.
 
@@ -499,52 +485,50 @@ Od sada menjamo stil rada:
 * **malo diskusije**,
 * pa sledeći korak.
 
-### Korak 1 – Struktura aplikacije
+#### Struktura aplikacije
 
-Pošalji izlaz:
+> [!Note] Ai Zahtev
+>
+> Pošalji izlaz
+>
+> ```bash
+> tree -L 2 ~/frappe-bench/apps/frappe_lab
+> ```
+>
+> Ako nemaš `tree`:
+>
+> ```bash
+> sudo apt install tree
+> ```
 
-```bash
-tree -L 2 ~/frappe-bench/apps/frappe_lab
-```
+</br>
 
-Ako nemaš `tree`:
-
-```bash
-sudo apt install tree
-```
-
-Posle toga ćemo proći kroz strukturu za 5 minuta:
-
-* šta je bitno,
-* šta možeš da ignorišeš za sada,
-* gde ćemo raditi narednih nekoliko faza.
-
-Evo izlaza:
-
-```sh
-tree -L 2 ~/frappe-bench/apps/frappe_lab
-```
-
-```sh
-/home/radosav/frappe-bench/apps/frappe_lab
-├── frappe_lab
-│   ├── config
-│   ├── frappe_lab
-│   ├── hooks.py
-│   ├── __init__.py
-│   ├── modules.txt
-│   ├── patches
-│   ├── patches.txt
-│   ├── public
-│   ├── __pycache__
-│   ├── templates
-│   └── www
-├── license.txt
-├── pyproject.toml
-└── README.md
-
-9 directories, 7 files
-```
+> [!Info] Izlaz
+>
+> ```sh
+> tree -L 2 ~/frappe-bench/apps/frappe_lab
+> ```
+>
+> ```sh
+> /home/radosav/frappe-bench/apps/frappe_lab
+> ├── frappe_lab
+> │   ├── config
+> │   ├── frappe_lab
+> │   ├── hooks.py
+> │   ├── __init__.py
+> │   ├── modules.txt
+> │   ├── patches
+> │   ├── patches.txt
+> │   ├── public
+> │   ├── __pycache__
+> │   ├── templates
+> │   └── www
+> ├── license.txt
+> ├── pyproject.toml
+> └── README.md
+> 
+> 9 directories, 7 files
+> ```
 
 Ovo je sasvim standardna struktura. Hajde da označimo šta nam je **bitno sada**, a šta **kasnije**.
 
@@ -572,9 +556,7 @@ Za sada su nam važna samo četiri mesta
 
 * **`hooks.py`**
 
-  **Srce aplikacije.**
-  
-  Ovde se registruje skoro sve:
+  Srce aplikacije. Ovde se registruje skoro sve:
   
   * `doc_events`
   * scheduler
@@ -589,9 +571,7 @@ Za sada su nam važna samo četiri mesta
 
 * **`modules.txt`**
 
-  Kaže Frappe-u koje module aplikacija ima.
-  
-  Kasnije će ovde stajati, recimo:
+  Kaže Frappe-u koje module aplikacija ima. Kasnije će ovde stajati, recimo:
   
   ```sh
   Frappe Lab
@@ -603,9 +583,7 @@ Za sada su nam važna samo četiri mesta
 
 * **`frappe_lab/frappe_lab/`**
 
-  Ovo je glavni Python paket tvoje aplikacije.
-  
-  Ovde će nastajati:
+  Ovo je glavni Python paket tvoje aplikacije. Ovde će nastajati:
   
   * DocType-ovi
   * API funkcije
@@ -616,13 +594,10 @@ Za sada su nam važna samo četiri mesta
 
 * **`config/`**
 
-Za sada samo zapamti da je vezan za Desk/module konfiguraciju.
-
-Ne diramo još.
+  Za sada samo zapamti da je vezan za Desk/module konfiguraciju.
+  Ne diramo još.
 
 </br>
-
-**Pitanje za tebe**:
 
 Primećuješ li nešto zanimljivo ovde?
 
@@ -641,13 +616,9 @@ Možeš li da pogodiš zašto postoje tri nivoa istog imena? To će nam biti lep
 
 ---
 
-Žao mi je. Ne kockam se :)
-
 Prvi je aplikacija. Drugi je python paket, za ovu web aplikaciju, a treći je python paket ukome će biti frape kod.
 
 ---
-
-😂 "Ne kockam se." Odlično. Onda nećemo pogađati, nego analizirati.
 
 Blizu si, ali treći nije baš to.
 
@@ -737,15 +708,11 @@ Blizu si, ali treći nije baš to.
   
   Svaki od njih izgleda upravo kao ovaj tvoj treći direktorijum.
 
-Mislim da je ovo dovoljno za danas iz strukture.
-
-## Sledeći korak
+Mislim da je ovo dovoljno za danas iz strukture aplikacije.
 
 Sada prelazimo na nešto mnogo zanimljivije:
 
 **Napravićemo prvi modul i prvi DocType**, pa ćemo konačno početi da pratimo životni ciklus `Document` klase u praksi.
-
-I mislim da će ti to biti daleko zanimljivije od gledanja direktorijuma. 😄
 
 ---
 
@@ -772,64 +739,64 @@ Aplikacija (App)
 
 </br>
 
-* **App (aplikacija)**
+**App (aplikacija)**:
 
-  To je ono što smo upravo napravili:
-  
-  ```text
-  frappe_lab
-  ```
-  
-  App je Python/Git projekat.
-  
-  Pravi se:
-  
-  ```sh
-  bench new-app frappe_lab
-  ```
-  
-  App može da se instalira na site:
-  
-  ```bash
-  bench --site site1.local install-app frappe_lab
-  ```
-  
-  Jedan site može imati:
-  
-  ```sh
-  frappe
-  erpnext
-  frappe_lab
-  moja_druga_app
-  ```
+To je ono što smo upravo napravili:
+
+```text
+frappe_lab
+```
+
+App je Python/Git projekat.
+
+Pravi se:
+
+```sh
+bench new-app frappe_lab
+```
+
+App može da se instalira na site:
+
+```bash
+bench --site site1.local install-app frappe_lab
+```
+
+Jedan site može imati:
+
+```sh
+frappe
+erpnext
+frappe_lab
+moja_druga_app
+```
 
 više aplikacija.
 
 </br>
 
-* **Module (Frappe modul)**
+**Module (Frappe modul)**:
 
-  Modul je **organizacija sadržaja unutar aplikacije**.
-  
-  Na primer ERPNext:
-  
-  ```sh
-  erpnext (App)
-  |
-  +-- Accounts (Module)
-  |
-  +-- Selling (Module)
-  |
-  +-- Buying (Module)
-  |
-  +-- Stock (Module)
-  ```
-  
-  Dakle: ERPNext nije 10 aplikacija. To je **jedna aplikacija sa mnogo modula**.
-  
+Modul je **organizacija sadržaja unutar aplikacije**.
+
+Na primer ERPNext:
+
+```sh
+erpnext (App)
+|
++-- Accounts (Module)
+|
++-- Selling (Module)
+|
++-- Buying (Module)
+|
++-- Stock (Module)
+```
+
+Dakle: ERPNext nije 10 aplikacija. To je **jedna aplikacija sa mnogo modula**.
+
   </br>
   
-  **Kako se pravi novi modul?**
+* **Kako se pravi novi modul?**
   
   Modul se pravi kroz:
   
@@ -867,19 +834,17 @@ više aplikacija.
   
   Jer je logično:
   
-  * App = naš projekat za učenje
-  * Module = oblast unutar projekta
-  * DocType = konkretan poslovni objekat
+  * **App*+ = naša aplikacija za učenje
+  * **Module** = oblast unutar aplikacije
+  * **DocType** = konkretan poslovni objekat
   
-  Dakle, tvoja intuicija je bila dobra: kada si ranije čuo "Frappe module", vrlo verovatno su ljudi mislili na **ERPNext module** (Accounts, Stock, HR...), a ne na Python module.
+  Samo Frappe koristi istu reč za oba koncepta, Frappe modul i Python modul.
   
-  Samo Frappe koristi istu reč za oba koncepta.
+Sledeći mali korak bih predložio:
   
-  Sledeći mali korak bih predložio:
-  
-  1. pogledamo postojeći `modules.txt`
-  2. napravimo naš prvi **Lab Module**
-  3. onda napravimo **Book DocType**
+* pogledamo postojeći `modules.txt`
+* napravimo naš prvi **Lab Module**
+* onda napravimo **Book DocType**
   
   Tu će se konačno spojiti: `App → Module → DocType → Document lifecycle`.
 
@@ -1021,84 +986,69 @@ Mi ćemo verovatno uraditi ovako:
                   book/
   ```
 
-Dakle tvoja primedba: "Ovako ispada da je modul vezan za sajt a ne za aplikaciju" je tačna iz jednog ugla. Module Def jeste deo site metadata baze. Ali sadržaj modula (DocType, Page, Report...) pripada aplikaciji.
-
-Frappe zapravo kombinuje:
-
-* baza zna da modul postoji,
-* aplikacija donosi fajlove tog modula.
-
-To je jedan od razloga zašto je Frappe malo drugačiji od klasičnih framework-a.
-
 Ovo je baš dobra tačka da stanemo sa "pravljenjem" i prvo pogledamo konkretno.
 
 Predlažem sledeće:
 
-```bash
-cat ~/frappe-bench/apps/frappe_lab/frappe_lab/modules.txt
-```
-
-i:
-
-```bash
-bench --site site1.local console
-```
-
-pa u konzoli:
-
-```python
-frappe.get_all("Module Def", fields=["name", "app_name"])
-```
+> [!Note] AI Zahtev
+>
+> ```bash
+> cat ~/frappe-bench/apps/frappe_lab/frappe_lab/modules.txt
+> ```
+>
+> i :
+>
+> ```bash
+> bench --site site1.local console
+> ```
+>
+> pa u konzoli:
+>
+> ```python
+> frappe.get_all("Module Def", fields=["name", "app_name"])
+> ```
 
 Mislim da će ti ovaj rezultat odmah "složiti sliku".
 
----
-
-Evo izlaza
-
-```sh
-cat ~/frappe-bench/apps/frappe_lab/frappe_lab/modules.txt
-```
-
-```sh
-Frappe Lab
-```
-
-```sh
-bench --site site1.local console
-Apps in this namespace:
-frappe, frappe_lab
-```
-
-```py
-In [1]: frappe.get_all("Module Def", fields=["name", "app_name"])
-Out[1]: 
-[{'name': 'Frappe Lab', 'app_name': 'frappe_lab'},
- {'name': 'Automation', 'app_name': 'frappe'},
- {'name': 'Social', 'app_name': 'frappe'},
- {'name': 'Contacts', 'app_name': 'frappe'},
- {'name': 'Printing', 'app_name': 'frappe'},
- {'name': 'Integrations', 'app_name': 'frappe'},
- {'name': 'Desk', 'app_name': 'frappe'},
- {'name': 'Geo', 'app_name': 'frappe'},
- {'name': 'Custom', 'app_name': 'frappe'},
- {'name': 'Email', 'app_name': 'frappe'},
- {'name': 'Workflow', 'app_name': 'frappe'},
- {'name': 'Website', 'app_name': 'frappe'},
- {'name': 'Core', 'app_name': 'frappe'}]
-```
+> [!Info] Izlaz
+>
+> ```sh
+> cat ~/frappe-bench/apps/frappe_lab/frappe_lab/modules.txt
+> ```
+>
+> ```sh
+> Frappe Lab
+> ```
+>
+> ```sh
+> bench --site site1.local console
+> Apps in this namespace:
+> frappe, frappe_lab
+> ```
+>
+> ```py
+> In [1]: frappe.get_all("Module Def", fields=["name", "app_name"])
+> Out[1]: 
+> [{'name': 'Frappe Lab', 'app_name': 'frappe_lab'},
+>  {'name': 'Automation', 'app_name': 'frappe'},
+>  {'name': 'Social', 'app_name': 'frappe'},
+>  {'name': 'Contacts', 'app_name': 'frappe'},
+>  {'name': 'Printing', 'app_name': 'frappe'},
+>  {'name': 'Integrations', 'app_name': 'frappe'},
+>  {'name': 'Desk', 'app_name': 'frappe'},
+>  {'name': 'Geo', 'app_name': 'frappe'},
+>  {'name': 'Custom', 'app_name': 'frappe'},
+>  {'name': 'Email', 'app_name': 'frappe'},
+>  {'name': 'Workflow', 'app_name': 'frappe'},
+>  {'name': 'Website', 'app_name': 'frappe'},
+>  {'name': 'Core', 'app_name': 'frappe'}]
+> ```
 
 Dobro to je način organizacije delova app na način shodan korisniku, a ne samo po app.
 
----
+Module Def je logička organizacija funkcionalnosti unutar aplikacije.
 
-Bravo. Mislim da si upravo sam došao do suštine.
-
-Ova rečenica: "To je način organizacije delova app shodan korisniku, a ne samo po app."
-je skoro tačno ono kako ja danas razmišljam o Frappe-u. Ja bih je samo malo dopunio:
-""Module Def je logička organizacija funkcionalnosti unutar aplikacije.
-
-Ne služi Python-u.  
+Ne služi Python-u.
 Ne služi Git-u.  
 Ne služi Bench-u.  
 
@@ -1110,7 +1060,7 @@ Na primer:
 ERPNext (app)
 
 Accounts (Module Def)
-    Journal Entry
+    Journal Entry 
     Payment Entry
     GL Entry
 
@@ -1124,12 +1074,11 @@ Buying (Module Def)
     Supplier
 ```
 
-Korisnik ne razmišlja: "Ovo je u aplikaciji ERPNext." Nego razmišlja: "Radim u modulu Selling."
-To je organizacija **poslovnih funkcionalnosti**.
+Korisnik ne razmišlja: "Ovo je u aplikaciji ERPNext." Nego razmišlja: "Radim u modulu Selling." To je organizacija **poslovnih funkcionalnosti**.
 
 I pogledaj kako se lepo slažu podaci koje si izvukao:
 
-| Module | Def |
+| Module Def | App Name |
 | ------ | --- |
 | Frappe Lab | frappe_lab |
 | Core | frappe |
@@ -1142,9 +1091,7 @@ Svaki Module Def zna:
 * kome pripada (`app_name`)
 * kako se zove (`name`)
 
-To je razlog zašto se pravi preko **site**-a — zato što je Module Def običan DocType.
-
-## Ono što je meni danas konačno "kliknulo"
+To je razlog zašto se pravi preko **site**-a i zato što je Module Def običan DocType.
 
 Iskreno, trebalo je i meni dosta vremena da prestanem da razmišljam u terminima Django-a ili Flask-a.
 
@@ -1165,15 +1112,9 @@ Framework se onda na osnovu tih zapisa organizuje i generiše ponašanje.
 
 Zato se ponekad čini da je "sve u bazi", a fajlovi na disku samo prate ono što je definisano u DocType-ovima.
 
-Mislim da sada možemo da zatvorimo ovu temu. Ne zato što smo iscrpeli sve detalje, već zato što sada imaš ispravan mentalni model. A to je mnogo važnije od pamćenja komandi.
-
-I usput, hvala što si me "naterao" da usporim. Tvoja pitanja su pokazala gde objašnjenje nije bilo dovoljno precizno. Mislim da će nam to koristiti u nastavku kada budemo pratili kako jedan `Book` DocType nastaje od zapisa u bazi do Python klase i na kraju do izvršavanja `Document` metoda.
-
-Mislim da je sada pravi trenutak da krenemo da **pravimo nešto**, a ne da filozofiramo.
-
 </br>
 
-### Proverimo Module Def
+#### Proverimo Module Def
 
 Pošto u `modules.txt` imaš:
 
@@ -1214,11 +1155,13 @@ Dodaj samo dva polja:
 
 Sačuvaj.
 
-Pošalji mi izlaz:
-
-```bash
-tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
-```
+> [!Note] AI Zahtev
+>
+> Pošalji mi izlaz:
+>
+> ```bash
+> tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
+> ```
 
 Hoću da vidiš : "šta je Frappe upravo napravio na disku".
 
@@ -1226,58 +1169,54 @@ To će biti naš prvi pravi susret sa vezom: "DocType u bazi ↔ Python fajlovi 
 
 I odatle krećemo na lifecycle eksperimente. Mislim da će od tog trenutka sve postati mnogo konkretnije.
 
----
-
-Evo izlaza
-
-```sh
-tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
-```
-
-```sh
-/home/radosav/frappe-bench/apps/frappe_lab/frappe_lab
-├── config
-│   └── __init__.py
-├── frappe_lab
-│   ├── doctype
-│   │   ├── book
-│   │   │   ├── book.js
-│   │   │   ├── book.json
-│   │   │   ├── book.py
-│   │   │   ├── __init__.py
-│   │   │   ├── __pycache__
-│   │   │   │   ├── book.cpython-312.pyc
-│   │   │   │   └── __init__.cpython-312.pyc
-│   │   │   └── test_book.py
-│   │   ├── __init__.py
-│   │   └── __pycache__
-│   │       └── __init__.cpython-312.pyc
-│   ├── __init__.py
-│   └── __pycache__
-│       └── __init__.cpython-312.pyc
-├── hooks.py
-├── __init__.py
-├── modules.txt
-├── patches
-│   └── __init__.py
-├── patches.txt
-├── public
-│   ├── css
-│   └── js
-├── __pycache__
-│   ├── hooks.cpython-312.pyc
-│   └── __init__.cpython-312.pyc
-├── templates
-│   ├── includes
-│   ├── __init__.py
-│   └── pages
-│       └── __init__.py
-└── www
-
-17 directories, 21 files
-```
-
----
+> [!Info] Izlaz
+>
+> ```sh
+> tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
+> ```
+>
+> ```sh
+> /home/radosav/frappe-bench/apps/frappe_lab/frappe_lab
+> ├── config
+> │   └── __init__.py
+> ├── frappe_lab
+> │   ├── doctype
+> │   │   ├── book
+> │   │   │   ├── book.js
+> │   │   │   ├── book.json
+> │   │   │   ├── book.py
+> │   │   │   ├── __init__.py
+> │   │   │   ├── __pycache__
+> │   │   │   │   ├── book.cpython-312.pyc
+> │   │   │   │   └── __init__.cpython-312.pyc
+> │   │   │   └── test_book.py
+> │   │   ├── __init__.py
+> │   │   └── __pycache__
+> │   │       └── __init__.cpython-312.pyc
+> │   ├── __init__.py
+> │   └── __pycache__
+> │       └── __init__.cpython-312.pyc
+> ├── hooks.py
+> ├── __init__.py
+> ├── modules.txt
+> ├── patches
+> │   └── __init__.py
+> ├── patches.txt
+> ├── public
+> │   ├── css
+> │   └── js
+> ├── __pycache__
+> │   ├── hooks.cpython-312.pyc
+> │   └── __init__.cpython-312.pyc
+> ├── templates
+> │   ├── includes
+> │   ├── __init__.py
+> │   └── pages
+> │       └── __init__.py
+> └── www
+> 
+> 17 directories, 21 files
+> ```
 
 Sada smo konačno na "živom" Frappe-u. I odmah možeš da primetiš jednu vrlo zanimljivu stvar. Ranije smo pričali o `Document` klasi, a sada vidi šta je Frappe napravio:
 
@@ -1300,11 +1239,11 @@ Već sada vidiš kako se spajaju baza, Python i JavaScript.
 
 ### Prvi mali eksperiment
 
-Otvori:
-
-```bash
-nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
-```
+> [!Note] AI Zahtev
+>
+> ```bash
+> nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
+> ```
 
 ili editor koji koristiš.
 
@@ -1314,27 +1253,23 @@ Hoću da vidimo šta je Frappe automatski generisao pre nego što bilo šta menj
 
 To će biti prvi fajl koji ćemo "rastaviti" i povezati sa svim onim što smo čitali u `document.py`. Mislim da će ti biti poznat već na prvi pogled.
 
----
-
-Evo izlaza
-
-```bash
-nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
-```
-
-```py
-# Copyright (c) 2026, rrad and contributors
-# For license information, please see license.txt
-
-# import frappe
-from frappe.model.document import Document
-
-
-class Book(Document):
-        pass
-```
-
----
+> [!Info] Izlaz
+>
+> ```bash
+> nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
+> ```
+>
+> ```py
+> # Copyright (c) 2026, rrad and contributors
+> # For license information, please see license.txt
+> 
+> # import frappe
+> from frappe.model.document import Document
+> 
+> 
+> class Book(Document):
+>         pass
+> ```
 
 Pogledaj samo ovo:
 
@@ -1351,7 +1286,7 @@ Sećaš se koliko smo vremena proveli u:
 frappe/model/document.py
 ```
 
-E pa sada **`self`** u svim onim metodama koje smo čitali jeste upravo instanca **`Book`**.
+E pa sada **`self`** u svim onim metodama koje smo čitali jeste instanca `Book`.
 
 Drugim rečima:
 
@@ -1371,7 +1306,7 @@ a kada pozoveš:
 doc.insert()
 ```
 
-izvršava se **isti `Document.insert()`** koji smo detaljno analizirali, samo što će usput pozivati metode iz tvoje klase `Book`.
+izvršava se isti `Document.insert()` koji smo detaljno analizirali, samo što će usput pozivati metode iz tvoje klase `Book`.
 
 [Sadržaj][00]
 

@@ -4,7 +4,7 @@
 
 ## 14 Eksperimenti - II
 
-### Eksperiment 1 - Prvi pravi eksperiment
+### Prvi pravi eksperiment
 
 Zameni `pass` ovim:
 
@@ -34,9 +34,9 @@ class Book(Document):
 
 Nemoj još dodavati više metoda.
 
-**Zašto baš ovih šest?** ato što smo ih sreli dok smo čitali `Document.insert()`. Sada ćemo proveriti da li se naše razumevanje poklapa sa stvarnim izvršavanjem. To će biti prvi eksperiment u kome ćemo moći da kažemo: "Aha! Ovo je upravo ono što smo pročitali u izvornom kodu."
+**Zašto baš ovih šest?**
 
-Mislim da će ti ovo biti mnogo zanimljivije od daljeg čitanja `document.py`. 😊
+Zato što smo ih sreli dok smo čitali `Document.insert()`. Sada ćemo proveriti da li se naše razumevanje poklapa sa stvarnim izvršavanjem.
 
 **Šta dalje**:
 
@@ -67,15 +67,11 @@ Mislim da će ti ovo biti mnogo zanimljivije od daljeg čitanja `document.py`. �
 
 4. Posmatraj terminal u kome radi `bench start`.
 
-**Ono što očekujem da vidiš**:
-
-Neću još da kažem kojim redom. 😊
-
 Hoću da mi prepišeš izlaz iz terminala, pa ćemo ga uporediti sa onim što smo ranije pročitali u `Document.insert()`.
 
-To će biti naš prvi eksperiment iz Faze 6.
+To će biti naš prvi pravi eksperiment iz Faze 6.
 
-**Hajde jedan mali test**:
+Ili hajde jedan mali test:
 
 U `bench --site site1.local console`:
 
@@ -92,34 +88,32 @@ Ako ih nema, onda ćemo istražiti zašto.
 
 Dakle, sledeći korak je samo ovaj mali eksperiment u `bench console`. Ako tu prorade `before_insert`, `validate` itd., znaćemo da je sve u redu i možemo da nastavimo sa proučavanjem životnog ciklusa `Document`.
 
----
-
-Evo izlaza
-
-```py
-In [1]: doc = frappe.new_doc("Book")
-   ...: doc.title = "Test"
-   ...: doc.price = 100
-   ...: doc.insert()
->>> before_insert
->>> before_validate
->>> validate
->>> before_save
->>> after_insert
->>> on_update
-Out[1]: <Book: qs827pdgad>
-
-Ovaj ulaz se ne vidi iz http-a?
-```
-
----
+> [!Info] Izlaz:
+>
+> ```py
+> In [1]: doc = frappe.new_doc("Book")
+>    ...: doc.title = "Test"
+>    ...: doc.price = 100
+>    ...: doc.insert()
+> >>> before_insert
+> >>> before_validate
+> >>> validate
+> >>> before_save
+> >>> after_insert
+> >>> on_update
+> Out[1]: <Book: qs827pdgad>
+> 
+> Ovaj ulaz se ne vidi iz http-a?
+> ```
 
 Ovo nam govori dve važne stvari.
 
 1. `book.py` je ispravno učitan. ✅
 2. Redosled koji smo očekivali se zaista dešava. ✅
 
-Sada na tvoje pitanje: "Ovaj izlaz se ne vidi iz http-a?" rebalo bi da se vidi. Ali samo kada se zaista izvrši `insert()`.
+Sada na tvoje pitanje:
+
+"Ovaj izlaz se ne vidi iz http-a?" Trebalo bi da se vidi. Ali samo kada se zaista izvrši `insert()`.
 
 ---
 
@@ -162,12 +156,12 @@ To je upravo ono što smo želeli da vidimo.
 Pogledaj redosled:
 
 ```text
-before_insert
-before_validate
-validate
-before_save
-after_insert
-on_update
+  before_insert
+  before_validate
+  validate
+  before_save
+  after_insert
+  on_update
 ```
 
 Sećaš se koliko smo analizirali `insert()` u `document.py`?
@@ -192,9 +186,9 @@ ti sada znaš šta će izaći na ekranu.
 
 To je bio glavni cilj cele prethodne faze.
 
-**Jedna zanimljiva stvar za domaći zadatak**:
+Jedna zanimljiva stvar za domaći zadatak:
 
-Da li primećuješ nešto "čudno"? Na primer: Zašto se **`on_update`** poziva odmah posle **`after_insert`**?
+Da li primećuješ nešto "čudno"? Zašto se `on_update` poziva odmah posle `after_insert`?
 
 Na prvi pogled čovek bi očekivao: "Pa nisam radio update, radio sam insert."
 Ali ipak se `on_update` izvršava.
@@ -223,9 +217,7 @@ Nema naknadnog:
 UPDATE tabBook ...
 ```
 
-**Zašto se onda zove `on_update`?**
-
-Sećaš se da smo čitali nešto ovako (parafraziram):
+Zašto se onda zove `on_update`? Sećaš se da smo čitali nešto ovako (parafraziram):
 
 ```python
 insert()
@@ -256,9 +248,7 @@ bez obzira da li je to bio:
 * prvi `INSERT`, ili
 * deseti `UPDATE`.
 
-**Zašto su to uradili?**
-
-Po mom mišljenju (i mislim da je to bila namera autora), zato što ogromna većina poslovne logike ne zanima kako je dokument stigao u trenutno stanje.
+Zašto su to uradili? Po mom mišljenju (i mislim da je to bila namera autora), zato što ogromna većina poslovne logike ne zanima kako je dokument stigao u trenutno stanje.
 
 Na primer:
 
@@ -297,7 +287,7 @@ def after_insert(self):
 
 To ne želiš da radiš pri svakom snimanju.
 
-**E, sada dolazimo do zanimljivog dela Faze 6**:
+Sada dolazimo do zanimljivog dela Faze 6.
 
 Predlažem da sledeći eksperiment bude da dodamo još nekoliko metoda:
 
@@ -315,7 +305,7 @@ on_change
 
 i da vidimo ceo tok izvršavanja.
 
-Posle toga ćemo dodati **`doc_events` hook** i posmatrati gde se on tačno "umeće" u isti tok.
+Posle toga ćemo dodati `doc_events` hook i posmatrati gde se on tačno "umeće" u isti tok.
 
 To će biti prvi put da vidiš kako se prepliću:
 
@@ -327,7 +317,7 @@ Mislim da će to biti jedan od najkorisnijih eksperimenata koje ćemo uraditi.
 
 Mislim da smo sada na tački gde treba da radimo male eksperimente, a ne da čitamo kod.
 
-### Eksperiment 2 – Kompletan lifecycle
+### Kompletan lifecycle
 
 Proširi `Book` ovako:
 
@@ -365,17 +355,13 @@ class Book(Document):
         print(">>> on_change")
 ```
 
-**Zatim**:
+Zatim:
 
 Napravi **novi** Book dokument (ne menjaj postojeći).
-
-Nemoj još da mi kažeš rezultat. 😊
 
 Hoću da **sam** pokušaš da predvidiš redosled izvršavanja.
 
 Možeš čak i da ga zapišeš na papir.
-
-**Šta očekujem da primetiš**:
 
 Posebno obrati pažnju na:
 
@@ -385,9 +371,7 @@ Posebno obrati pažnju na:
 
 To su pitanja na koja nismo eksplicitno odgovorili čitajući kod.
 
-**Posle toga**:
-
-Uradi još jedan eksperiment:
+Posle toga, uradi još jedan eksperiment:
 
 1. Otvori **isti** Book.
 2. Promeni samo `Price`.
@@ -397,50 +381,43 @@ Uporedi redosled događaja sa prvim snimanjem.
 
 Ako sve bude kako očekujem, dobićemo dva veoma lepa dijagrama:
 
-* **Insert lifecycle**
-* **Update lifecycle**
+* **Insert** lifecycle
+* **Update** lifecycle
 
 I tek tada ćemo uvesti `hooks.py`, jer ćeš odmah videti gde se hook "ubacuje" u već poznati tok. To je mnogo lakše nego učiti hook-ove napamet.
 
----
+> [Info] Izlaz
+>
+> Evo izlaza za INSERT
+>
+> ```sh
+> 22:28:11 web.1         | >>> before_insert
+> 22:28:11 web.1         | >>> before_naming
+> 22:28:11 web.1         | >>> autoname
+> 22:28:11 web.1         | >>> before_validate
+> 22:28:11 web.1         | >>> validate
+> 22:28:11 web.1         | >>> before_save
+> 22:28:11 web.1         | >>> after_insert
+> 22:28:11 web.1         | >>> on_update
+> 22:28:11 web.1         | >>> on_change
+> ```
+>
+> `before_naming` ide pre `autoname`, obadva pre `before_validate`.
+>
+> Evo izlaza za UPDATE
+>
+> ```sh
+> 22:31:24 web.1         | >>> before_validate
+> 22:31:24 web.1         | >>> validate
+> 22:31:24 web.1         | >>> before_save
+> 22:31:24 web.1         | >>> on_update
+> 22:31:24 web.1         | >>> on_change
+> ```
+>
+> U ovom drugom slučaju nema poziva povezanih sa: `before_insert`,
+> `before_naming`, `autoname`, `after_insert`.
 
-Evo izlaza za INSERT
-
-```sh
-22:28:11 web.1         | >>> before_insert
-22:28:11 web.1         | >>> before_naming
-22:28:11 web.1         | >>> autoname
-22:28:11 web.1         | >>> before_validate
-22:28:11 web.1         | >>> validate
-22:28:11 web.1         | >>> before_save
-22:28:11 web.1         | >>> after_insert
-22:28:11 web.1         | >>> on_update
-22:28:11 web.1         | >>> on_change
-```
-
-before_naming ide pre autoname, obadva pre before_validate.
-
-Evo izlaza za UPDATE
-
-```sh
-22:31:24 web.1         | >>> before_validate
-22:31:24 web.1         | >>> validate
-22:31:24 web.1         | >>> before_save
-22:31:24 web.1         | >>> on_update
-22:31:24 web.1         | >>> on_change
-```
-
-U ovom slučaju nema poziva povezanih sa:
-
-before_insert, before_naming, autoname, after_insert.
-
-Sada mi deluje da je on_update namenjen svemu što treba promeniti ali u GUI posle INSERT, isto tako on_change ali posle UPFATE.
-
-Što se tiče DB, tu su ostali metodi tipa _insert ili \_save.
-
----
-
-**Ono što si dokazao**:
+Ono što si dokazao:
 
 **INSERT**:
 
@@ -474,17 +451,9 @@ on_change
 
 To je praktično ceo životni ciklus koji jedan Frappe programer koristi svakodnevno.
 
----
+</br>
 
-**Jedna mala ispravka**:
-
-Napisao si: "on_update je namenjen svemu što treba promeniti u GUI..."
-
-Ne.
-
-`on_update` nema veze sa GUI-jem.
-
-On se izvršava na serveru.
+`on_update` se izvršava na serveru.
 
 Na primer:
 
@@ -519,11 +488,7 @@ Zašto onda postoje oba?
 
 To je jedno od najčešćih pitanja kod Frappe početnika.
 
-Odgovor neću odmah dati. 😊
-
-Predlažem da ga sami otkrijemo sledećim eksperimentom.
-
-### Eksperiment 3 - Najzanimljiviji do sada
+### Detalji lifecycle-a
 
 Dodaj u `hooks.py`:
 
@@ -553,9 +518,7 @@ I onda ponovi oba eksperimenta:
 * INSERT
 * UPDATE
 
-**Zašto baš ovo?**
-
-Zato što ćemo prvi put videti kada se tačno poziva hook u odnosu na metode klase `Book`.
+Zašto baš ovo? Zato što ćemo prvi put videti kada se tačno poziva hook u odnosu na metode klase `Book`.
 
 To je nešto što se ne vidi lako ni čitanjem koda, ali se fenomenalno vidi eksperimentom.
 
@@ -576,7 +539,7 @@ U njega dodaj:
 ```python
 doc_events = {
     "Book": {
-        "*": "frappe_lab.book_hooks.trace"
+        "on_update": "frappe_lab.book_hooks.trace"
     }
 }
 ```
@@ -622,534 +585,35 @@ Posle toga ćemo napraviti jedan INSERT i jedan UPDATE i dobiti kompletan dijagr
 * `Book`
 * `doc_events`
 
-To će biti prvi put da se vide sva tri sloja zajedno. Mislim da će biti baš zanimljivo.
-
----
-
-Evo izlaza:
-
-```ssh
-22:53:17 web.1         | >>> before_insert
-22:53:17 web.1         | >>> before_naming
-22:53:17 web.1         | >>> autoname
-22:53:17 web.1         | >>> before_validate
-22:53:17 web.1         | >>> validate
-22:53:17 web.1         | >>> before_save
-22:53:17 web.1         | >>> after_insert
-22:53:17 web.1         | >>> on_update
-22:53:17 web.1         | >>> on_change
-22:53:17 web.1         | 192.168.122.1 - - [18/Jul/2026 22:53:17] "POST /api/method/frappe.desk.form.save.savedocs HTTP/1.1" 200 -
-22:53:32 web.1         | >>> before_validate
-22:53:32 web.1         | >>> validate
-22:53:32 web.1         | >>> before_save
-22:53:32 web.1         | >>> on_update
-22:53:32 web.1         | >>> on_change
-22:53:32 web.1         | 192.168.122.1 - - [18/Jul/2026 22:53:32] "POST /api/method/frappe.desk.form.save.savedocs HTTP/1.1" 200 -
-```
-
-Bojim se da nešto nije baš kako treba. Ja ovde ne vidim sve što si rekao da treba da se vidi a namestio sam book_hooks.py u frappe_lab/frappe_lab (drugi po dubini)
-
----
-
-Dobro si primetio. I zapravo si našao važan detalj. Nije problem u lokaciji `book_hooks.py`. Ta lokacija je dobra:
-
-```text
-/home/radosav/frappe-bench/apps/frappe_lab/frappe_lab/book_hooks.py
-```
-
-jer odgovara importu:
-
-```python
-frappe_lab.book_hooks.trace
-```
-
-Ali fali nam jedan korak.
-
-Zašto se hook ne vidi? Najverovatnije zato što `hooks.py` nije ponovo učitan.
-`doc_events` se učitava kroz Frappe hook mehanizam i kešira se.
-
-Uradi:
-
-```bash
-bench --site site1.local clear-cache
-```
-
-zatim:
-
-```bash
-bench restart
-```
-
-(Ako radiš samo `bench start`, prekini ga i ponovo pokreni.)
-
-U `bench --site site1.console console` proveri:
-
-```python
-frappe.get_hooks("doc_events")
-```
-
-Trebao bi da vidiš nešto slično:
-
-```python
-{
-    "Book": {
-        "*": [
-            "frappe_lab.book_hooks.trace"
-        ]
-    }
-}
-```
-
-Ako nema `Book`, Frappe još ne zna za hook.
-
-Tvoj izlaz:
-
-```text
->>> before_insert
-...
-...
->>> on_change
-```
-
-pokazuje samo metode iz `Book` klase.
-
-Kada hook proradi, očekujemo dodatno:
-
-```text
-HOOK ---> before_insert
-HOOK ---> before_validate
-...
-```
-
-ali ne nužno za svaki događaj koji postoji u klasi.
-
-Zašto? Zato što `doc_events` i `Document` lifecycle nisu ista stvar.
-
-Hook-ovi se pozivaju kroz drugi mehanizam (`run_doc_method` / `run_method` lanac), i lista dostupnih događaja nije identična listi metoda koje možeš napisati u kontroleru.
-
-Dakle sada samo proveri prvo:
-
-```python
-frappe.get_hooks("doc_events")
-```
-
-To će nam odmah reći da li je problem:
-
-* učitavanje hook-a,
-* putanja modula,
-* ili nešto treće.
-
-Ovo je zapravo dobar eksperiment, jer upravo učimo kada Frappe čita hooks.py, a ne samo gde se napiše.
-
----
-
-Book je prisutan na listi kao poslednji :
-
-'Book': {'*': ['frappe_lab.book_hooks.trace']}}
-
----
-
-To znači da je hook registrovan i učitan.
-
-Dakle problem nije:
-
-* ❌ putanja `book_hooks.py`
-* ❌ import string
-* ❌ `hooks.py`
-* ❌ cache
-
-Sada imamo drugi zaključak: naša očekivanja o redosledu su bila pogrešna.
-
-`doc_events` hook sa:
-
-```python
-"Book": {
-    "*": "frappe_lab.book_hooks.trace"
-}
-```
-
-ne znači: "pozovi me za svaki interni `Document` lifecycle metod", nego: "pozovi me za Frappe document event-e koji prolaze kroz `run_doc_event` mehanizam."
-
-Drugim rečima, događaji kao:
-
-```text
-before_insert
-validate
-on_update
-after_insert
-```
-
-mogu da se pojave i u jednom i u drugom kontekstu, ali nisu isti pozivni putevi.
-
-Hajde da sada uradimo malu proveru.
-
-Promeni `book_hooks.py`:
-
-```python
-import frappe
-
-def trace(doc, method):
-    frappe.logger().info(f"HOOK ---> {method}")
-    print(f"HOOK ---> {method}")
-```
-
-I onda u `bench console`:
-
-```python
-doc = frappe.get_doc("Book", "qs827pdgad")
-doc.save()
-```
-
-(umesto ovog imena stavi stvarno ime nekog postojećeg Book zapisa)
-
-Očekujem da sada vidimo nešto kao:
-
-```text
-HOOK ---> validate
-HOOK ---> on_update
-```
-
-ili slično.
-
-I još jedna stvar: moram da ispravim jednu stvar iz prethodne poruke. Rekao sam da očekujemo hook za `before_insert` itd. To je bilo previše široko rečeno. `doc_events` ne treba posmatrati kao "drugu kopiju" svih metoda klase `Document`, nego kao spoljašnji mehanizam za proširivanje postojećeg lifecycle-a.
-
-Ovo je zapravo lep trenutak za ono praktično pitanje: Kada staviti kod u `Book.validate()`, a kada u `doc_events["Book"]["validate"]`?
-
-Tu ćemo doći odmah posle ovog testa.
-
----
-
-Nema izlaza, nikakvog!
-
----
-
-Dobro. To je zapravo koristan rezultat. Znači da smo sada eliminisali još jednu pretpostavku.
-
-Ako:
-
-```python
-frappe.get_hooks("doc_events")
-```
-
-vraća:
-
-```python
-'Book': {'*': ['frappe_lab.book_hooks.trace']}
-```
-
-a pri:
-
-```python
-doc.save()
-```
-
-nema:
-
-```text
-HOOK ---> ...
-```
-
-onda hook jeste registrovan, ali se ne izvršava preko ovog wildcard zapisa kako smo očekivali.
-
-Hajde da ne nagađamo. Uradimo najprostiji test.
-
-Promeni `hooks.py`:
-
-umesto:
-
-```python
-doc_events = {
-    "Book": {
-        "*": "frappe_lab.book_hooks.trace"
-    }
-}
-```
-
-stavi:
-
-```python
-doc_events = {
-    "Book": {
-        "on_update": "frappe_lab.book_hooks.trace"
-    }
-}
-```
-
-Znači samo jedan događaj.
-
-Zatim:
-
-```bash
-bench --site site1.local clear-cache
-```
-
-pa ponovi:
-
-```python
-doc = frappe.get_doc("Book", "IME_NEKOG_POSTOJEĆEG_BOOKA")
-doc.save()
-```
-
-Očekujemo:
-
-```text
-HOOK ---> on_update
-```
-
-Ako ni tada nema ništa, sledeća stvar koju proveravamo je da li se učitava **ista aplikacija** koju menjamo (dešava se kod više bench/site kombinacija).
-
-Ali prvo ovaj test. Ovo je inače dobra lekcija: `doc_events` nije samo "dodaj funkciju u hooks.py i ona se magično pozove"; postoji još jedan sloj kroz koji Frappe prolazi.
-
----
-
-Odstupio sam i pokušao iz interfejsa da updejtujem.
-
-ModuleNotFoundError: No module named 'frappe_lab.book_hooks'
-
----
-
-E, ovo je zapravo **dobar trag**. Sada znamo šta se dešava.
-
-Prethodni test iz `bench --site site1.local console` nije pokazao ništa zato što hook verovatno nije bio pozvan. Ali GUI sada jeste pokušao da ga pozove i dobili smo:
-
-```text
-ModuleNotFoundError: No module named 'frappe_lab.book_hooks'
-```
-
-To znači:
-
-* `hooks.py` je pročitan ✅
-* `doc_events` je pronađen ✅
-* Frappe je pokušao:
-
-```python
-import frappe_lab.book_hooks
-```
-
-ali Python ne vidi taj fajl.
-
-Dakle sada proveravamo putanju.
-
-Molim te pošalji:
-
-```bash
-ls -l ~/frappe-bench/apps/frappe_lab/frappe_lab/
-```
-
-i:
-
-```bash
-ls -l ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/
-```
-
-Jer ovde postoji jedna česta zabuna.
-
-Tvoja struktura trenutno ima:
-
-```text
-frappe_lab/
-├── frappe_lab/
-│   ├── doctype/
-│   │   └── book/
-│   ├── hooks.py
-│   ├── modules.txt
-│   └── ...
-```
-
-Dakle Python paket je:
-
-```text
-frappe_lab/frappe_lab/
-```
-
-i tu treba da bude:
-
-```text
-frappe_lab/frappe_lab/book_hooks.py
-```
-
-Ali postoji mogućnost da si ga slučajno stavio u:
-
-```text
-frappe_lab/frappe_lab/frappe_lab/book_hooks.py
-```
-
-(ono što smo ranije zvali "treći nivo").
-
-Još jedna brza provera:
-
-U `bench --site site1.local console`:
-
-```python
-import frappe_lab
-print(frappe_lab.__file__)
-```
-
-i:
-
-```python
-import frappe_lab.book_hooks
-```
-
-Druga linija mora da prođe bez greške.
-
-Ovo je sada običan Python import problem, ne Frappe problem. I dobro je što se pojavio — upravo smo došli do mesta gde se vidi razlika između strukture aplikacije i Python paketa.
-
----
-
-```sh
-ls -l ~/frappe-bench/apps/frappe_lab/frappe_lab/
-```
-
-```sh
-total 48
-drwxrwxr-x 2 radosav radosav 4096 jul 17 23:16 config
-drwxrwxr-x 4 radosav radosav 4096 jul 18 23:44 frappe_lab
--rw-rw-r-- 1 radosav radosav 6182 jul 18 23:44 hooks.py
--rw-rw-r-- 1 radosav radosav   22 jul 17 23:16 __init__.py
--rw-rw-r-- 1 radosav radosav   10 jul 17 23:16 modules.txt
-drwxrwxr-x 2 radosav radosav 4096 jul 17 23:16 patches
--rw-rw-r-- 1 radosav radosav  290 jul 17 23:16 patches.txt
-drwxrwxr-x 4 radosav radosav 4096 jul 17 23:16 public
-drwxrwxr-x 2 radosav radosav 4096 jul 18 23:45 __pycache__
-drwxrwxr-x 4 radosav radosav 4096 jul 17 23:16 templates
-drwxrwxr-x 2 radosav radosav 4096 jul 17 23:16 www
-```
-
-```sh
-ls -l ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/
-```
-
-```sh
-total 12
--rw-rw-r-- 1 radosav radosav  120 jul 18 23:37 book_hooks.py
-drwxrwxr-x 4 radosav radosav 4096 jul 18 19:03 doctype
--rw-rw-r-- 1 radosav radosav    0 jul 17 23:16 __init__.py
-drwxrwxr-x 2 radosav radosav 4096 jul 17 23:44 __pycache__
-```
-
----
-
-Evo ga. Našli smo problem.
-
-I ovde moram da ispravim sebe: ranije sam te naveo na pogrešan nivo direktorijuma.
-
-Tvoja struktura:
-
-```text
-/home/radosav/frappe-bench/apps/frappe_lab/
-└── frappe_lab/                  ← Python paket aplikacije
-    ├── hooks.py
-    ├── modules.txt
-    ├── __init__.py
-    └── frappe_lab/              ← Frappe modul "Frappe Lab"
-        ├── doctype/
-        └── book_hooks.py   ❌
-```
-
-A u `hooks.py` smo napisali:
-
-```python
-"frappe_lab.book_hooks.trace"
-```
-
-To znači:
-
-```python
-import frappe_lab.book_hooks
-```
-
-Python traži:
-
-```text
-/home/radosav/frappe-bench/apps/frappe_lab/frappe_lab/book_hooks.py
-```
-
-a ti ga trenutno imaš ovde:
-
-```text
-/home/radosav/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/book_hooks.py
-```
-
-Dakle samo jedan nivo previsoko.
-
-Uradi:
-
-```bash
-mv ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/book_hooks.py \
-   ~/frappe-bench/apps/frappe_lab/frappe_lab/book_hooks.py
-```
-
-Posle proveri:
-
-```bash
-ls -l ~/frappe-bench/apps/frappe_lab/frappe_lab/
-```
-
-Treba da vidiš:
-
-```text
-book_hooks.py
-hooks.py
-modules.txt
-...
-```
-
-Zatim:
-
-```bash
-bench --site site1.local clear-cache
-```
-
-i u browseru uradi ponovo **Save** postojećeg Book-a.
-
-Sada očekujemo:
-
-```text
->>> before_validate
->>> validate
->>> before_save
-HOOK ---> on_update
->>> on_update
->>> on_change
-```
-
-(tačan redosled između hook-a i metode proverićemo, to je sada baš eksperiment).
-
-Inače, ovo je bila veoma dobra greška za učenje. Upravo smo praktično dokazali razliku između:
-
-* Python paketa aplikacije
-* Frappe modula
-* DocType direktorijuma
-
-što nas je ranije i bunilo.
-
----
-
-```sh
->>> before_validate
-23:54:14 web.1         | >>> validate
-23:54:14 web.1         | >>> before_save
-23:54:14 web.1         | >>> on_update
-23:54:14 web.1         | HOOK ---> on_update
-23:54:14 web.1         | >>> on_change
-23:54:15 web.1         | 192.168.122.1 - - [18/Jul/2026 23:54:15] "POST /api/method/frappe.desk.form.save.savedocs HTTP/1.1" 200 -
-```
+To će biti prvi put da se vide sva tri sloja zajedno.
+
+> [!Info] Izlaz
+>
+>
+> ```sh
+> 23:54:14 web.1         | before_validate
+> 23:54:14 web.1         | >>> validate
+> 23:54:14 web.1         | >>> before_save
+> 23:54:14 web.1         | >>> on_update
+> 23:54:14 web.1         | HOOK ---> on_update
+> 23:54:14 web.1         | >>> on_change
+> 23:54:15 web.1         | 192.168.122.1 - - [18/Jul/2026 23:54:15] "POST /api/method/frappe.desk.form.save.savedocs HTTP/1.1" 200 -
+> ```
 
 E, sada smo dobili ono što smo hteli.
 
 I pogledaj kako je lep rezultat:
 
 ```text
-before_validate
-validate
-before_save
-        ↓
-on_update
-        ↓
-HOOK ---> on_update
-        ↓
-on_change
+   before_validate
+   validate
+   before_save
+         ↓
+   on_update
+         ↓
+   HOOK ---> on_update
+         ↓
+   on_change
 ```
 
 Sada možemo da izvučemo nekoliko važnih zaključaka.
@@ -1261,44 +725,6 @@ Mislim da smo ovim završili prvi veliki deo Faze 6:
 ✅ dodali `doc_events` hook  
 ✅ videli odnos controller ↔ hook  
 
-Sledeći logičan korak bih ja uradio: **isti eksperiment na standardnom Frappe DocType-u**.
-
-Na primer ne bih odmah uzimao ERPNext (jer ga nemaš instaliranog), nego neki Frappe-ov standardni DocType, recimo `User`.
-
-Napravili bismo hook na `User` i videli kako se proširuje tuđi kod bez menjanja Frappe izvora.
-
-To je praktično ono što se radi svaki dan u Frappe razvoju.
-
-Danas si praktično prešao jednu veliku granicu:
-
-Pre nekoliko dana si gledao:
-
-```text
-frappe/model/document.py
-```
-
-i pokušavao da razumeš šta znače:
-
-* `run_method`
-* lifecycle događaji
-* `insert`
-* `save`
-* hook sistem
-
-A danas si napravio svoj DocType i video uživo:
-
-```text
-Document -> Book controller -> doc_events hook
-```
-
-sa stvarnim redosledom izvršavanja.
-
-Sledeća stanica bi bila:
-
-* još malo `doc_events` (kada se koristi, kada ne),
-* pa onda prelazak na standardni Frappe DocType,
-* i poređenje: **moj kod u controlleru vs proširenje preko hook-a**.
-
 ### Moje mišljenje o Frappe ocenama
 
 Ne bih se mnogo obazirao na broj zvezdica ili pojedinačne komentare.
@@ -1352,7 +778,7 @@ Njegova mana nije što je siromašan, nego što je **veliki**.
 
 Predlažem ovakav plan.
 
-#### 1. `doc_events` (15 min)
+#### `doc_events`
 
 Već si praktično naučio 90%.
 
@@ -1375,19 +801,19 @@ Koristiš kada želiš da se "prikačiš" na:
 * tuđi DocType
 * ili svoj DocType bez menjanja controller-a.
 
-```python
-doc_events = {
-    "User": {
-        "validate": "moja_app.user_hooks.validate"
-    }
-}
-```
+  ```python
+  doc_events = {
+      "User": {
+          "validate": "moja_app.user_hooks.validate"
+      }
+  }
+  ```
 
 To je cela filozofija.
 
 Ne bih više trošio vreme na `doc_events`.
 
-#### 2. Desk
+#### Desk
 
 Po meni ovo je sledeća velika tema.
 
@@ -1406,7 +832,7 @@ bez ulaženja u detalje.
 
 Cilj: "Šta sve Desk može da napravi?"
 
-#### 3. Deploy
+#### Deploy
 
 Ovo me posebno zanima da zajedno prođemo.
 
@@ -1430,13 +856,15 @@ SocketIO
 Workers
 ```
 
-Kako se aplikacija pakuje. Kako ide na Git. Kako ide na drugi server. Kako se instalira. Kako rade migracije.
+Kako se aplikacija pakuje.  
+Kako ide na Git.  
+Kako ide na drugi server.  
+Kako se instalira.  
+Kako rade migracije.
 
 To je veoma važna tema.
 
-#### 4. Posle toga
-
-Ja bih stao sa Frappe internals. Mislim da tada već znaš dovoljno.
+Ja bih ovde stao sa Frappe internals. Mislim da tada već znaš dovoljno.
 
 Posle toga bih radio ono što rade pravi programeri: Napravimo malu aplikaciju.
 
@@ -1458,7 +886,7 @@ i usput učimo:
 
 onoliko koliko nam zatreba.
 
-## Mislim da je sada pravi trenutak da promenimo način učenja
+**Mislim da je sada pravi trenutak da promenimo način učenja**:
 
 Do sada smo učili: Kako Frappe radi?
 
@@ -1466,11 +894,11 @@ Od sada bih učio: Kako se pravi aplikacija u Frappe-u?
 
 To je, po mom mišljenju, mnogo zanimljiviji i korisniji deo. A kada naiđemo na nešto iz internala, vratićemo se na izvorni kod samo za tu konkretnu temu, umesto da ga čitamo redom. Mislim da ćeš tako mnogo brže steći osećaj za ceo framework.
 
-### `docs_events`
+**`docs_events`**:
 
 **Ko piše `doc_events`?**
 
-Programer aplikacije. Ne korisnik, ne administrator, ne Desk.
+Programer aplikacije. Ne korisnik, ne administrator, ne Desk.  
 Ti.
 
 **Gde se piše?**
@@ -1516,8 +944,9 @@ ili
 doc.insert()
 ```
 
-interno proverava: "Da li neka instalirana aplikacija ima `doc_events` za ovaj DocType i ovaj događaj?"
-Ako ima, pozove ih.
+interno proverava:  
+
+Da li neka instalirana aplikacija ima `doc_events` za ovaj DocType i ovaj događaj? Ako ima, pozove ih.
 
 Zato se i zove `hook` – "zakačiš" svoju funkciju na događaj.
 
