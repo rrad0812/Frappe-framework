@@ -4,123 +4,97 @@
 
 ## 06 Pokretanje razvojnog okruženja
 
-U ovoj fazi nećemo samo izvršiti:
+**AI Zahtev**  
+
+Iz `frappe-bench` direktorijuma pokreni:
 
 ```bash
 bench start
 ```
 
-nego ćemo razumeti:
-
-- zašto se pokreće više procesa;
-- čemu služi svaki od njih;
-- kako međusobno komuniciraju;
-- šta je Redis Cache, a šta Redis Queue;
-- šta radi Scheduler;
-- šta radi Socket.IO;
-- šta radi Watch proces;
-- koji proces sluša na kom portu;
-- kako browser na kraju dobije HTML stranicu.
-
-To je jedna od najvažnijih lekcija u Frappe-u, jer kada jednom razumeš tu arhitekturu, mnoge kasnije stvari (background jobs, realtime obaveštenja, build frontend-a, migracije...) postaju mnogo logičnije.
-
-> [!Note] AI zahtev
->
-> Iz `frappe-bench` direktorijuma pokreni:
->
-> ```bash
-> bench start
-> ```
->
-> Sačekaj da se svi procesi pokrenu (ili da neki prijavi grešku), pa mi pošalji ceo izlaz terminala.
+Sačekaj da se svi procesi pokrenu (ili da neki prijavi grešku), pa mi pošalji ceo izlaz terminala.
 
 Na osnovu njega ćemo analizirati proces po proces. Nećemo ih posmatrati kao "gomilu logova", već ćemo ih povezati sa arhitekturom sistema. Mislim da će ti se taj deo posebno dopasti, jer ćeš prvi put videti kako Bench zapravo orkestrira ceo Frappe ekosistem.
 
-> [!Info] Izlaz
->
-> ```sh
-> /frappe-bench$ bench start
-> ```
->
-> ```sh
-> 15:31:35 system        | redis_cache.1 started (pid=1419)
-> 15:31:35 system        | redis_queue.1 started (pid=1422)
-> 15:31:35 system        | socketio.1 started (pid=1429)
-> 15:31:35 redis_cache.1 | 1420:C 13 Jul 2026 15:31:35.033 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-> 15:31:35 redis_cache.1 | 1420:C 13 Jul 2026 15:31:35.033 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=1420, just started
-> 15:31:35 redis_cache.1 | 1420:C 13 Jul 2026 15:31:35.033 # Configuration loaded
-> 15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.033 * Increased maximum number of open files to 10032 (it was originally set to 1024).
-> 15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.033 * monotonic clock: POSIX clock_gettime
-> 15:31:35 system        | web.1 started (pid=1432)
-> 15:31:35 system        | worker.1 started (pid=1441)
-> 15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 * Running mode=standalone, port=13000.
-> 15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 # Server initialized
-> 15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
-> 15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 * Ready to accept connections
-> 15:31:35 system        | watch.1 started (pid=1427)
-> 15:31:35 system        | schedule.1 started (pid=1431)
-> 15:31:35 redis_queue.1 | 1426:C 13 Jul 2026 15:31:35.053 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-> 15:31:35 redis_queue.1 | 1426:C 13 Jul 2026 15:31:35.053 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=1426, just started
-> 15:31:35 redis_queue.1 | 1426:C 13 Jul 2026 15:31:35.053 # Configuration loaded
-> 15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.053 * Increased maximum number of open files to 10032 (it was originally set to 1024).
-> 15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.053 * monotonic clock: POSIX clock_gettime
-> 15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.054 * Running mode=standalone, port=11000.
-> 15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.054 # Server initialized
-> 15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.054 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
-> 15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.057 * Ready to accept connections
-> 15:31:36 watch.1       | 
-> 15:31:36 web.1         | /home/radosav/frappe-bench/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
-> 15:31:36 web.1         |   from crypt import crypt as _crypt
-> 15:31:36 socketio.1    | Realtime service listening on: ws://0.0.0.0:9000
-> 15:31:36 watch.1       | yarn run v1.22.22
-> 15:31:36 watch.1       | $ node esbuild --watch --live-reload
-> 15:31:37 web.1         | WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
-> 15:31:37 web.1         |  * Running on all addresses (0.0.0.0)
-> 15:31:37 web.1         |  * Running on http://127.0.0.1:8000
-> 15:31:37 web.1         |  * Running on http://192.168.122.74:8000
-> 15:31:37 web.1         | Press CTRL+C to quit
-> 15:31:37 web.1         |  * Restarting with stat
-> 15:31:37 web.1         | /home/radosav/frappe-bench/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
-> 15:31:37 web.1         |   from crypt import crypt as _crypt
-> 15:31:37 web.1         |  * Debugger is active!
-> 15:31:37 web.1         |  * Debugger PIN: 972-324-418
-> 15:31:43 watch.1       | Browserslist: caniuse-lite is outdated. Please run:
-> 15:31:43 watch.1       |   npx update-browserslist-db@latest
-> 15:31:43 watch.1       |   Why you should do it regularly: https://github.com/browserslist/update-db#readme
-> 15:31:54 watch.1       | Watching for changes...
->```
+```sh
+/frappe-bench$ bench start
+```
+
+```sh
+15:31:35 system        | redis_cache.1 started (pid=1419)
+15:31:35 system        | redis_queue.1 started (pid=1422)
+15:31:35 system        | socketio.1 started (pid=1429)
+15:31:35 redis_cache.1 | 1420:C 13 Jul 2026 15:31:35.033 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+15:31:35 redis_cache.1 | 1420:C 13 Jul 2026 15:31:35.033 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=1420, just started
+15:31:35 redis_cache.1 | 1420:C 13 Jul 2026 15:31:35.033 # Configuration loaded
+15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.033 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.033 * monotonic clock: POSIX clock_gettime
+15:31:35 system        | web.1 started (pid=1432)
+15:31:35 system        | worker.1 started (pid=1441)
+15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 * Running mode=standalone, port=13000.
+15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 # Server initialized
+15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+15:31:35 redis_cache.1 | 1420:M 13 Jul 2026 15:31:35.042 * Ready to accept connections
+15:31:35 system        | watch.1 started (pid=1427)
+15:31:35 system        | schedule.1 started (pid=1431)
+15:31:35 redis_queue.1 | 1426:C 13 Jul 2026 15:31:35.053 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+15:31:35 redis_queue.1 | 1426:C 13 Jul 2026 15:31:35.053 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=1426, just started
+15:31:35 redis_queue.1 | 1426:C 13 Jul 2026 15:31:35.053 # Configuration loaded
+15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.053 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.053 * monotonic clock: POSIX clock_gettime
+15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.054 * Running mode=standalone, port=11000.
+15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.054 # Server initialized
+15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.054 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+15:31:35 redis_queue.1 | 1426:M 13 Jul 2026 15:31:35.057 * Ready to accept connections
+15:31:36 watch.1       | 
+15:31:36 web.1         | /home/radosav/frappe-bench/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+15:31:36 web.1         |   from crypt import crypt as _crypt
+15:31:36 socketio.1    | Realtime service listening on: ws://0.0.0.0:9000
+15:31:36 watch.1       | yarn run v1.22.22
+15:31:36 watch.1       | $ node esbuild --watch --live-reload
+15:31:37 web.1         | WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+15:31:37 web.1         |  * Running on all addresses (0.0.0.0)
+15:31:37 web.1         |  * Running on http://127.0.0.1:8000
+15:31:37 web.1         |  * Running on http://192.168.122.74:8000
+15:31:37 web.1         | Press CTRL+C to quit
+15:31:37 web.1         |  * Restarting with stat
+15:31:37 web.1         | /home/radosav/frappe-bench/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+15:31:37 web.1         |   from crypt import crypt as _crypt
+15:31:37 web.1         |  * Debugger is active!
+15:31:37 web.1         |  * Debugger PIN: 972-324-418
+15:31:43 watch.1       | Browserslist: caniuse-lite is outdated. Please run:
+15:31:43 watch.1       |   npx update-browserslist-db@latest
+15:31:43 watch.1       |   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+15:31:54 watch.1       | Watching for changes...
+```
 
 Ono što je najlepše: **Sve radi**.
 
 Sada ćemo objasniti zašto se pokreće baš ovih sedam procesa.
 
-</br>
-
 **Bench nije server**  
 
-Ovo je prva važna stvar. Mnogi početnici misle: "Pokrenuo sam Bench."  Ne. Pokrenuo si **orkestrator**.
-
-`bench start` ne izvršava Frappe direktno. On pokreće više nezavisnih procesa i nadgleda ih.
+Ovo je prva važna stvar. Mnogi početnici misle: "Pokrenuo sam Bench."  Ne. Pokrenuo si **orkestrator**. `bench start` ne izvršava Frappe direktno. On pokreće više nezavisnih procesa i nadgleda ih.
 
 Praktično radi nešto ovako:
 
-> [!Info] Vizuelni prikaz pokrenutih procesa
->
-> ```text
->                 bench start
->                      │
->      ┌───────────────┼────────────────┐
->      │               │                │
->    web.py       redis_cache      redis_queue
->      │
->   socketio
->      │
->   scheduler
->      │
->    worker
->      │
->    watch
-> ```
+Vizuelni prikaz pokrenutih procesa
+
+```text
+                bench start
+                     │
+     ┌───────────────┼────────────────┐
+     │               │                │
+   web.py       redis_cache      redis_queue
+     │
+  socketio
+     │
+  scheduler
+     │
+   worker
+     │
+   watch
+```
 
 Ako jedan proces padne, Bench to vidi i ispisuje u terminal. To je razlog zbog kog su svi logovi objedinjeni na jednom mestu.
 
@@ -128,171 +102,155 @@ To je praktično mapa Frappe-a.
 
 Svaki od procesa rešava jedan veoma specifičan problem.
   
-</br>
+**WEB**:
 
-- **WEB**
-  
-  Ovo je najlakši.
-  
-  ```txt
-  web.1
-  ```
-  
-  Kasnije vidiš
-  
-  ```txt
-  Running on
-  127.0.0.1:8000
-  192.168.122.74:8000
-  ```
-  
-  To je HTTP server. Browser priča sa njim. Ako otvoriš <http://192.168.122.74:8000> ili preko port forwardinga sa hosta, prvo se javlja upravo **web proces**.  
-  Ali... web ne radi sve. On samo prima zahtev.
+Ovo je najlakši.
 
-</br>
+```txt
+web.1
+```
 
-- **SOCKETIO**
+Kasnije vidiš
 
-  ```txt
-  Realtime service listening
-  ws://0.0.0.0:9000
-  ```
-  
-  Ovo je sasvim drugi server. Ne HTTP. Već **WebSocket**. Njegova svrha je: "server → browser" bez refresh-a.
-  
-  Na primer:
-  
-  - notifikacije
-  - chat
-  - progress bar
-  - live dashboard
-  - background job završen
-  
-  Sve to dolazi preko SocketIO.
+```txt
+Running on
+127.0.0.1:8000
+192.168.122.74:8000
+```
 
-</br>
+To je HTTP server. Browser priča sa njim. Ako otvoriš <http://192.168.122.74:8000> ili preko port forwardinga sa hosta, prvo se javlja upravo **web proces**.  
+Ali... web ne radi sve. On samo prima zahtev.
 
-- **REDIS CACHE**
-  
-  Prvi Redis.
-  
-  ```text
-  port 13000
-  ```
-  
-  Ovaj Redis služi kao memorijski keš.
-  
-  Na primer:
-  
-  ```txt
-  Korisnik -> Permissions -> Redis Cache -> sledeći zahtev -> ne čita bazu ponovo
-  ```
-  
-  Time se štedi mnogo SQL upita.
+**SOCKETIO**:
 
-</br>
+```txt
+Realtime service listening
+ws://0.0.0.0:9000
+```
 
-- **REDIS QUEUE**
-  
-  Drugi Redis.
-  
-  ```txt
-  port 11000
-  ```
-  
-  Ovo je potpuno druga uloga. Ovde se ne čuvaju podaci. Ovde se čuvaju zadaci.  
-  
-  Na primer:
-  
-  ```text
-  Pošalji 500 emailova.
-  ```
-  
-  Browser neće čekati. Web kaže: "Stavi ovo u Queue". Redis Queue zapamti posao. Worker ga kasnije izvrši.
-  
-</br>
+Ovo je sasvim drugi server. Ne HTTP. Već **WebSocket**. Njegova svrha je: "server → browser" bez refresh-a.
 
-- **WORKER**
-  
-  Jedan od mojih omiljenih procesa.
-  
-  ```text
-  worker.1
-  ```
-  
-  Njegov posao je veoma jednostavan.  
-  
-  Beskonačna petlja:
-  
-  ```txt
-  Ima li nešto u Queue? -> nema -> čekaj -> ima -> izvrši -> čekaj
-  ```
-  
-  To je sve. Ali zahvaljujući njemu browser ostaje brz.
-  
-</br>
+Na primer:
 
-- **SCHEDULER**
-  
-  Ovo je nešto kao cron.
-  
-  Na primer:
-  
-  ```txt
-  svakih 5 minuta -> pokreni cleanup
-  ```
-  
-  ili
-  
-  ```text
-  svake noći -> backup
-  ```
-  
-  ili
-  
-  ```text
-  svakih sat vremena -> sync
-  ```
-  
-  Scheduler ne izvršava posao. On samo kaže: "Vreme je."  
-  Posao zatim ubaci u Queue. Worker ga izvrši.  
-  Primeti kako se procesi lepo nadovezuju.
+- notifikacije
+- chat
+- progress bar
+- live dashboard
+- background job završen
 
-</br>
+Sve to dolazi preko SocketIO.
 
-- **WATCH**
-  
-  Ovo koriste programeri.
-  
-  Kod tebe se lepo vidi
-  
-  ```txt
-  esbuild --watch
-  ```
-  
-  i kasnije
-  
-  ```text
-  Watching for changes
-  ```
-  
-  Šta to znači?
-  
-  Ako promeniš
-  
-  ```txxt
-  apps/
-  frappe/
-  ...    
-  ...
-  ...
-  some.js
-  ```
-  
-  Watch odmah vidi izmenu. Automatski pokrene build.  
-  Ne moraš ručno. To je ogromna ušteda vremena.
+**REDIS CACHE**:
 
-</br>
+Prvi Redis.
+
+```text
+port 13000
+```
+
+Ovaj Redis služi kao memorijski keš.
+
+Na primer:
+
+```txt
+Korisnik -> Permissions -> Redis Cache -> sledeći zahtev -> ne čita bazu ponovo
+```
+
+Time se štedi mnogo SQL upita.
+
+**REDIS QUEUE**:
+
+Drugi Redis.
+
+```txt
+port 11000
+```
+
+Ovo je potpuno druga uloga. Ovde se ne čuvaju podaci. Ovde se čuvaju zadaci.  
+
+Na primer:
+
+```text
+Pošalji 500 emailova.
+```
+
+Browser neće čekati. Web kaže: "Stavi ovo u Queue". Redis Queue zapamti posao. Worker ga kasnije izvrši.
+
+**WORKER**:
+
+Jedan od mojih omiljenih procesa.
+
+```text
+worker.1
+```
+
+Njegov posao je veoma jednostavan.  
+
+Beskonačna petlja:
+
+```txt
+Ima li nešto u Queue? -> nema -> čekaj -> ima -> izvrši -> čekaj
+```
+
+To je sve. Ali zahvaljujući njemu browser ostaje brz.
+
+**SCHEDULER**:
+  
+Ovo je nešto kao cron.
+
+Na primer:
+
+```txt
+svakih 5 minuta -> pokreni cleanup
+```
+
+ili
+
+```text
+svake noći -> backup
+```
+
+ili
+
+```text
+svakih sat vremena -> sync
+```
+
+Scheduler ne izvršava posao. On samo kaže: "Vreme je."  
+Posao zatim ubaci u Queue. Worker ga izvrši.  
+Primeti kako se procesi lepo nadovezuju.
+
+**WATCH**:
+
+Ovo koriste programeri.
+
+Kod tebe se lepo vidi
+
+```txt
+esbuild --watch
+```
+
+i kasnije
+
+```text
+Watching for changes
+```
+
+Šta to znači?
+
+Ako promeniš
+
+```txxt
+apps/
+frappe/
+...    
+...
+...
+some.js
+```
+
+Watch odmah vidi izmenu. Automatski pokrene build.  
+Ne moraš ručno. To je ogromna ušteda vremena.
 
 **Jedan primer**  
 
@@ -319,52 +277,45 @@ WEB -> Queue -> Redis Queue -> Worker -> SMTP -> Email poslat
 Browser u međuvremenu već prikazuje stranicu.  
 Ne čeka email.
 
-</br>
+**A ako email traje 20 sekundi?**  
+  
+Nema problema. Worker radi. Browser radi.
 
-- **A ako email traje 20 sekundi?**  
-  
-  Nema problema. Worker radi. Browser radi.
-  
-  SocketIO može da kaže:
-  
-  ```txt
-  Email sent.
-  ```
-  
-  bez refresh-a.
-  
-  </br>
-  
-  **Šta je zapravo Frappe?**  
+SocketIO može da kaže:
 
-  Ja bih odgovorio ovako:
-  
-  > [!Info] Osnovni princip rada Frappe frameworka
-  >
-  > ```text
-  >                  Browser
-  >                      │
-  >                 HTTP/WebSocket
-  >                      │
-  >          ┌───────────┴───────────┐
-  >          │                       │
-  >        Web                  SocketIO
-  >          │
-  >          ▼
-  >       Frappe Framework
-  >          │
-  >  ┌───────┼──────────────────┐
-  >  │               │          │
-  >  ▼               ▼          ▼
-  > PostgreSQL Redis Queue Redis Cache
-  >            │
-  >            ▼
-  >          Worker
-  > ```
-  
-  To je mnogo bliže stvarnoj slici nego jednostavno reći "Frappe je Python web framework".
+```txt
+Email sent.
+```
 
-</br>
+bez refresh-a.
+
+**Šta je zapravo Frappe?**  
+Ja bih odgovorio ovako:
+
+Osnovni princip rada Frappe frameworka
+
+```text
+                 Browser
+                     │
+                HTTP/WebSocket
+                     │
+         ┌───────────┴───────────┐
+         │                       │
+       Web                  SocketIO
+         │
+         ▼
+      Frappe Framework
+         │
+ ┌───────┼──────────────────┐
+ │               │          │
+ ▼               ▼          ▼
+PostgreSQL Redis Queue Redis Cache
+           │
+           ▼
+         Worker
+```
+
+To je mnogo bliže stvarnoj slici nego jednostavno reći "Frappe je Python web framework".
 
 **Dve zanimljive sitnice iz tvog izlaza**:
 
@@ -397,85 +348,78 @@ Sada si prvi put video Frappe kao celovit sistem, a ne samo kao skup direktoriju
 
 Sada prelazimo na ono što ja smatram prvim pravim susretom sa Frappe-om. Do sada smo bili "ispod haube". Sada ćemo prvi put pogledati kako izgleda sistem iz ugla korisnika, ali ćemo ga posmatrati iz ugla programera.
 
-</br>
+**Otvori Frappe u browseru**:
 
-- **Otvori Frappe u browseru**
+Pošto radiš u VM-u, trebalo bi da možeš da otvoriš:
 
-  Pošto radiš u VM-u, trebalo bi da možeš da otvoriš:
-  
-  ```http
-  http://192.168.122.74:8000
-  ```
-  
-  ili, ako koristiš SSH tunel ili port forwarding, odgovarajuću adresu na hostu.
-  
-  Trebalo bi da dobiješ login ekran.
-  
-  Nemoj još ništa da istražuješ. Samo potvrdi da se stranica otvara.
+```http
+http://192.168.122.74:8000
+```
 
-</br>
+ili, ako koristiš SSH tunel ili port forwarding, odgovarajuću adresu na hostu.
 
-- **Jedan HTTP zahtev**
+Trebalo bi da dobiješ login ekran.
 
-  Pre nego što se uloguješ, hajde da ispratimo jedan jedini HTTP zahtev.
-  
-  - Browser šalje:
-  
-    ```txt
-    GET /
-    ```
-  
-  - Web server prima zahtev.
-  - Frappe kaže: "Koji sajt je tražen?". Pošto imaš samo jedan sajt (`site1.
-    local`), odgovor je jednostavan.
-  - Frappe učitava:  
-  
-    ```txt
-    sites/site1.local/site_config.json
-    ```
-  
-  - Povezuje se na PostgreSQL.  
-  - Pronalazi da korisnik nije prijavljen.  
-  - Generiše HTML login stranice.  
-  - Browser je prikazuje.  
-  
-  To je ceo prvi ciklus.
+Nemoj još ništa da istražuješ. Samo potvrdi da se stranica otvara.
 
-</br>
+**Jedan HTTP zahtev**:
 
-- **Kako Frappe zna da treba da koristi baš `site1.local`?**
+Pre nego što se uloguješ, hajde da ispratimo jedan jedini HTTP zahtev.
 
-  Na produkcionom serveru odgovor je jednostavan:
-  
-  ```sh
-  erp.firma.rs
-  ```
-  
-  - Host zaglavlje (HTTP Host header)
-  - site1.local ili firma.rs ili erp.example.com
-  - Svaki domen odgovara jednom sajtu.
-  
-  Ali ti nemaš domen.  
-  I nemaš Nginx.
-  
-  Imaš samo:
-  
+- Browser šalje:
+
   ```txt
-  <http://192.168.122.74:8000>
+  GET /
   ```
-  
-  Pa kako onda zna?  
-  Hajde da pogledamo.
-  
-  > [!Note] AI zahtev
-  >
-  > Pošalji rezultat ove komande:
-  >
-  > ```sh
-  > cat sites/common_site_config.json
-  > ```
-  
-  To je sledeći važan fajl u Bench arhitekturi.
+
+- Web server prima zahtev.
+- Frappe kaže: "Koji sajt je tražen?". Pošto imaš samo jedan sajt (`site1.
+  local`), odgovor je jednostavan.
+- Frappe učitava:  
+
+  ```txt
+  sites/site1.local/site_config.json
+  ```
+
+- Povezuje se na PostgreSQL.  
+- Pronalazi da korisnik nije prijavljen.  
+- Generiše HTML login stranice.  
+- Browser je prikazuje.  
+
+To je ceo prvi ciklus.
+
+**Kako Frappe zna da treba da koristi baš `site1.local`?**:
+
+Na produkcionom serveru odgovor je jednostavan:
+
+```sh
+erp.firma.rs
+```
+
+- Host zaglavlje (HTTP Host header)
+- site1.local ili firma.rs ili erp.example.com
+- Svaki domen odgovara jednom sajtu.
+
+Ali ti nemaš domen.  
+I nemaš Nginx.
+
+Imaš samo:
+
+```txt
+<http://192.168.122.74:8000>
+```
+
+Pa kako onda zna?  
+Hajde da pogledamo.
+
+**AI Zahtev**  
+Pošalji rezultat ove komande:
+
+```sh
+cat sites/common_site_config.json
+```
+
+To je sledeći važan fajl u Bench arhitekturi.
   
 Na kraju ove celine trebalo bi da imaš veoma jasnu mentalnu mapu:
   
@@ -488,40 +432,38 @@ Kada razumeš ovu putanju, razumeš kako Frappe "pronalazi" i pokreće jedan saj
 
 ### `common_site_config.json` - zajednička definicija za sve sajtove
 
-> [!Info] Izlaz:
->
-> ```sh
-> cat sites/common_site_config.json
-> ```
->
-> ```json
-> {
->  "background_workers": 1,
->  "file_watcher_port": 6787,
->  "frappe_user": "radosav",
->  "gunicorn_workers": 5,
->  "live_reload": true,
->  "rebase_on_pull": false,
->  "redis_cache": "redis://127.0.0.1:13000",
->  "redis_queue": "redis://127.0.0.1:11000",
->  "redis_socketio": "redis://127.0.0.1:13000",
->  "restart_supervisor_on_update": false,
->  "restart_systemd_on_update": false,
->  "serve_default_site": true,
->  "shallow_clone": true,
->  "socketio_port": 9000,
->  "use_redis_auth": false,
->  "webserver_port": 8000
-> }
-> ```
+**Izlaz**:
+
+```sh
+cat sites/common_site_config.json
+```
+
+```json
+{
+ "background_workers": 1,
+ "file_watcher_port": 6787,
+ "frappe_user": "radosav",
+ "gunicorn_workers": 5,
+ "live_reload": true,
+ "rebase_on_pull": false,
+ "redis_cache": "redis://127.0.0.1:13000",
+ "redis_queue": "redis://127.0.0.1:11000",
+ "redis_socketio": "redis://127.0.0.1:13000",
+ "restart_supervisor_on_update": false,
+ "restart_systemd_on_update": false,
+ "serve_default_site": true,
+ "shallow_clone": true,
+ "socketio_port": 9000,
+ "use_redis_auth": false,
+ "webserver_port": 8000
+}
+```
 
 Sada imamo praktično kompletnu sliku kako Bench funkcioniše.
 
-Po mom mišljenju, `common_site_config.json` je **kontrolni centar** Bench-a, dok je **site_config.json** lična karta jednog sajta.
+Po mom mišljenju, `common_site_config.json` je **kontrolni centar** Bench-a, dok je `site_config.json` lična karta jednog sajta.
 
 Hajde da ga rastavimo.
-
-</br>
 
 - **Dva nivoa konfiguracije**
 
@@ -536,8 +478,6 @@ Hajde da ga rastavimo.
   
   To je veoma elegantan dizajn. Globalne stvari pišu se jednom. Specifične stvari pišu se po sajtu.
   
-</br>
-
 - **Redis**
 
   Odmah vidiš tri Redis konekcije:
@@ -559,8 +499,6 @@ Hajde da ga rastavimo.
   Zašto? Zato što SocketIO koristi Redis kao **message broker** između procesa.  
   To ćemo detaljnije videti kasnije kada budemo pričali o realtime događajima.
 
-</br>
-
 - **Web server**
 
   Ovde stoji
@@ -576,8 +514,6 @@ Hajde da ga rastavimo.
   ```
   
   Dakle Bench nije "pogodio" port. On ga je pročitao odavde.
-
-</br>
 
 - **SocketIO**
 
@@ -596,8 +532,6 @@ Hajde da ga rastavimo.
   
   Opet se sve poklapa.
 
-</br>
-
 - **File watcher**
 
   ```json
@@ -606,8 +540,6 @@ Hajde da ga rastavimo.
   
   Ovo koristi Watch proces. Ne koristi ga browser. Ne koristi PostgreSQL.  
   Koristi ga razvojni alat.
-
-</br>
 
 - **Background workers**
 
@@ -631,8 +563,6 @@ Hajde da ga rastavimo.
   
   u zavisnosti od opterećenja.
 
-</br>
-
 - **Gunicorn workers**
 
   ```json
@@ -644,8 +574,6 @@ Hajde da ga rastavimo.
   
   U produkciji Bench koristi Gunicorn. Dakle ova vrednost će biti važna kasnije kada pređeš na produkciono okruženje.
   
-</br>
-
 - **Najzanimljivija stavka**
 
   Po meni je ovo:
@@ -678,8 +606,6 @@ Hajde da ga rastavimo.
   
   HTTP Host zaglavlje ili Nginx će odlučivati koji sajt treba otvoriti.
 
-</br>
-
 - **Korisnik Bench-a**
 
   Ovde piše
@@ -700,21 +626,15 @@ Hajde da ga rastavimo.
   
   To je veoma dobra praksa.
   
-</br>
-
 ### Oba conf fajla zajedno
 
 Pogledaj sada zajedno oba fajla.
   
-</br>
-
 - **Globalno - common_site_config.json**
   - redis
   - portovi
   - worker
   - socketio
-
-</br>
 
 - **Lokalno - site1.local/site_config.json**
   - db_name

@@ -211,8 +211,8 @@ def __init__(self, d):
 
 Nemojmo odmah otvarati 200 linija.
 
-> [!Note] AI Zahtev
->
+> [!Note]
+> **AI Zahtev**  
 > Pošalji samo ovu metodu:
 >
 > ```bash
@@ -590,7 +590,8 @@ Ako je to tačno... onda ćemo videti kako običan dict postaje pravi `Document`
 
 Nemojmo otvarati `append()` odmah. Prvo bih otvorio `extend()`, jer ga `set()` direktno poziva.
 
-> [!Note] AI Zahtev
+> [!Note]
+> **AI Zahtev**  
 >
 > ```bash
 > grep -A 40 "^ def extend" ~/frappe-bench/apps/frappe/frappe/model/
@@ -897,8 +898,8 @@ A baš tu pretpostavljam da se završava inicijalizacija child dokumenta (verova
 
 Zato bih uradio još samo jedan mali korak.
 
-> [!Note] AI Zahtev
->
+> [!Note]
+> **AI Zahtev**  
 > Pošalji nastavak, recimo:
 >
 > ```bash

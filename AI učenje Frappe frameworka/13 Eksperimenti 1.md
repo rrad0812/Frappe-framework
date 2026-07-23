@@ -487,8 +487,8 @@ Od sada menjamo stil rada:
 
 #### Struktura aplikacije
 
-> [!Note] Ai Zahtev
->
+> [!Note]
+> **AI Zahtev**  
 > Pošalji izlaz
 >
 > ```bash
@@ -990,7 +990,8 @@ Ovo je baš dobra tačka da stanemo sa "pravljenjem" i prvo pogledamo konkretno.
 
 Predlažem sledeće:
 
-> [!Note] AI Zahtev
+> [!Note]
+> **AI Zahtev**  
 >
 > ```bash
 > cat ~/frappe-bench/apps/frappe_lab/frappe_lab/modules.txt
@@ -1155,8 +1156,8 @@ Dodaj samo dva polja:
 
 Sačuvaj.
 
-> [!Note] AI Zahtev
->
+> [!Note]
+> **AI Zahtev**
 > Pošalji mi izlaz:
 >
 > ```bash
@@ -1169,7 +1170,8 @@ To će biti naš prvi pravi susret sa vezom: "DocType u bazi ↔ Python fajlovi 
 
 I odatle krećemo na lifecycle eksperimente. Mislim da će od tog trenutka sve postati mnogo konkretnije.
 
-> [!Info] Izlaz
+> [!Info]
+> Izlaz
 >
 > ```sh
 > tree -L 5 ~/frappe-bench/apps/frappe_lab/frappe_lab
@@ -1239,7 +1241,8 @@ Već sada vidiš kako se spajaju baza, Python i JavaScript.
 
 ### Prvi mali eksperiment
 
-> [!Note] AI Zahtev
+> [!Note]
+> **AI Zahtev**
 >
 > ```bash
 > nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py
@@ -1253,7 +1256,8 @@ Hoću da vidimo šta je Frappe automatski generisao pre nego što bilo šta menj
 
 To će biti prvi fajl koji ćemo "rastaviti" i povezati sa svim onim što smo čitali u `document.py`. Mislim da će ti biti poznat već na prvi pogled.
 
-> [!Info] Izlaz
+> [!Info]
+> Izlaz  
 >
 > ```bash
 > nano ~/frappe-bench/apps/frappe_lab/frappe_lab/frappe_lab/doctype/book/book.py

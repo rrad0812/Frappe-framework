@@ -78,8 +78,8 @@ Interesuje nas samo redosled događaja.
 
 Pronađimo `insert()`.
   
-> [!Note] AI Zahtev
->
+> [!Note]
+> **AI Zahtev**  
 > Pošalji:
 >
 > ```bash
@@ -510,8 +510,8 @@ Imam osećaj da će nam te dve funkcije objasniti skoro ceo sistem događaja koj
 
 ### run_post_save_methods()
 
-> [!Note] AI Zahtev
->
+> [!Note]
+> **AI Zahtev**  
 > Koristi globalnu pretragu iz korena Frappe aplikacije:
 >
 > ```bash
@@ -593,8 +593,8 @@ Do sada sam ti tražio po 100-150 linija.
 
 Mislim da ovde to nije potrebno.
 
-> [!Note] AI Zahtev
->
+> [!Note]
+> **AI Zahtev**  
 > Pošalji samo ovu metodu, do početka sledeće:
 >
 > ```bash
@@ -1395,8 +1395,8 @@ Ako bude tako, onda ćemo konačno znati tačan redosled izvršavanja.
 
 **Šta da pošalješ**?
 
-> [!Note] AI Zahtev
->
+> [!Note]
+> **AI Zahtev**  
 >Prvo pronađimo gde je definisan `hook`:
 >
 > ```bash

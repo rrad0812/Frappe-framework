@@ -9,16 +9,6 @@ Mislim da je vreme da prestanemo da gledamo pomoćne metode i da krenemo da prat
 
 **Gde se nalazi `get_doc`?**
 
-Prvo, razmisli logički.
-
-Da si ti pisao Frappe, gde bi stavio funkciju koja se zove:
-
-```python
-frappe.get_doc(...)
-```
-
-Da li u: `database/` ili `model/` ili `__init__.py`?
-
 Ja bih rekao: `frappe/__init__.py`
 
 Zašto? Zato što je korisnik poziva kao:
@@ -29,13 +19,13 @@ frappe.get_doc(...)
 
 To znači da mora biti izložena na nivou paketa `frappe`.
 
-> [!Note] AI Zahtev
->
-> Pošalji:
->
-> ```bash
-> grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
-> ```
+**AI Zahtev**:  
+
+Pošalji:
+
+```bash
+grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
+```
   
 Nećemo odmah čitati telo funkcije. Hoću prvo da vidimo koliko je velika.
 
@@ -78,31 +68,30 @@ frappe.get_doc(...)
 Mene baš zanima da li će se i ovde ponoviti isti obrazac:
 
 ```py
-frappe.get_doc() -> 
-model.get_doc()
+frappe.get_doc() -> model.get_doc()
 ```
 
 ili postoji još neki sloj između.
 
 To nećemo nagađati – proverićemo u kodu.
 
-> [!Info] Izlaz
->
-> ```sh
-> grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
-> ```
->
-> ```py
-> 1223:def get_document_cache_key(doctype: str, name: str):
-> 1269:def get_doc(document: "Document", /) -> "Document":
-> 1274:def get_doc(doctype: str, /) -> _SingleDocument:
-> 1280:def get_doc(doctype: str, name: str, /, *, for_update: bool | None = None) -> "Document":
-> 1286:def get_doc(**kwargs: dict) -> "_NewDocument":
-> 1293:def get_doc(documentdict: dict) -> "_NewDocument":
-> 1299:def get_doc(*args, **kwargs):
-> 1571:def get_doc_hooks():
-> 2299:def get_doctype_app(doctype):
-> ```
+**Izlaz**:
+
+```sh
+grep -n "def get_doc" ~/frappe-bench/apps/frappe/frappe/__init__.py
+```
+
+```py
+1223:def get_document_cache_key(doctype: str, name: str):
+1269:def get_doc(document: "Document", /) -> "Document":
+1274:def get_doc(doctype: str, /) -> _SingleDocument:
+1280:def get_doc(doctype: str, name: str, /, *, for_update: bool | None = None) -> "Document":
+1286:def get_doc(**kwargs: dict) -> "_NewDocument":
+1293:def get_doc(documentdict: dict) -> "_NewDocument":
+1299:def get_doc(*args, **kwargs):
+1571:def get_doc_hooks():
+2299:def get_doctype_app(doctype):
+```
 
 I sada smo naišli na nešto veoma zanimljivo. Ovo je jedan od razloga zašto volim da se framework čita polako.
 
@@ -136,26 +125,6 @@ Sve iznad su opisi za:
 
 To je obrazac koji se često koristi u modernom Pythonu.
 
-Na primer, IDE može da zaključi:
-
-```python
-frappe.get_doc("Customer", "CUST-0001")
-```
-
-vraća:
-
-```python
-Document
-```
-
-dok
-
-```python
-frappe.get_doc({"doctype": "Customer"})
-```
-
-vraća novi dokument.
-
 Dakle, ovo nije "preopterećenje funkcija" kao u C++ ili Javi, već način da se jednom implementacijom opiše više načina korišćenja.
 
 Ovo je lep primer zašto ne treba stati na prvi pogled, da smo samo preleteli fajl, mogli bismo pogrešno zaključiti da Python podržava overload.
@@ -169,19 +138,19 @@ Sada nas zanima samo jedna stvar
 
 Hoću da vidimo pravu implementaciju.
 
-> [!Note] AI Zahtev
->
-> Pošalji nekoliko linija oko nje:
->
-> ```bash
-> sed -n '1299, 1315p' ~/frappe-bench/apps/frappe/frappe/__init__.py
-> ```
->
-> Ako se poziv nastavlja dalje, slobodno i malo više, recimo:
->
-> ```bash
-> sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
-> ```
+**AI Zahtev**:  
+
+Pošalji nekoliko linija oko nje:
+
+```bash
+sed -n '1299, 1315p' ~/frappe-bench/apps/frappe/frappe/__init__.py
+```
+
+Ako se poziv nastavlja dalje, slobodno i malo više, recimo:
+
+```bash
+sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
+```
 
 Šta očekujem? Imam hipotezu. Mislim da će implementacija biti veoma kratka.
 
@@ -202,29 +171,29 @@ Ako se to potvrdi, naučićemo još jednu važnu stvar o Frappe-u:
 
 To je obrazac koji ćeš verovatno viđati na mnogo mesta u Frappe-u.
 
-> [!Info] Izlaz
->
-> ```sh
-> sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
-> ```
->
-> ```py
-> def get_doc(*args, **kwargs):
->   """Return a `frappe.model.document.Document` object of the given type and name.
-> 
->   :param arg1: DocType name as string **or** document JSON.
->   :param arg2: [optional] Document name as string.
-> 
->   Examples:
->             # insert a new document
->           todo = frappe.get_doc({"doctype":"ToDo", "description": "test"})
->           todo.insert()
->             # open an existing document
->           todo = frappe.get_doc("ToDo", "TD0001")
->   """
->   import frappe.model.document
->   return frappe.model.document.get_doc(*args, **kwargs)
-> ```
+**Izlaz**:
+
+```sh
+sed -n '1299,1325p' ~/frappe-bench/apps/frappe/frappe/__init__.py
+```
+
+```py
+def get_doc(*args, **kwargs):
+  """Return a `frappe.model.document.Document` object of the given type and name.
+
+  :param arg1: DocType name as string **or** document JSON.
+  :param arg2: [optional] Document name as string.
+
+  Examples:
+            # insert a new document
+          todo = frappe.get_doc({"doctype":"ToDo", "description": "test"})
+          todo.insert()
+            # open an existing document
+          todo = frappe.get_doc("ToDo", "TD0001")
+  """
+  import frappe.model.document
+  return frappe.model.document.get_doc(*args, **kwargs)
+```
 
 I sada mogu da ti pokažem jedan obrazac koji se ponavlja kroz ceo Frappe.
 
@@ -358,8 +327,6 @@ Zašto?
 
   To je još jedna stvar koju ćemo proveriti kad budemo bolje upoznali zavisnosti između modula.
 
-</br>
-
 Ono što smo upravo naučili:
 
 Već sada imamo malu mapu.
@@ -374,8 +341,6 @@ Document
 
 Sada treba da otkrijemo ono **???**
   
-</br>
-
 Sada više nema razloga da ostajemo u `__init__.py`.
 
 Pravi posao je ovde:
@@ -386,17 +351,15 @@ frappe/model/document.py
 
 Hajde da pronađemo sledeću funkciju.
 
-> [!Note] AI Zahtev
->
-> Pošalji:
->
-> ```bash
-> grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
-> ```
+**AI Zahtev**:  
+
+Pošalji:
+
+```bash
+grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
+```
 
 </br>
-
-**Jedna napomena**:
 
 Postoji jedna stvar koju sam namerno nisam unapred rekao.
 
@@ -413,42 +376,41 @@ frappe.get_doc("System Settings")
 
 Pošalji izlaz, pa nastavljamo da pratimo tok izvršavanja korak po korak.
   
-> [!Info] Izlaz
->
-> Evo izlaza
->
-> ```sh
-> grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
-> ```
->
-> ```py
-> 36:def get_doc(*args, **kwargs):
-> ```
+**Izlaz**:  
+
+Evo izlaza
+
+```sh
+grep -n "^def get_doc" ~/frappe-bench/apps/frappe/frappe/model/document.py
+```
+
+```py
+36:def get_doc(*args, **kwargs):
+```
 
 Do sada smo radili ovako:
 
 ```py
-frappe.get_doc() ->
-frappe.model.document.get_doc()
+frappe.get_doc() -> frappe.model.document.get_doc()
 ```
 
 Sada više nije dovoljno da znamo da postoji `get_doc()`.
 
 Moramo videti šta radi.
 
-> [!Note] Ai Zahtev
->
-> Pošalji prvih dvadesetak-tridesetak linija te funkcije:
->
-> ```bash
-> sed -n '36,70p' ~/frappe-bench/apps/frappe/frappe/model/document.py
-> ```
->
-> Ako se vidi da je funkcija duža, možemo proširiti na:
->
-> ```bash
-> sed -n '36,90p' ~/frappe-bench/apps/frappe/frappe/model/document.py
-> ```
+**AI Zahtev**:  
+
+Pošalji prvih dvadesetak-tridesetak linija te funkcije:
+
+```bash
+sed -n '36,70p' ~/frappe-bench/apps/frappe/frappe/model/document.py
+```
+
+Ako se vidi da je funkcija duža, možemo proširiti na:
+
+```bash
+sed -n '36,90p' ~/frappe-bench/apps/frappe/frappe/model/document.py
+```
 
 Zašto baš toliko? Zato što očekujem da ćemo vrlo brzo naići na neku od sledećih stvari:
 
@@ -711,7 +673,8 @@ controller = get_controller(doctype)
 
 Pošto smo je već videli u `base_document.py`, sada ćemo konačno razumeti njenu ulogu.
 
-> [!Note] AI Zahtev
+> [!Note]
+> **AI Zahtev**  
 >
 > Pošalji:
 >
@@ -1024,8 +987,6 @@ def get_controller(doctype):
 
 Dakle sada ulazimo u poslednju "crnu kutiju".
 
-</br>
-
 **Šta očekujem od `import_controller()`?**  
 
 Očekujem da radi otprilike ovo:
@@ -1039,55 +1000,49 @@ Nađi klasu ->
 Vrati klasu
 ```
 
-</br>
-
 **Hajde sada da proverimo**  
 
-> [!Note] AI Zahtev
->
-> Pošalji izlaz:
->
-> ```bash
-> grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/
-> base_document.py
-> ```
+**AI Zahtev**:  
 
-</br>
+Pošalji izlaz:
 
-> [!Info] Izlaz
->
-> ```sh
-> grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/
-> base_document.py
-> ```
->
-> ```py
-> def import_controller(doctype):
->   from frappe.model.document import Document
->   from frappe.utils.nestedset import NestedSet
-> 
->   module_name = "Core"
->   if doctype not in DOCTYPES_FOR_DOCTYPE:
->     doctype_info = frappe.db.get_value("DocType", doctype, ("module", 
->        "custom", "is_tree"), as_dict=True)
->     if doctype_info:
->       if doctype_info.custom:
->         return NestedSet if doctype_info.is_tree else Document
->       module_name = doctype_info.module
-> 
->   module_path = None
->   class_overrides = frappe.get_hooks("override_doctype_class")
->   if class_overrides and class_overrides.get(doctype):
->     import_path = class_overrides[doctype][-1]
->     module_path, classname = import_path.rsplit(".", 1)
->     module = frappe.get_module(module_path)
-> 
->   else:
->     module = load_doctype_module(doctype, module_name)
->     classname = doctype.replace(" ", "").replace("-", "")
-> ```
+```bash
+grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/
+base_document.py
+```
 
-</br>
+**Izlaz**:  
+
+```sh
+grep -A 80 "^def import_controller" ~/frappe-bench/apps/frappe/frappe/model/
+base_document.py
+```
+
+```py
+def import_controller(doctype):
+  from frappe.model.document import Document
+  from frappe.utils.nestedset import NestedSet
+
+  module_name = "Core"
+  if doctype not in DOCTYPES_FOR_DOCTYPE:
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", 
+       "custom", "is_tree"), as_dict=True)
+    if doctype_info:
+      if doctype_info.custom:
+        return NestedSet if doctype_info.is_tree else Document
+      module_name = doctype_info.module
+
+  module_path = None
+  class_overrides = frappe.get_hooks("override_doctype_class")
+  if class_overrides and class_overrides.get(doctype):
+    import_path = class_overrides[doctype][-1]
+    module_path, classname = import_path.rsplit(".", 1)
+    module = frappe.get_module(module_path)
+
+  else:
+    module = load_doctype_module(doctype, module_name)
+    classname = doctype.replace(" ", "").replace("-", "")
+```
 
 - **Prvi utisak**  
   Moram odmah da kažem jednu stvar. Moja hipoteza od prošlog puta bila je skoro tačna, ali ne potpuno.  
@@ -1155,8 +1110,6 @@ Vrati klasu
   
   To se savršeno uklapa u ono što smo do sada zaključili.
 
-</br>
-
 - **Najveće iznenađenje**  
   
   Pogledaj ovo:
@@ -1167,8 +1120,6 @@ Vrati klasu
   ```
   
   Ovo potvrđuje jednu veoma važnu stvar.
-
-  </br>
 
   - **Custom DocType**  
     Frappe ne traži Python klasu.
@@ -1187,8 +1138,6 @@ Vrati klasu
 
     Nema potrebe za `customer.py`.
 
-  </br>
-
   - **Standardni DocType**
 
     Ako nije custom:
@@ -1203,8 +1152,6 @@ Vrati klasu
     Customer -> Module = Selling -> User -> Module = Core
     ```
 
-  </br>
-
   - **Override DocType**
 
     Dolazimo do nečega što mi se posebno dopada.
@@ -1218,8 +1165,6 @@ Vrati klasu
     To znači da aplikacija može da zameni implementaciju nekog DocType-a bez menjanja izvornog koda Frappe-a.
 
     To je veoma moćan mehanizam.
-
-</br>
 
 - **Tek sada dolazi import**  
   

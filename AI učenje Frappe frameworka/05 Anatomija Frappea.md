@@ -7,35 +7,30 @@
 
 ### `frappe-bench` direktorijum
 
-> [!Note] AI Zahtev
->
-> Uradi u terminalu:
->
-> ```bash
-> cd /home/radosav/frappe-bench
-> ls -lah
-> ```
->
-> i pošalji izlaz.
+**AI Zahtev**  
+Uradi u terminalu:
 
-Prva zanimljiva stvar je da je ovo mnogo "čistije" nego što ljudi obično očekuju. Mnogi misle da je `frappe-bench` neka ogromna struktura, a zapravo je vrlo pregledna.
+```bash
+cd /home/radosav/frappe-bench
+ls -lah
+```
 
-> [!Info] Izlaz
->
-> ```sh
-> frappe-bench/
-> ├── apps/
-> ├── config/
-> ├── env/
-> ├── logs/
-> ├── sites/
-> ├── Procfile
-> └── patches.txt
-> ```
+i pošalji izlaz.
+
+**Izlaz**:
+
+```sh
+frappe-bench/
+├── apps/
+├── config/
+├── env/
+├── logs/
+├── sites/
+├── Procfile
+└── patches.txt
+```
 
 Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razumemo njihovu ulogu.
-
-</br>
 
 - **apps/**  
   Ovo je verovatno najvažniji direktorijum. Ovde živi izvorni kod aplikacija. Na primer:
@@ -61,8 +56,6 @@ Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razu
   ```
   
   i svaka će imati svoju istoriju. To je jedna od lepih osobina Frappe-a.
-  
-  </br>
   
 - **env/**  
   Ovo je Python virtual environment. Drugim rečima:
@@ -91,8 +84,6 @@ Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razu
 
   samo što Bench to radi sam.
   
-</br>
-
 - **sites/**  
   Ovo je direktorijum koji početnicima pravi najveću zabunu. Ovde nije izvorni kod. Ovde su podaci i konfiguracija sajtova. Na primer:
   
@@ -111,32 +102,9 @@ Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razu
   
   Drugim rečima,
   
-  > [!Info]
-  > **Aplikacija ≠ Sajt**.  
+  - **Aplikacija ≠ Sajt**.  
+  - **Jedna aplikacija može biti instalirana na više sajtova.**
   
-  </br>
-
-  > [!Info]
-  > **Jedna aplikacija može biti instalirana na više sajtova.**
-  
-  Na primer:
-  
-  ```txt
-  ERPNext
-  ```
-  
-  može raditi na
-  
-  ```txt
-  firmaA.local
-  firmaB.local
-  firmaC.local
-  ```
-  
-  bez tri kopije ERPNext-a.
-  
-</br>
-
 - **config/**  
   Ovo je Bench konfiguracija. Ovde se nalaze konfiguracioni fajlovi koje Bench generiše. Na primer:
   
@@ -148,8 +116,6 @@ Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razu
   
   Većinu vremena nećeš ručno menjati ove fajlove.
   
-</br>
-
 - **logs/**  
   Vrlo koristan direktorijum. Ako nešto ne radi... ovde prvo gledaš.
   
@@ -163,8 +129,6 @@ Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razu
   ```
   
   Kasnije ćeš dosta vremena provoditi upravo ovde.
-
-</br>
 
 - **Procfile**  
   Ovo je zanimljiv fajl. Bench ne pokreće jedan proces. Pokreće ih više. Na primer:
@@ -180,44 +144,37 @@ Hajde da prođemo kroz ovo, ali ne samo da nabrojimo direktorijume, već da razu
   
   Ako si radio sa Heroku ili Foreman, koncept će ti biti poznat.
 
-</br>
-
 - **patches.txt**  
   Ovo nije nešto što ćeš često dirati. Koristi se tokom migracija i nadogradnji kako bi Bench znao koje su zakrpe (patches) već primenjene.
-
-</br>
 
 **Globalna oraganizacija**  
 Primeti da Bench veoma lepo odvaja tri stvari:
 
-> [!Info]
->
-> ```sh
-> Code -> apps/
-> Data -> sites/
-> Enviroment -> env/
-> ```
+```sh
+Code -> apps/
+Data -> sites/
+Enviroment -> env/
+```
 
 To je veoma elegantna organizacija.
 
 #### apps/ i sites/ direktorijumi
 
-> [!Note] AI zahtev
->
-> Hajde da sada "zavirimo" u dva direktorijuma koja su ključna za razumevanje
-> Frappe-a:
->
-> Prvo:
->
-> ```bash
-> ls -alh apps
-> ```
->
-> a zatim:
->
-> ```bash
-> ls -alh sites
-> ```
+**AI Zahtev**  
+Hajde da sada "zavirimo" u dva direktorijuma koja su ključna za
+razumevanje Frappe-a.  
+
+Prvo:
+
+```bash
+ls -alh apps
+```
+
+a zatim:
+
+```bash
+ls -alh sites
+```
 
 Iz toga ćemo odmah videti:
 
@@ -229,18 +186,16 @@ Mislim da će posle toga cela arhitektura Frappe-a početi da leže na svoje mes
 
 Sada ćemo napraviti jednu važnu mentalnu mapu. Ako je razumeš, mnogo ćeš lakše razumeti sve ostalo u Frappe-u.
 
-> [!Info] Vizuelna slika najvažnijeg dela organizacije Frappe
->
-> ```text
->                Bench
->                  │
->        ┌─────────┴─────────┐
->        │                   │
->     Applications         Sites
->     (izvorni kod)   (podaci i konfiguracija)
-> ```
+**Vizuelna slika najvažnijeg dela organizacije Frappe**:
 
-</br>
+```text
+               Bench
+                 │
+       ┌─────────┴─────────┐
+       │                   │
+    Applications         Sites
+    (izvorni kod)   (podaci i konfiguracija)
+```
 
 Idemo redom:
 
@@ -279,13 +234,9 @@ Idemo redom:
   
   Samo kod. To je veoma lepo odvajanje odgovornosti.
 
-</br>
-
 - **sites/**  
   Ovde se već nalazi mnogo zanimljivijih stvari.
   
-  </br>
-
   **common_site_config.json**  
   Ovo je globalna konfiguracija Bench-a. Ona važi za sve sajtove. Na primer:
   
@@ -297,12 +248,8 @@ Idemo redom:
   
   Svi će koristiti ono što je definisano ovde, osim ako neki sajt ne prepiše (override) određenu vrednost.
   
-  To je isti koncept koji postoji u mnogim frameworcima:
+  To je isti koncept koji postoji u mnogim frameworcima: **globalna podešavanja + lokalna podešavanja.**
   
-  **globalna podešavanja + lokalna podešavanja.**
-  
-  </br>
-
   **site1.local/**  
 
   Ovo je jedan konkretan Frappe sajt. Vrlo je važno da ga ne posmatraš kao "projekat". On je više nalik instanci aplikacije. Na primer:
@@ -330,8 +277,6 @@ Idemo redom:
   Oba će koristiti isti kod iz `apps/frappe/`, ali će imati potpuno odvojene podatke.  
   
   To je jedna od najvećih prednosti Frappe arhitekture.
-
-  </br>
 
   **assets/ dir**  
 
@@ -367,8 +312,6 @@ Idemo redom:
   moja_aplikacija
   ```
 
-  </br>
-
   **apps.json**  
 
   Ovo je noviji mehanizam koji Bench koristi za dodatne informacije o aplikacijama. U praksi ga retko menjaš ručno; Bench ga održava.
@@ -377,12 +320,10 @@ Idemo redom:
 
 Po mom mišljenju, ovo je najvažnija slika do sada:
 
-> [!Info]
->
-> ```sh
-> apps/ -> Izvorni kod
-> sites/ -> Podaci o sajtovima
-> ```
+```sh
+apps/ -> Izvorni kod
+sites/ -> Podaci o sajtovima
+```
 
 Zamisli sledeće:
 
@@ -419,24 +360,24 @@ To je veoma elegantan način za **multi-tenant** arhitekturu.
 
 Pre nego što pokrenemo razvojni server, voleo bih da pogledamo jedan konkretan sajt. To će nam dati jasnu sliku šta Frappe smatra "sajtom".
 
-> [!Note] AI Zahtev
-> Možeš da pošalješ izlaz:
->
-> ```sh
-> tree -L 2 sites/site1.local
-> ```
->
-> Ako nemaš `tree` instaliran:
->
-> ```sh
-> sudo apt install tree
-> ```
->
-> ili, bez instalacije:
->
-> ```bash
-> find sites/site1.local -maxdepth 2 | sort
-> ```
+**AI Zahtev**
+Možeš da pošalješ izlaz:
+
+```sh
+tree -L 2 sites/site1.local
+```
+
+Ako nemaš `tree` instaliran:
+
+```sh
+sudo apt install tree
+```
+
+ili, bez instalacije:
+
+```bash
+find sites/site1.local -maxdepth 2 | sort
+```
 
 Posle toga ćemo analizirati `site_config.json`, jer je to jedan od najvažnijih fajlova u celom Frappe ekosistemu. Tu ćeš prvi put videti kako se jedan sajt povezuje sa PostgreSQL bazom i ostatkom sistema.
 
@@ -575,8 +516,6 @@ Zašto? Zato što je sav kod u `apps/`, a "site1.local" sadrži samo ono što pr
 
 To je jedna od najlepših ideja u Frappe-u.
 
-</br>
-
 - **site_config.json**  
   Ovo je, po mom mišljenju, najvažniji fajl jednog sajta.
   
@@ -590,8 +529,6 @@ To je jedna od najlepših ideja u Frappe-u.
   Praktično, kada Frappe "otvori" sajt, prvo pročita ovaj fajl.
   
   Možemo ga detaljno analizirati za nekoliko minuta.
-
-</br>
 
 - **private/**  
   Ime govori dosta.
@@ -614,8 +551,6 @@ To je jedna od najlepših ideja u Frappe-u.
   
   Ovo nikada ne treba direktno servirati preko web servera.
 
-</br>
-
 - **public/**  
   Suprotno od `private`. Ovde završavaju fajlovi koji mogu biti javno dostupni.
   Najčešće:
@@ -630,8 +565,6 @@ To je jedna od najlepših ideja u Frappe-u.
   - slike proizvoda
   - PDF koji je dozvoljeno preuzeti
   - slike koje korisnici vide
-
-</br>
 
 - **logs/**  
   Ovo mi je posebno drago da vidim.
@@ -655,8 +588,6 @@ To je jedna od najlepših ideja u Frappe-u.
   
   To mnogo olakšava administraciju.
 
-</br>
-
 - **locks/**  
   Ovaj direktorijum mnogi ni ne primete. Koristi se za razne mehanizme zaključavanja (locking).
   
@@ -668,15 +599,12 @@ To je jedna od najlepših ideja u Frappe-u.
   
   Većinu vremena će biti prazan. I to je potpuno normalno.
 
-</br>
+**AI Zahtev**  
+Predložio bih da pogledamo sadržaj:
 
-> [!Note] AI Zahtev
->
-> Predložio bih da pogledamo sadržaj:
->
-> ```bash
-> cat sites/site1.local/site_config.json
-> ```
+```bash
+cat sites/site1.local/site_config.json
+```
 
 To je možda svega desetak redova, ali iz njega ćemo moći da objasnimo:
 
@@ -702,42 +630,33 @@ Ovde su samo:
 
 </br>
 
-**Jedna mala napomena**  
 Do sada smo pričali o arhitekturi **Bench → Apps → Sites**, i mislim da je to bio pravi redosled. Međutim, od sledećeg koraka počećemo da povezujemo te delove u jednu celinu. Videćeš da Bench nije "aplikacija", već pre **orkestrator** koji upravlja Python okruženjem, aplikacijama i sajtovima.  
 
 Kada to shvatiš, većina `bench` komandi će postati vrlo intuitivna, jer ćeš razumeti **šta** rade, a ne samo **kako** se koriste.
   
-> [!Info] Izlaz
->
-> ```sh
-> cat sites/site1.local/site_config.json
-> ```
->
-> ```json
-> {
->  "db_name": "_c9eb2d89e08e8728",
->  "db_password": "Oq69qLS1RcrKcUxg",
->  "db_type": "postgres"
-> }
-> ```
+```sh
+cat sites/site1.local/site_config.json
+```
+
+```json
+{
+ "db_name": "_c9eb2d89e08e8728",
+ "db_password": "Oq69qLS1RcrKcUxg",
+ "db_type": "postgres"
+}
+```
   
 Odmah možemo da izvedemo nekoliko zaključaka:
-
-</br>
 
 - **Zašto baza nema ime `site1.local`?**  
 
   Verovatno si očekivao nešto poput: "site1.local", ili "site1_local". Međutim, Frappe radi drugačije.  On generiše ime baze: "_c9eb2d89e08e8728".
-
-</br>
 
 - **Gde je korisničko ime?**
 
   Primeti nešto zanimljivo. Ovde nema: "db_user": "...". Zašto? Zato što kod PostgreSQL-a Frappe koristi isto ime za bazu i korisnika.
   
   Drugim rečima: db_name: "_c9eb2d89e08e8728" i "role": "_c9eb2d89e08e8728" imaju isto ime.
-
-</br>
 
 - **Lozinka**
 
@@ -746,8 +665,6 @@ Odmah možemo da izvedemo nekoliko zaključaka:
   - svog korisnika
   - svoju bazu
   - svoju nasumičnu lozinku
-
-</br>
 
 - **db_type**
 

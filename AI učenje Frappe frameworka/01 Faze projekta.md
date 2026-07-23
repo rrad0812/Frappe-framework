@@ -171,32 +171,6 @@
 
   Napravićemo jednu ozbiljniju aplikaciju. Ne "ToDo", ne "Student". Nego nešto što ima smisla.
   
-  Ono što bih dodao, voleo bih da uz svaku fazu imamo i status. Recimo ovako:
-  
-  | Faza | Status |
-  | ---- | ------ |
-  | 0. Priprema okruženja | ⬜ |
-  | 1. Instalacija | ⬜ |
-  | 2. Bench | ⬜ |
-  | 3. Site | ⬜ |
-  | 4. Anatomija Site-a | ⬜ |
-  | 5. Aplikacija | ⬜ |
-  | 6. Desk | ⬜ |
-  | 7. DocType | ⬜ |
-  | 8. ORM | ⬜ |
-  | 9. Hook-ovi | ⬜ |
-  | 10. JavaScript | ⬜ |
-  | 11. REST API | ⬜ |
-  | 12. Bezbednost | ⬜ |
-  | 13. Deploy | ⬜ |
-  | 14. Završni projekat | ⬜ |
-
-### Zašto Frappe ima Bench?
-
-Dodao bih i jednu "Fazu -1" koja se ne tiče instalacije nego razumevanja. Pre nego što instaliramo ijedan paket, voleo bih da odgovorimo na ovo pitanje!
-
-Većina korisnika samo prihvati da postoji komanda bench, ali retko ko razume zašto nije jednostavno pip install frappe. Mislim da će nam upravo odgovor na to pitanje dati dobar uvod u arhitekturu frameworka i učiniti sve naredne korake logičnijim. Po mom mišljenju, to je pravo mesto odakle treba da počnemo.
-
 [Sadržaj][00]
 
 [00]: 00%20Učenje%20Frape%20frameworka.md

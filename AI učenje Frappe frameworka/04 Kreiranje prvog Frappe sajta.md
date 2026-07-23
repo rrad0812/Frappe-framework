@@ -10,31 +10,28 @@ Pošto koristimo PostgreSQL, moramo da uradimo jednu brzu pripremu pre same koma
 
 - **Priprema PostgreSQL šablona baze podataka**
 
-  > [!Note] AI zahtev  
-  >
-  > Pokreni ovu komandu da omogućiš potrebne ekstenzije u podrazumevanom šablonu baze:
-  >
-  > ```sh
-  > sudo -u postgres psql -d template1 -c "CREATE EXTENSION IF NOT EXISTS pg_trgm; 
-  > CREATE EXTENSION IF NOT EXISTS btree_gin;"
-  >```
+  **AI Zahtev**  
+  Pokreni ovu komandu da omogućiš potrebne ekstenzije u podrazumevanom šablonu baze:
   
-</br>
-
+  ```sh
+  sudo -u postgres psql -d template1 -c "CREATE EXTENSION IF NOT EXISTS pg_trgm; 
+  CREATE EXTENSION IF NOT EXISTS btree_gin;"
+  ```
+  
 - **Kreiranje novog sajta**
 
-  > [!Note] AI zahtev  
-  >
-  > Sada, dok si unutar "frappe-bench" direktorijuma, pokreni komandu za kreiranje sajta. Nazvaćemo ga npr. "site1.local" (možeš staviti bilo koje ime koje se završava sa .localhost ili .local za lokalni razvoj):
-  >
-  > ```sh
-  > bench new-site site1.local --db-type postgres
-  > ```
+  **AI Zahtev**  
+  
+  Sada, dok si unutar "frappe-bench" direktorijuma, pokreni komandu za kreiranje sajta. Nazvaćemo
+  ga npr. "site1.local" (možeš staviti bilo koje ime koje se završava sa .localhost ili .local za
+  lokalni razvoj):
+
+  ```sh
+  bench new-site site1.local --db-type postgres
+  ```
   
   Tokom izvršavanja ove komande, Bench će te pitati za dve stvari:
   
-  </br>
-
   - **MySQL root password**  
     Iako piše MySQL, pošto si stavio `--db-type postgres`, ovde unosiš lozinku za `postgres` korisnika koju si postavio u Fazi 1.
   
@@ -42,7 +39,6 @@ Pošto koristimo PostgreSQL, moramo da uradimo jednu brzu pripremu pre same koma
     Ovo je lozinka za glavnog admina samog Frappe web interfejsa. Postavi neku lozinku po želji (npr. admin123 za lokalni rad) i zapamti je.
   
   </br>
-
   Kako da proveriš da li je uspelo? Kada komanda završi, proveri da li baza zaista postoji u PostgreSQL-u:
   
   ```sh
@@ -51,37 +47,31 @@ Pošto koristimo PostgreSQL, moramo da uradimo jednu brzu pripremu pre same koma
   
   Trebalo bi da vidiš novu bazu sa čudnim, nasumičnim imenom koje počinje sa podvlakom (npr. _1a2b3c4d5e...), jer Frappe namerno generiše hešovana imena baza radi bezbednosti.
   
-  </br>
-  
-- **Rešenje problema sa konekcijom na PostgreSQL**
-  
-  Moramo da dozvolimo svim korisnicima (`all`) da se povežu na sve baze (`all`) preko 127.0.0.1 (localhost-a) interfejsa koristeći lozinku.
+> [!Note]
+> **Rešenje problema sa konekcijom na PostgreSQL**
+>
+> Moramo da dozvolimo svim korisnicima (`all`) da se povežu na sve baze (`all`) preko 127.0.0.1
+> (localhost-a) interfejsa koristeći lozinku.
+>
+> Podrazumevano, PostgeSQL je podešen na `peer` konkcije (`socket`) sa localhosta, i to je način na
+> koji pristupa psql. Za Frappe pristup, preko mrežnog interfejsa, potrebno je prepodesiti u `/etc/
+> postgresql/16/main/pg_hba.conf` konfiguracionm fajlu IPv4 pravilo, tako da glasi:
+>
+> ```txt
+> # IPv4 local connections:
+> host    all             all             127.0.0.1/32            md5
+> ```
+>
+> Promenili smo tip protkola lozinke, jer se u praksi pokazalo da radi!
+>
+> **Restart PostgreSQL servisa**
+>
+> Posle promene konfig. fajllova, restartuj PostgreSQL servis:
+>
+> ```sh
+> sudo systemctl restart postgresql
+> ```
 
-  </br>
-  
-  Podrazumevano PostgeSQL je podešen na `peer` konkcije (`socket`) sa localhosta, i to je način na koji pristupa psql. Za Frappe pristup, preko mrežnog interfejsa, potrebno je prepodesiti u `/etc/postgresql/16/main/pg_hba.conf` konfiguracionm fajlu IPv4 pravilo, tako da glasi:
-
-  ```txt
-  # IPv4 local connections:
-  host    all             all             127.0.0.1/32            md5
-  ```
-
-  </br>
-
-  Promenili smo tip protkola lozinke, jer se u praksi pokazalo da radi!
-
-  </br>
-  
-  - **Restart PostgreSQL servisa**
-  
-    Posle promene konfig. fajllova, restartuj PostgreSQL servis:
-  
-    ```sh
-    sudo systemctl restart postgresql
-    ```
-
-  </br>
-  
 [Sadržaj][00]
 
 [00]: 00%20Učenje%20Frape%20frameworka.md
